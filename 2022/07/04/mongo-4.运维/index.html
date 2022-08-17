@@ -16,25 +16,24 @@
   <meta name="author" content="JingRuiHe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. 这是一句话">
+    <meta name="description" content="监控监控工具:  MongoDB Ops Manager: 企业版工具, 免费使用, 信息很完整 Percona: 免费监控工具 通用监控平台 程序脚本  监控信息来源:  db.serverStatus(): 主要. 包含的是从上次开机到现在为止的累计数据, 如果想知道每秒数据还要做减法操作. db.isMaster(): 次要 mongostats命令行工具: 只有部分信息  serverSt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="helloWorld">
-<meta property="og:url" content="http://example.com/2019/10/10/hello-world/index.html">
+<meta property="og:title" content="4.Mongo运维相关">
+<meta property="og:url" content="http://example.com/2022/07/04/mongo-4.%E8%BF%90%E7%BB%B4/index.html">
 <meta property="og:site_name" content="景瑞">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. 这是一句话">
+<meta property="og:description" content="监控监控工具:  MongoDB Ops Manager: 企业版工具, 免费使用, 信息很完整 Percona: 免费监控工具 通用监控平台 程序脚本  监控信息来源:  db.serverStatus(): 主要. 包含的是从上次开机到现在为止的累计数据, 如果想知道每秒数据还要做减法操作. db.isMaster(): 次要 mongostats命令行工具: 只有部分信息  serverSt">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/default.png">
-<meta property="article:published_time" content="2019-10-10T02:00:00.000Z">
-<meta property="article:modified_time" content="2022-08-07T03:55:23.442Z">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/mongo-banner.png">
+<meta property="article:published_time" content="2022-07-04T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-17T14:15:28.304Z">
 <meta property="article:author" content="JingRuiHe">
-<meta property="article:tag" content="Hexo">
-<meta property="article:tag" content="Fluid">
+<meta property="article:tag" content="Mongo">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/default.png">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/mongo-banner.png">
   
   
   
-  <title>helloWorld - 景瑞</title>
+  <title>4.Mongo运维相关 - 景瑞</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -193,13 +192,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/mongo-banner.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="helloWorld"></span>
+            <span id="subtitle" data-typed-text="4.Mongo运维相关"></span>
           
         </div>
 
@@ -210,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-10-10 10:00" pubdate>
-          2019年10月10日 上午
+        <time datetime="2022-07-04 10:00" pubdate>
+          2022年7月4日 上午
         </time>
       </span>
     
@@ -222,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          464 字
+          3k 字
         
       </span>
     
@@ -233,7 +232,7 @@
         
         
         
-          4 分钟
+          26 分钟
         
       </span>
     
@@ -271,30 +270,112 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">helloWorld</h1>
+            <h1 style="display: none">4.Mongo运维相关</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<p>这是一句话<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="这是对应的脚注">[1]</span></a></sup></p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+                <h1 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h1><p>监控工具:</p>
+<ol>
+<li>MongoDB Ops Manager: 企业版工具, 免费使用, 信息很完整</li>
+<li>Percona: 免费监控工具</li>
+<li>通用监控平台</li>
+<li>程序脚本</li>
+</ol>
+<p>监控信息来源:</p>
+<ul>
+<li>db.serverStatus(): 主要. 包含的是从上次开机到现在为止的累计数据, 如果想知道每秒数据还要做减法操作.</li>
+<li>db.isMaster(): 次要</li>
+<li>mongostats命令行工具: 只有部分信息</li>
+</ul>
+<p>serverStatus()主要信息:</p>
+<ul>
+<li>connections: 关于连接数信息</li>
+<li>locks: 关于mongo使用的锁情况</li>
+<li>network: 网络使用情况统计</li>
+<li>opcounters: CRUD的执行次数统计</li>
+<li>repl: 复制集配置信息</li>
+<li>wiredTiger: 包含大量wirdTiger执行情况的信息<ul>
+<li>block-manager: WT数据快的读写情况</li>
+<li>session: session使用数量</li>
+<li>concurrentTransactions: Ticket(令牌)使用情况</li>
+</ul>
+</li>
+<li>mem: 内存使用情况</li>
+<li>metrics: 一系列性能指标统计信息	</li>
+<li>…</li>
+</ul>
+<p><img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/mongo-manager.png" srcset="/img/loading.gif" lazyload alt="建议监控指标"></p>
+<h1 id="备份和恢复"><a href="#备份和恢复" class="headerlink" title="备份和恢复"></a>备份和恢复</h1><p>备份目的:</p>
+<ol>
+<li>防止硬件故障引起的数据丢失</li>
+<li>人为误删除</li>
+<li>时间回溯</li>
+<li>监管要求</li>
+</ol>
+<p>备份机制:</p>
+<ol>
+<li>延迟节点备份: 设置一个延迟节点, 比如延迟一个小时, 可以防止人为误操作</li>
+<li>全量备份+Oplog增量: 比如每天晚上执行一次全量备份, 之后每次oplog记录下来, 可以实现任意时间点备份恢复(PIT)</li>
+</ol>
+<p>全量备份方式:</p>
+<ol>
+<li>复制数据库文件<ul>
+<li>必须先关闭节点才能复制, 否则复制到的文件无效</li>
+<li>也可以选择db.fsyncLock()锁定节点, 复制好了db.fsyncUnlock()</li>
+<li>可以且应该在从节点上完成</li>
+<li>该方法会暂时宕机一个从节点, 所以整个过程应该注意投票节点总数</li>
+</ul>
+</li>
+<li>文件系统快照:<ul>
+<li>mongo支持使用文件系统快照直接获取数据文件在某一时刻的镜像</li>
+<li>快照过程中可以不同停机</li>
+<li>数据文件和Journal必须在同一个卷上</li>
+<li>快照完成后请尽快复制文件并删除快照</li>
+</ul>
+</li>
+<li>mongodump, 就是全量读出来再全量写入磁盘:<ul>
+<li>最灵活, 但是速度最慢</li>
+<li>因为速度很慢, 在dump过程中, 你不知道什么时候某个key会被改变, 改变的时间点是在dump之前还是之后的. 所以只能表示某个时间段</li>
+<li>解决方式就是使用oplog重放dump过程的数据改变, 实现最终数据一致<br><img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/mongo-dump.png" srcset="/img/loading.gif" lazyload alt="dump过程使用oplog解决数据一致性"></li>
+</ul>
+</li>
+</ol>
+<p>mongodump参数:</p>
+<ul>
+<li><code>--oplog</code>: 复制mongodump开始到结束过程中所有oplog并输出到结果中. 输出文件位于<code>dump/oplog.bson</code></li>
+<li><code>--oplogReplay</code>: 恢复完数据文件后在重放oplog. 默认重放<code>dump/oplog.bson</code>&#x3D;&gt;<dump-directory>&#x2F;local&#x2F;oplog.rs.bson. 如果oplog不在这, 则可以:<ul>
+<li><code>--oplogFile</code>: 指定需要重放的oplog位置</li>
+<li><code>--oplogLimit</code>: 重放oplog时截止到指定时间点</li>
+</ul>
+</li>
+</ul>
+<p>分片集备份(很复杂):</p>
+<ul>
+<li>每个分片和config都备份</li>
+<li>除了考虑每个分片一致性问题, 还要每个片都恢复到同一个时间点</li>
+</ul>
+<h1 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h1><p>mongo安全包括认证&#x2F;鉴权&#x2F;审计&#x2F;加密.</p>
+<h2 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h2><p>副本集和共享集群的各个节点成员之间使用内部身份验证, 可以使用密钥文件或x.509证书.</p>
+<p>密钥文件比较简单, 官方推荐如果是测试环境可以使用密钥文件,但是正式环境官方推荐<strong>x.509证书</strong>.</p>
+<p>略</p>
+<h2 id="鉴权"><a href="#鉴权" class="headerlink" title="鉴权"></a>鉴权</h2><p>Mongodb存储所有的用户信息在admin数据库的集合system.users中, 保存用户名&#x2F;密码和数据库信息</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">// 查询所有角色权限(仅用户自定义角色) </span><br>&gt; db.<span class="hljs-title function_ invoke__">runCommand</span>(&#123; <span class="hljs-attr">rolesInfo</span>: <span class="hljs-number">1</span> &#125;) <br><br><span class="hljs-comment">// 查询所有角色权限(包含内置角色) </span><br>&gt; db.<span class="hljs-title function_ invoke__">runCommand</span>(&#123; <span class="hljs-attr">rolesInfo</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">showBuiltinRoles</span>: <span class="hljs-literal">true</span> &#125;)<br><br><span class="hljs-comment">// 查询当前数据库中的某角色的权限 </span><br>&gt; db.<span class="hljs-title function_ invoke__">runCommand</span>(&#123; <span class="hljs-attr">rolesInfo</span>: <span class="hljs-string">&quot;&lt;rolename&gt;&quot;</span> &#125;)<br><br><span class="hljs-comment">// 查询其它数据库中指定的角色权限 </span><br>&gt; db.<span class="hljs-title function_ invoke__">runCommand</span>(&#123; <span class="hljs-attr">rolesInfo</span>: &#123; <span class="hljs-attr">role</span>: <span class="hljs-string">&quot;&lt;rolename&gt;&quot;</span>, <span class="hljs-attr">db</span>: <span class="hljs-string">&quot;&lt;database&gt;&quot;</span> &#125; &#125;<br><br>// 查询多个角色权限 <br>&gt; db.<span class="hljs-title function_ invoke__">runCommand</span>( <br>  &#123; <br>    <span class="hljs-attr">rolesInfo</span>: [ <br>      <span class="hljs-string">&quot;&lt;rolename&gt;&quot;</span>, <br>      &#123; <span class="hljs-attr">role</span>: <span class="hljs-string">&quot;&lt;rolename&gt;&quot;</span>, <span class="hljs-attr">db</span>: <span class="hljs-string">&quot;&lt;database&gt;&quot;</span>&#125;, ... <br>      ] <br>  &#125; <br>)<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<p>常用内置角色(也可以自定义角色):</p>
+<ul>
+<li>数据库用户角色: read, readWrite</li>
+<li>所有数据库用户角色: readAnyDatabase, readWriteAnyDatabase, userAdminAnyDatabase, dbAdminAnyDatabase</li>
+<li>数据库管理角色: dbAdmin, dbOwner, userAdmin</li>
+<li>集群管理角色: clusterAdmin, clusterManager, clusterMonitor, hostManager</li>
+<li>备份恢复角色: backup, restore</li>
+<li>超级用户角色: root</li>
+<li>内部角色: system</li>
+</ul>
+<p>新建用户: 在操作用户时, 启动mongod服务时尽量不要开启授权</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">use admin<br><br><span class="hljs-comment">//系统超级管理员myroot</span><br>db.create<span class="hljs-constructor">User(&#123;<span class="hljs-params">user</span>:<span class="hljs-string">&quot;myroot&quot;</span>,<span class="hljs-params">pwd</span>:<span class="hljs-string">&quot;123456&quot;</span>,<span class="hljs-params">roles</span>:[<span class="hljs-string">&quot;root&quot;</span>]&#125;)</span><br><span class="hljs-comment">//或者</span><br>db.create<span class="hljs-constructor">User(&#123;<span class="hljs-params">user</span>:<span class="hljs-string">&quot;myroot&quot;</span>,<span class="hljs-params">pwd</span>:<span class="hljs-string">&quot;123456&quot;</span>,<span class="hljs-params">roles</span>:[ &#123; <span class="hljs-string">&quot;role&quot;</span> : <span class="hljs-string">&quot;root&quot;</span>, <span class="hljs-string">&quot;db&quot;</span> : <span class="hljs-string">&quot;admin&quot;</span> &#125; ]&#125;)</span><br><br><br><span class="hljs-comment">//专门管理admin库账号myadmin</span><br>db.create<span class="hljs-constructor">User(&#123;<span class="hljs-params">user</span>:<span class="hljs-string">&quot;myadmin&quot;</span>,<span class="hljs-params">pwd</span>:<span class="hljs-string">&quot;123456&quot;</span>,<span class="hljs-params">roles</span>: [&#123;<span class="hljs-params">role</span>:<span class="hljs-string">&quot;userAdminAnyDatabase&quot;</span>,<span class="hljs-params">db</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;]&#125;)</span><br><br><span class="hljs-comment">//查看已经创建了的用户的情况</span><br>db.system.users.find<span class="hljs-literal">()</span><br><br><span class="hljs-comment">//删除用户 </span><br>db.drop<span class="hljs-constructor">User(<span class="hljs-string">&quot;myadmin&quot;</span>)</span><br><br><span class="hljs-comment">//修改密码</span><br>db.change<span class="hljs-constructor">UserPassword(<span class="hljs-string">&quot;myroot&quot;</span>, <span class="hljs-string">&quot;123456&quot;</span>)</span><br><br><span class="hljs-comment">//验证密码</span><br>db.auth(<span class="hljs-string">&quot;myroot&quot;</span>,<span class="hljs-string">&quot;123456&quot;</span>)<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><div class="note note-success">
-            <p>文字 或者 <code>markdown</code> 均可</p>
-          </div>
-
-<p>详细请看<a target="_blank" rel="noopener" href="https://hexo.fluid-dev.com/docs/guide/#tag-%E6%8F%92%E4%BB%B6">https://hexo.fluid-dev.com/docs/guide/#tag-%E6%8F%92%E4%BB%B6</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>这是对应的脚注<br><a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></p>
+<p>如果不指定数据库，则创建的指定的权限的用户在所有的数据库上有效, 如<code>&#123;role: &quot;userAdminAnyDatabase&quot;, db:&quot;&quot;&#125;</code></p>
 
                 
               </div>
@@ -320,46 +401,6 @@
       </span>
     
   
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
-  
-  
-
-      </span>
-    
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%86%85%E5%8A%9F/" class="category-chain-item">内功</a>
-  
-  
-
-      </span>
-    
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E8%AF%BB%E4%B9%A6/" class="category-chain-item">读书</a>
-  
-  
-
-      </span>
-    
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" class="category-chain-item">碎碎念</a>
-  
-  
-
-      </span>
-    
-  
 </span>
 
     </div>
@@ -368,9 +409,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Hexo/">#Hexo</a>
-      
-        <a href="/tags/Fluid/">#Fluid</a>
+        <a href="/tags/Mongo/">#Mongo</a>
       
     </div>
   
@@ -382,8 +421,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>helloWorld</div>
-      <div>http://example.com/2019/10/10/hello-world/</div>
+      <div>4.Mongo运维相关</div>
+      <div>http://example.com/2022/07/04/mongo-4.运维/</div>
     </div>
     <div class="license-meta">
       
@@ -395,7 +434,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2019年10月10日</div>
+          <div>2022年7月4日</div>
         </div>
       
       
@@ -425,15 +464,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/07/01/mongo-1.%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/" title="1.Mongo的概述和使用">
+                      <a href="/2022/07/05/mongo-5.%E7%B4%A2%E5%BC%95/" title="5.Mongo索引">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">1.Mongo的概述和使用</span>
+                        <span class="hidden-mobile">5.Mongo索引</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2022/07/03/mongo-3.%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4/" title="3.Mongo分片集群">
+                        <span class="hidden-mobile">3.Mongo分片集群</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
