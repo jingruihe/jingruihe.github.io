@@ -1,0 +1,762 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <link rel="icon" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JingRuiHe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="let和const在JavaScript中咱们以前主要用关键var来定义变量, ES6之后, 新增了定义变量的两个关键字, 分别是let和const.对于变量来说, 在ES5中var定义的变量会提升到作用域中所有的函数与语句前面, 而ES6中let定义的变量则不会, let声明的变量会在其相应的代码块中建立一个暂时性死区, 直至变量被声明.let和const都能够声明块级作用域, 用法和var是类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="es6">
+<meta property="og:url" content="http://example.com/2016/01/06/web-basic-es6/index.html">
+<meta property="og:site_name" content="景瑞">
+<meta property="og:description" content="let和const在JavaScript中咱们以前主要用关键var来定义变量, ES6之后, 新增了定义变量的两个关键字, 分别是let和const.对于变量来说, 在ES5中var定义的变量会提升到作用域中所有的函数与语句前面, 而ES6中let定义的变量则不会, let声明的变量会在其相应的代码块中建立一个暂时性死区, 直至变量被声明.let和const都能够声明块级作用域, 用法和var是类">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/web/es6.png">
+<meta property="article:published_time" content="2016-01-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-09-06T12:57:38.378Z">
+<meta property="article:author" content="JingRuiHe">
+<meta property="article:tag" content="es6">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/web/es6.png">
+  
+  
+  
+  <title>es6 - 景瑞</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JingRuiHe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/web/es6.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="es6"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2016-01-06 00:00" pubdate>
+          2016年1月6日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          91 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">es6</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="let和const"><a href="#let和const" class="headerlink" title="let和const"></a>let和const</h1><p>在JavaScript中咱们以前主要用关键var来定义变量, ES6之后, 新增了定义变量的两个关键字, 分别是let和const.<br>对于变量来说, 在ES5中var定义的变量会提升到作用域中所有的函数与语句前面, 而ES6中let定义的变量则不会, let声明的变量会在其相应的代码块中建立一个暂时性死区, 直至变量被声明.<br>let和const都能够声明块级作用域, 用法和var是类似的, let的特点是不会变量提升, 而是被锁在当前块中. </p>
+<p>一个非常简单的例子: </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params"></span>) &#123;<br><span class="hljs-keyword">if</span>(<span class="hljs-literal">true</span>) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a)<span class="hljs-comment">//TDZ, 俗称临时死区, 用来描述变量不提升的现象</span><br>  <span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span><br>&#125;<br>&#125;<br><span class="hljs-title function_">test</span>()  <span class="hljs-comment">// a is not defined</span><br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">if</span>(<span class="hljs-literal">true</span>) &#123;<br>      <span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span><br>    &#125;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a)<br>&#125;    <br><span class="hljs-title function_">test</span>() <span class="hljs-comment">// a is not defined</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>唯一正确的使用方法: 先声明, 再访问</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">if</span>(<span class="hljs-literal">true</span>) &#123;<br>      <span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span><br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a)<br>    &#125;<br>&#125;<br><span class="hljs-title function_">test</span>() <span class="hljs-comment">// 1</span><br></code></pre></td></tr></table></figure>
+
+<p>const<br>声明常量, 一旦声明, 不可更改, 而且常量必须初始化赋值.<br>const虽然是常量, 不允许修改默认赋值, 但如果定义的是对象Object, 那么可以修改对象内部的属性值. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> type = &#123;<br>  <span class="hljs-attr">a</span>: <span class="hljs-number">1</span><br>&#125;<br>type.<span class="hljs-property">a</span> = <span class="hljs-number">2</span> <span class="hljs-comment">//没有直接修改type的值, 而是修改type.a的属性值, 这是允许的. </span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(type) <span class="hljs-comment">// &#123;a: 2&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>const和let的异同点</strong></p>
+<ul>
+<li>相同点: const和let都是在当前块内有效, 执行到块外会被销毁, 也不存在变量提升(TDZ), 不能重复声明. </li>
+<li>不同点: const不能再赋值, let声明的变量可以重复赋值.</li>
+</ul>
+<p>const实际上保证的, 并不是变量的值不得改动, 而是变量指向的那个内存地址所保存的数据不得改动. 对于简单类型的数据(数值、字符串、布尔值), 值就保存在变量指向的那个内存地址, 因此等同于常量. 但对于复合类型的数据(主要是对象和数组), 变量指向的内存地址, 保存的只是一个指向实际数据的指针, const只能保证这个指针是固定的(即总是指向另一个固定的地址), 至于它指向的数据结构是不是可变的, 就完全不能控制了. 因此, 将一个对象声明为常量必须非常小心. </p>
+<p><strong>块级作用域的使用场景</strong><br>除了上面提到的常用声明方式, 我们还可以在循环中使用, 最出名的一道面试题: 循环中定时器闭包的考题<br>在for循环中使用var声明的循环变量, 会跳出循环体污染当前的函数. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;<br>  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i) <span class="hljs-comment">//5, 5, 5, 5, 5</span><br>  &#125;, <span class="hljs-number">0</span>)<br>&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i) <span class="hljs-comment">//5 i跳出循环体污染外部函数</span><br><br><span class="hljs-comment">//将var改成let之后</span><br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;<br>  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i) <span class="hljs-comment">// 0,1,2,3,4</span><br>  &#125;, <span class="hljs-number">0</span>)<br>&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i)<span class="hljs-comment">//i is not defined i无法污染外部函数</span><br></code></pre></td></tr></table></figure>
+
+<p>在实际开发中, 我们选择使用var、let还是const, 取决于我们的变量是不是需要更新, 通常我们希望变量保证不被恶意修改, 而使用大量的const. 使用const声明, 声明一个对象的时候, 也推荐使用const, 当你需要修改声明的变量值时, 使用let, var能用的场景都可以使用let替代. </p>
+<p><strong>symbol</strong><br>ES6 以前, 我们知道5种基本数据类型分别是Undefined, Null, Boolean, Number以及String, 然后加上一种引用类型Object构成了JavaScript中所有的数据类型, 但是ES6出来之后, 新增了一种数据类型, 名叫symbol, 像它的名字表露的一样, 意味着独一无二, 意思是每个 Symbol类型都是独一无二的, 不与其它 Symbol 重复.<br>可以通过调用 Symbol() 方法将创建一个新的 Symbol 类型的值, 这个值独一无二, 不与任何值相等. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> mySymbol=<span class="hljs-title class_">Symbol</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-keyword">typeof</span> mySymbol) <span class="hljs-comment">//&quot;symbol&quot;</span><br></code></pre></td></tr></table></figure>
+
+
+<h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><p>ES6字符串新增的方法</p>
+<p><strong>UTF-16码位</strong>：ES6强制使用UTF-16字符串编码. 关于UTF-16的解释请自行百度了解. </p>
+<p>**codePointAt()**：该方法支持UTF-16, 接受编码单元的位置而非字符串位置作为参数, 返回与字符串中给定位置对应的码位, 即一个整数值. </p>
+<p>String.fromCodePoiont()：作用与codePointAt相反, 检索字符串中某个字符的码位, 也可以根据指定的码位生成一个字符. </p>
+<p>**normalize()**：提供Unicode的标准形式, 接受一个可选的字符串参数, 指明应用某种Unicode标准形式. </p>
+<p>在ES6中, 新增了3个新方法. 每个方法都接收2个参数, 需要检测的子字符串, 以及开始匹配的索引位置. </p>
+<p><strong>模板字符串</strong></p>
+<p>字符串是JavaScript中基本类型之一, 应该算是除了对象之外是使用最为频繁的类型吧, 字符串中包含了例如substr, replace, indexOf,slice等等诸多方法, ES6引入了模板字符串的特性, 用反引号来表示, 可以表示多行字符串以及做到文本插值(利用模板占位符）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 以前的多行字符串我们这么写: </span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;hello world 1\n\</span><br><span class="hljs-string">hello cala&quot;</span>);<br><span class="hljs-comment">// &quot;hello world</span><br><span class="hljs-comment">// hello cala&quot;</span><br><br><span class="hljs-comment">//有了模板字符串之后</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`hello world</span><br><span class="hljs-string">string text line 2`</span>);<br><span class="hljs-comment">// &quot;hello world</span><br><span class="hljs-comment">// hello cala&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>可以用${}来表示模板占位符, 可以将你已经定义好的变量传进括弧中, 例如: </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> name=<span class="hljs-string">&quot;cala&quot;</span>;<br><span class="hljs-keyword">var</span> age=<span class="hljs-number">22</span>;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`hello,I&#x27;am <span class="hljs-subst">$&#123;name&#125;</span>,my age is <span class="hljs-subst">$&#123;age&#125;</span>`</span>)<br><span class="hljs-comment">//hello,I&#x27;am cala,my age is 22</span><br></code></pre></td></tr></table></figure>
+
+<p>**includes(str,index)**：如果在字符串中检测到指定文本, 返回true, 否则false. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> t = <span class="hljs-string">&#x27;abcdefg&#x27;</span><br><span class="hljs-keyword">if</span>(t.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;cde&#x27;</span>)) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">2</span>)<br>&#125;<br><span class="hljs-comment">//true</span><br></code></pre></td></tr></table></figure>
+
+<p>**startsWith(str,index)**：如果在字符串起始部分检测到指定文本, 返回true, 否则返回false. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> t = <span class="hljs-string">&#x27;abcdefg&#x27;</span><br><span class="hljs-keyword">if</span>(t.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&#x27;ab&#x27;</span>)) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">2</span>)<br>&#125;<br><span class="hljs-comment">//true</span><br></code></pre></td></tr></table></figure>
+
+<p>**endsWith(str,index)**：如果在字符串的结束部分检测到指定文本, 返回true, 否则返回false. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> t = <span class="hljs-string">&#x27;abcdefg&#x27;</span><br><span class="hljs-keyword">if</span>(t.<span class="hljs-title function_">endsWith</span>(<span class="hljs-string">&#x27;fg&#x27;</span>)) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">2</span>)<br>&#125;<br><span class="hljs-comment">//true</span><br></code></pre></td></tr></table></figure>
+
+<p>如果你只是需要匹配字符串中是否包含某子字符串, 那么推荐使用新增的方法, 如果需要找到匹配字符串的位置, 使用indexOf()。</p>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><p>函数的默认参数<br>在ES5中, 我们给函数传参数, 然后在函数体内设置默认值, 如下面这种方式. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">a</span>(<span class="hljs-params">num, callback</span>) &#123;<br>  num = num || <span class="hljs-number">6</span><br>  callback = callback || <span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) &#123;<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;ES5: &#x27;</span>, data)&#125;<br>  <span class="hljs-title function_">callback</span>(num * num)<br>&#125;<br><span class="hljs-title function_">a</span>() <span class="hljs-comment">//ES5: 36, 不传参输出默认值</span><br><br><span class="hljs-comment">//你还可以这样使用callback</span><br><span class="hljs-title function_">a</span>(<span class="hljs-number">10</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data * <span class="hljs-number">10</span>) <span class="hljs-comment">// 1000,  传参输出新数值</span><br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>在ES6中, 我们使用新的默认值写法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">a</span>(<span class="hljs-params">num = <span class="hljs-number">6</span>, callback = <span class="hljs-keyword">function</span> (data) &#123;<span class="hljs-variable language_">console</span>.log(<span class="hljs-string">&#x27;ES6: &#x27;</span>, data)&#125;</span>) &#123;<br>  <span class="hljs-title function_">callback</span>(num * num)<br>&#125;<br><br><span class="hljs-title function_">a</span>() <span class="hljs-comment">//ES6: 36,  不传参输出默认值</span><br><br><span class="hljs-title function_">a</span>(<span class="hljs-number">10</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data * <span class="hljs-number">10</span>) <span class="hljs-comment">// 1000, 传参输出新数值</span><br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h1 id="箭头函数（-x3D-gt-）"><a href="#箭头函数（-x3D-gt-）" class="headerlink" title="箭头函数（&#x3D;&gt;）"></a>箭头函数（&#x3D;&gt;）</h1><p><strong>重要</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> arr = [<span class="hljs-number">5</span>, <span class="hljs-number">10</span>]<br><span class="hljs-keyword">const</span> s = arr.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">sum, item</span>) =&gt;</span> sum + item)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(s) <span class="hljs-comment">// 15</span><br></code></pre></td></tr></table></figure>
+
+<p>箭头函数中this的使用跟普通函数也不一样, 在JavaScript的普通函数中, 都会有一个自己的this值, 主要分为: </p>
+<p><strong>普通函数</strong>：<br>1、函数作为全局函数被调用时, this指向全局对象<br>2、函数作为对象中的方法被调用时, this指向该对象<br>3、函数作为构造函数的时候, this指向构造函数new出来的新对象<br>4、还可以通过call, apply, bind改变this的指向</p>
+<p><strong>箭头函数</strong>：<br>1、箭头函数没有this, 函数内部的this来自于父级最近的非箭头函数, 并且不能改变this的指向.<br>2、箭头函数没有super<br>3、箭头函数没有arguments<br>4、箭头函数没有new.target绑定.<br>5、不能使用new<br>6、没有原型<br>7、不支持重复的命名参数. </p>
+<p><strong>箭头函数的简单理解</strong></p>
+<p>1、箭头函数的左边表示输入的参数, 右边表示输出的结果. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> <span class="hljs-title function_">s</span> = a =&gt; a<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">s</span>(<span class="hljs-number">2</span>)) <span class="hljs-comment">// 2</span><br></code></pre></td></tr></table></figure>
+
+<p>2、在箭头函数中, this属于词法作用域, 直接由上下文确定, 对于普通函数中指向不定的this, 箭头函数中处理this无疑更加简单, 如下: </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//ES5普通函数</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">Man</span>(<span class="hljs-params"></span>)&#123;<br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span>=<span class="hljs-number">22</span>;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span>+<span class="hljs-number">1</span>;<br>  &#125;<br>&#125;<br><span class="hljs-keyword">var</span> cala=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Man</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">cala</span>())<span class="hljs-comment">//undefined</span><br><br><span class="hljs-comment">//ES6箭头函数</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">Man</span>(<span class="hljs-params"></span>)&#123;<br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span>=<span class="hljs-number">22</span>;<br>  <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span>+<span class="hljs-number">1</span>;<br>&#125;<br><span class="hljs-keyword">var</span> cala=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Man</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">cala</span>())<span class="hljs-comment">//23</span><br></code></pre></td></tr></table></figure>
+<p>3、箭头函数中没有arguments(我们可以用rest参数替代),也没有原型, 也不能使用new 关键字, 例如: </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//没有arguments</span><br><span class="hljs-keyword">var</span> <span class="hljs-title function_">foo</span>=(<span class="hljs-params">a,b</span>)=&gt;&#123;<span class="hljs-keyword">return</span> <span class="hljs-variable language_">arguments</span>[<span class="hljs-number">0</span>]*<span class="hljs-variable language_">arguments</span>[<span class="hljs-number">1</span>]&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">foo</span>(<span class="hljs-number">3</span>,<span class="hljs-number">5</span>))<br><span class="hljs-comment">//arguments is not defined</span><br><br><span class="hljs-comment">//没有原型</span><br><span class="hljs-keyword">var</span> <span class="hljs-title function_">Obj</span> = (<span class="hljs-params"></span>) =&gt; &#123;&#125;;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Obj</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>); <br><span class="hljs-comment">// undefined</span><br><br><span class="hljs-comment">//不能使用new 关键字</span><br><span class="hljs-keyword">var</span> <span class="hljs-title function_">Obj</span> = (<span class="hljs-params"></span>) =&gt; &#123;<span class="hljs-string">&quot;hello world&quot;</span>&#125;;<br><span class="hljs-keyword">var</span> o = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Obj</span>(); <br><span class="hljs-comment">// TypeError: Obj is not a constructor</span><br></code></pre></td></tr></table></figure>
+
+<p>4、箭头函数给数组排序</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> arr = [<span class="hljs-number">10</span>, <span class="hljs-number">50</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">20</span>]<br><span class="hljs-keyword">const</span> s = arr.<span class="hljs-title function_">sort</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(s) <span class="hljs-comment">// [10,20,30,40,50]</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>尾调用优化</strong><br>尾调用是指在函数return的时候调用一个新的函数, 由于尾调用的实现需要存储到内存中, 在一个循环体中, 如果存在函数的尾调用, 你的内存可能爆满或溢出. </p>
+<p>ES6中, 引擎会帮你做好尾调用的优化工作, 你不需要自己优化, 但需要满足下面3个要求:<br>1、函数不是闭包<br>2、尾调用是函数最后一条语句<br>3、尾调用结果作为函数返回</p>
+<p><strong>尾调用实际用途——递归函数优化</strong><br>在ES5时代, 我们不推荐使用递归, 因为递归会影响性能.<br>但是有了尾调用优化之后, 递归函数的性能有了提升. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//新型尾优化写法</span><br><span class="hljs-meta">&quot;use strict&quot;</span>;  <br><span class="hljs-keyword">function</span> <span class="hljs-title function_">a</span>(<span class="hljs-params">n, p = <span class="hljs-number">1</span></span>) &#123;<br>  <span class="hljs-keyword">if</span>(n &lt;= <span class="hljs-number">1</span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> * p<br>  &#125;<br>  <span class="hljs-keyword">let</span> s = n * p<br>  <span class="hljs-keyword">return</span> <span class="hljs-title function_">a</span>(n - <span class="hljs-number">1</span>, s)<br>&#125;<br><span class="hljs-comment">//求 1 x 2 x 3的阶乘</span><br><span class="hljs-keyword">let</span> sum = <span class="hljs-title function_">a</span>(<span class="hljs-number">3</span>)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(sum) <span class="hljs-comment">// 6</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="ES6对象新增方法"><a href="#ES6对象新增方法" class="headerlink" title="ES6对象新增方法"></a>ES6对象新增方法</h1><p><strong>Object.assign()</strong><br>Object.assign()方法用于将所有可枚举属性的值从一个或多个源对象复制到目标对象. 它将返回目标对象.<br>Object.assign 方法只会拷贝源对象自身的并且可枚举的属性到目标对象. 该方法使用源对象的[[Get]]和目标对象的[[Set]]，所以它会调用相关 getter 和 setter. 因此, 它分配属性, 而不仅仅是复制或定义新的属性. 如果合并源包含getter, 这可能使其不适合将新属性合并到原型中. 为了将属性定义(包括其可枚举性)复制到原型, 应使用Object.getOwnPropertyDescriptor()和Object.defineProperty() .<br>String类型和 Symbol 类型的属性都会被拷贝.<br>合并对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> o1 = &#123; <span class="hljs-attr">a</span>: <span class="hljs-number">1</span> &#125;;<br><span class="hljs-keyword">var</span> o2 = &#123; <span class="hljs-attr">b</span>: <span class="hljs-number">2</span> &#125;;<br><span class="hljs-keyword">var</span> o3 = &#123; <span class="hljs-attr">c</span>: <span class="hljs-number">3</span> &#125;;<br><span class="hljs-keyword">var</span> obj = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(o1, o2, o3);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(obj); <span class="hljs-comment">// &#123; a: 1, b: 2, c: 3 &#125;</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(o1);  <span class="hljs-comment">// &#123; a: 1, b: 2, c: 3 &#125;, 注意目标对象自身也会改变. </span><br></code></pre></td></tr></table></figure>
+
+<p>合并具有相同属性的对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> o1 = &#123; <span class="hljs-attr">a</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">b</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">c</span>: <span class="hljs-number">1</span> &#125;;<br><span class="hljs-keyword">var</span> o2 = &#123; <span class="hljs-attr">b</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">c</span>: <span class="hljs-number">2</span> &#125;;<br><span class="hljs-keyword">var</span> o3 = &#123; <span class="hljs-attr">c</span>: <span class="hljs-number">3</span> &#125;;<br><span class="hljs-keyword">var</span> obj = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(&#123;&#125;, o1, o2, o3);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(obj); <span class="hljs-comment">// &#123; a: 1, b: 2, c: 3 &#125;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Map和Set"><a href="#Map和Set" class="headerlink" title="Map和Set"></a>Map和Set</h1><p>Map和Set都叫做集合, 但是他们也有所不同. Set常被用来检查对象中是否存在某个键名, Map集合常被用来获取已存的信息.<br>Set是有序列表, 含有相互独立的非重复值. </p>
+<p><strong>Array和Set对比</strong><br>都是一个存储多值的容器, 两者可以互相转换, 但是在使用场景上有区别. 如下:<br>Array的indexOf方法比Set的has方法效率低下<br>Set不含有重复值(可以利用这个特性实现对一个数组的去重)<br>Set通过delete方法删除某个值, 而Array只能通过splice. 两者的使用方便程度前者更优<br>Array的很多新方法map、filter、some、every等是Set没有的(但是通过两者可以互相转换来使用)</p>
+<p><strong>Object和Map对比</strong><br>Object是字符串-值, Map是值-值<br>Object键为string类型,Map的键是任意类型<br>手动计算Object尺寸,Map.size可以获取尺寸<br>Map的排序是插入顺序<br>Object有原型, 所以映射中有一些缺省的键. 可以理解为Map&#x3D;Object.create(null)</p>
+<p><strong>Set操作集合</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> set = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>()<br><span class="hljs-comment">// Set转化为数组</span><br><span class="hljs-keyword">let</span> arr = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(set)<br><span class="hljs-keyword">let</span> arr = [...set]<br><span class="hljs-comment">// 实例属性(继承自Set)</span><br>set.<span class="hljs-property">constructor</span> === <span class="hljs-title class_">Set</span> <br>set.<span class="hljs-property">size</span> <br><span class="hljs-comment">// 操作方法</span><br>set.<span class="hljs-title function_">add</span>(<span class="hljs-number">1</span>) <span class="hljs-comment">// 添加一个值</span><br>set.<span class="hljs-title function_">delete</span>(<span class="hljs-number">1</span>) <span class="hljs-comment">//删除一个值</span><br>set.<span class="hljs-title function_">has</span>(<span class="hljs-number">1</span>) <span class="hljs-comment">//判断是否有这个值(Array中的indexOf)</span><br>set.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">//清除所有值</span><br><span class="hljs-comment">// 获取用于遍历的成员方法(Set的遍历顺序就是插入顺序)</span><br>set.<span class="hljs-title function_">keys</span>() <span class="hljs-comment">// 返回键名的遍历器</span><br>set.<span class="hljs-title function_">values</span>() <span class="hljs-comment">// 返回键值得遍历器</span><br>set.<span class="hljs-title function_">entries</span>() <span class="hljs-comment">// 返回键值对的遍历器</span><br>set.<span class="hljs-title function_">forEach</span>() <span class="hljs-comment">// 循环遍历每个值(和Array的方法一致)</span><br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">of</span> set.<span class="hljs-title function_">keys</span>())&#123;&#125;<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> val <span class="hljs-keyword">of</span> set.<span class="hljs-title function_">values</span>())&#123;&#125;<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> entry <span class="hljs-keyword">of</span> set.<span class="hljs-title function_">entries</span>())&#123;&#125;<br><span class="hljs-comment">// 使用数组方法来处理set值</span><br>set = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(arr)<br>set = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([...set].<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">x</span>) =&gt;</span> x = x * <span class="hljs-number">2</span>))<br>set = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([...set].<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">x</span>) =&gt;</span> x &gt; <span class="hljs-number">2</span>))<br></code></pre></td></tr></table></figure>
+
+
+<p><strong>Map的方法集合</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()<br><span class="hljs-comment">// 实例属性(继承自Map)</span><br>map.<span class="hljs-property">constructor</span> === <span class="hljs-title class_">Map</span><br>map.<span class="hljs-property">size</span><br><span class="hljs-comment">// 操作方法</span><br>map.<span class="hljs-title function_">set</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)<br>map.<span class="hljs-title function_">get</span>(<span class="hljs-number">1</span>)<br>map.<span class="hljs-title function_">delete</span>(<span class="hljs-number">1</span>)<br>map.<span class="hljs-title function_">has</span>(<span class="hljs-number">1</span>)<br>map.<span class="hljs-title function_">clear</span>()<br><span class="hljs-comment">// 遍历方法</span><br>map.<span class="hljs-title function_">keys</span>()<br>map.<span class="hljs-title function_">values</span>()<br>map.<span class="hljs-title function_">entries</span>()<br>map.<span class="hljs-title function_">forEach</span>()<br><span class="hljs-comment">// Map和数组的转换</span><br>map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>([[<span class="hljs-string">&#x27;key&#x27;</span>,<span class="hljs-string">&#x27;val&#x27;</span>],[<span class="hljs-number">2</span>,<span class="hljs-number">1</span>]]) <span class="hljs-comment">// 要求双成员数组</span><br><span class="hljs-keyword">let</span> arr = [...map]<br><span class="hljs-comment">// 值得注意的是Map的键是跟内存绑定的</span><br>map.<span class="hljs-title function_">set</span>([<span class="hljs-number">1</span>], <span class="hljs-string">&#x27;s&#x27;</span>)<br>map.<span class="hljs-title function_">get</span>([<span class="hljs-number">1</span>])<br><span class="hljs-keyword">let</span> arr = [<span class="hljs-number">1</span>]<br><span class="hljs-keyword">let</span> arr1 = [<span class="hljs-number">1</span>]<br>map.<span class="hljs-title function_">set</span>(arr, <span class="hljs-string">&#x27;s&#x27;</span>)<br>map.<span class="hljs-title function_">get</span>(arr)<br>map.<span class="hljs-title function_">set</span>(arr1, <span class="hljs-string">&#x27;s&#x27;</span>)<br>map.<span class="hljs-title function_">get</span>(arr1)<br></code></pre></td></tr></table></figure>
+
+<p>想要深入理解Set和Map, 可以查看《深入理解: ES6中的Set和Map数据结构, Map与其它数据结构的互相转换》</p>
+<h1 id="迭代器-Iterator"><a href="#迭代器-Iterator" class="headerlink" title="迭代器(Iterator)"></a>迭代器(Iterator)</h1><p>1、entries() 返回迭代器: 返回键值对</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//数组</span><br><span class="hljs-keyword">const</span> arr = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>];<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> arr.<span class="hljs-title function_">entries</span>()) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(v)<br>&#125;<br><span class="hljs-comment">// [0, &#x27;a&#x27;] [1, &#x27;b&#x27;] [2, &#x27;c&#x27;]</span><br><br><span class="hljs-comment">//Set</span><br><span class="hljs-keyword">const</span> arr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>]);<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> arr.<span class="hljs-title function_">entries</span>()) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(v)<br>&#125;<br><span class="hljs-comment">// [&#x27;a&#x27;, &#x27;a&#x27;] [&#x27;b&#x27;, &#x27;b&#x27;] [&#x27;c&#x27;, &#x27;c&#x27;]</span><br><br><span class="hljs-comment">//Map</span><br><span class="hljs-keyword">const</span> arr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>();<br>arr.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;a&#x27;</span>);<br>arr.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>);<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> arr.<span class="hljs-title function_">entries</span>()) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(v)<br>&#125;<br><span class="hljs-comment">// [&#x27;a&#x27;, &#x27;a&#x27;] [&#x27;b&#x27;, &#x27;b&#x27;]</span><br></code></pre></td></tr></table></figure>
+
+<p>2、values() 返回迭代器: 返回键值对的value</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//数组</span><br><span class="hljs-keyword">const</span> arr = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>];<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> arr.<span class="hljs-title function_">values</span>()) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(v)<br>&#125;<br><span class="hljs-comment">//&#x27;a&#x27; &#x27;b&#x27; &#x27;c&#x27;</span><br><br><span class="hljs-comment">//Set</span><br><span class="hljs-keyword">const</span> arr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>]);<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> arr.<span class="hljs-title function_">values</span>()) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(v)<br>&#125;<br><span class="hljs-comment">// &#x27;a&#x27; &#x27;b&#x27; &#x27;c&#x27;</span><br><br><span class="hljs-comment">//Map</span><br><span class="hljs-keyword">const</span> arr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>();<br>arr.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;a&#x27;</span>);<br>arr.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>);<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> arr.<span class="hljs-title function_">values</span>()) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(v)<br>&#125;<br><span class="hljs-comment">// &#x27;a&#x27; &#x27;b&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>3、keys() 返回迭代器: 返回键值对的key</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//数组</span><br><span class="hljs-keyword">const</span> arr = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>];<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> arr.<span class="hljs-title function_">keys</span>()) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(v)<br>&#125;<br><span class="hljs-comment">// 0 1 2</span><br><br><span class="hljs-comment">//Set</span><br><span class="hljs-keyword">const</span> arr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>]);<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> arr.<span class="hljs-title function_">keys</span>()) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(v)<br>&#125;<br><span class="hljs-comment">// &#x27;a&#x27; &#x27;b&#x27; &#x27;c&#x27;</span><br><br><span class="hljs-comment">//Map</span><br><span class="hljs-keyword">const</span> arr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>();<br>arr.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;a&#x27;</span>);<br>arr.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>);<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> arr.<span class="hljs-title function_">keys</span>()) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(v)<br>&#125;<br><span class="hljs-comment">// &#x27;a&#x27; &#x27;b&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>虽然上面列举了3种内建的迭代器方法, 但是不同集合的类型还有自己默认的迭代器, 在for of中, 数组和Set的默认迭代器是values()，Map的默认迭代器是entries()。</p>
+<p><strong>for of循环解构</strong></p>
+<p>对象本身不支持迭代, 但是我们可以自己添加一个生成器, 返回一个key, value的迭代器, 然后使用for of循环解构key和value. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> obj = &#123;<br>  <span class="hljs-attr">a</span>: <span class="hljs-number">1</span>,<br>  <span class="hljs-attr">b</span>: <span class="hljs-number">2</span>,<br>  *[<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">iterator</span>]() &#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i <span class="hljs-keyword">in</span> obj) &#123;<br>      <span class="hljs-keyword">yield</span> [i, obj[i]]<br>    &#125;<br>  &#125;<br>&#125;<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> [key, value] <span class="hljs-keyword">of</span> obj) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(key, value)<br>&#125;<br><span class="hljs-comment">// &#x27;a&#x27; 1, &#x27;b&#x27; 2</span><br></code></pre></td></tr></table></figure>
+
+<p>字符串迭代器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> str = <span class="hljs-string">&#x27;abc&#x27;</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> str) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(v)<br>&#125;<br><span class="hljs-comment">// &#x27;a&#x27; &#x27;b&#x27; &#x27;c&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="ES6给数组添加了几个新方法-find-、findIndex-、fill-、copyWithin"><a href="#ES6给数组添加了几个新方法-find-、findIndex-、fill-、copyWithin" class="headerlink" title="ES6给数组添加了几个新方法: find()、findIndex()、fill()、copyWithin()"></a>ES6给数组添加了几个新方法: find()、findIndex()、fill()、copyWithin()</h2><p>1、find()：传入一个回调函数, 找到数组中符合当前搜索规则的第一个元素, 返回它, 并且终止搜索. </p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arcade">const arr = [<span class="hljs-number">1</span>, <span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-string">&quot;2&quot;</span>]<br><span class="hljs-built_in">console</span>.<span class="hljs-built_in">log</span>(arr.<span class="hljs-built_in">find</span>(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> <span class="hljs-built_in">typeof</span> n === <span class="hljs-string">&quot;number&quot;</span>)) <span class="hljs-comment">// 1</span><br></code></pre></td></tr></table></figure>
+
+<p>2、findIndex()：传入一个回调函数, 找到数组中符合当前搜索规则的第一个元素, 返回它的下标, 终止搜索. </p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arcade">const arr = [<span class="hljs-number">1</span>, <span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-string">&quot;2&quot;</span>]<br><span class="hljs-built_in">console</span>.<span class="hljs-built_in">log</span>(arr.findIndex(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> <span class="hljs-built_in">typeof</span> n === <span class="hljs-string">&quot;number&quot;</span>)) <span class="hljs-comment">// 0</span><br></code></pre></td></tr></table></figure>
+
+<p>3、fill()：用新元素替换掉数组内的元素, 可以指定替换下标范围. </p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">arr.fill(<span class="hljs-built_in">value</span>, <span class="hljs-built_in">start</span>, <span class="hljs-keyword">end</span>)<br></code></pre></td></tr></table></figure>
+
+<p>4、copyWithin()：选择数组的某个下标, 从该位置开始复制数组元素, 默认从0开始复制. 也可以指定要复制的元素范围. </p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs arduino">arr.<span class="hljs-built_in">copyWithin</span>(target, start, end)<br><br><span class="hljs-type">const</span> arr = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]<br>console.<span class="hljs-built_in">log</span>(arr.<span class="hljs-built_in">copyWithin</span>(<span class="hljs-number">3</span>)) <span class="hljs-comment">// [1,2,3,1,2] 从下标为3的元素开始, 复制数组, 所以4, 5被替换成1, 2</span><br><br><span class="hljs-type">const</span> arr1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]<br>console.<span class="hljs-built_in">log</span>(arr1.<span class="hljs-built_in">copyWithin</span>(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>)) <span class="hljs-comment">// [1,2,3,2,3] 从下标为3的元素开始, 复制数组, 指定复制的第一个元素下标为1, 所以4, 5被替换成2, 3</span><br><br><span class="hljs-type">const</span> arr2 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]<br>console.<span class="hljs-built_in">log</span>(arr2.<span class="hljs-built_in">copyWithin</span>(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>)) <span class="hljs-comment">// [1,2,3,2,5] 从下标为3的元素开始, 复制数组, 指定复制的第一个元素下标为1, 结束位置为2, 所以4被替换成2</span><br><br></code></pre></td></tr></table></figure>
+
+<p>ES6中类class、Promise与异步编程、代理(Proxy)和反射(Reflection)API, 这几块内容比较复杂, 以后有机会再详细写. </p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/es6/">#es6</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>es6</div>
+      <div>http://example.com/2016/01/06/web-basic-es6/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JingRuiHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2016年1月6日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2016/01/16/web-basic-vue/" title="vue">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vue</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2016/01/05/web-basic-nodejs/" title="nodejs">
+                        <span class="hidden-mobile">nodejs</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"474398dbe7c152716f6e","clientSecret":"72b83431cf83b93e0e4ddfe1a37a31493ae65314","repo":"blog-gitalk","owner":"jingruihe","admin":["jingruihe"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '61d2fdadacea32fd45ebbe82ca0c73a9'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
