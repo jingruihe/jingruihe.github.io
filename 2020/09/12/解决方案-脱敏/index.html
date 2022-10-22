@@ -1,0 +1,662 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <link rel="icon" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JingRuiHe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="因为要脱敏, 先来个接口  1234public interface SensitiveTypeHandler &amp;#123;    SensitiveType getType(); &#x2F;&#x2F;判断脱敏那种数据, 比如手机,身份证    String handle(Object source); &#x2F;&#x2F;脱敏处理方式&amp;#125;   枚举定义一下脱敏类型  1234567891011121314151617">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脱敏">
+<meta property="og:url" content="http://example.com/2020/09/12/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-%E8%84%B1%E6%95%8F/index.html">
+<meta property="og:site_name" content="景瑞">
+<meta property="og:description" content="因为要脱敏, 先来个接口  1234public interface SensitiveTypeHandler &amp;#123;    SensitiveType getType(); &#x2F;&#x2F;判断脱敏那种数据, 比如手机,身份证    String handle(Object source); &#x2F;&#x2F;脱敏处理方式&amp;#125;   枚举定义一下脱敏类型  1234567891011121314151617">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/default/2.png">
+<meta property="article:published_time" content="2020-09-12T06:23:20.000Z">
+<meta property="article:modified_time" content="2022-10-22T03:03:40.758Z">
+<meta property="article:author" content="JingRuiHe">
+<meta property="article:tag" content="解决方案">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/default/2.png">
+  
+  
+  
+  <title>脱敏 - 景瑞</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JingRuiHe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/default/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="脱敏"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-09-12 14:23" pubdate>
+          2020年9月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">脱敏</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ol>
+<li>因为要脱敏, 先来个接口</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">SensitiveTypeHandler</span> &#123;<br>    <span class="hljs-function">SensitiveType <span class="hljs-title">getType</span>()</span>; <span class="hljs-comment">//判断脱敏那种数据, 比如手机,身份证</span><br>    <span class="hljs-function">String <span class="hljs-title">handle</span>(<span class="hljs-params">Object source</span>)</span>; <span class="hljs-comment">//脱敏处理方式</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>枚举定义一下脱敏类型</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> <span class="hljs-title class_">SensitiveType</span> &#123;<br><br>    <span class="hljs-title function_">ID_CARD</span>(<span class="hljs-string">&quot;身份证&quot;</span>),<br><br>    <span class="hljs-title function_">MOBILE_PHONE</span>(<span class="hljs-string">&quot;手机号&quot;</span>),<br><br>    <span class="hljs-title function_">BANK_CARD</span>(<span class="hljs-string">&quot;银行卡&quot;</span>);<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title class_">String</span> title;<br><br>    <span class="hljs-title class_">SensitiveType</span>(<span class="hljs-title class_">String</span> title) &#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">title</span> = title;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">getTitle</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> title;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>三种脱敏数据数据类型</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BandCardSensitiveHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">SensitiveTypeHandler</span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">SensitiveType</span> <span class="hljs-title function_">getType</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-title class_">SensitiveType</span>.<span class="hljs-property">BANK_CARD</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">handle</span>(<span class="hljs-params"><span class="hljs-built_in">Object</span> source</span>) &#123;<br>        <span class="hljs-keyword">if</span> (source == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125;<br>        <span class="hljs-title class_">String</span> bankCard = source.<span class="hljs-title function_">toString</span>();<br>        <span class="hljs-keyword">return</span> <span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">left</span>(bankCard, <span class="hljs-number">2</span>)<br>                .<span class="hljs-title function_">concat</span>(<br>                        <span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">removeStart</span>(<span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">leftPad</span>(<span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">right</span>(bankCard, <span class="hljs-number">4</span>),<br>                                <span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">length</span>(bankCard), <span class="hljs-string">&quot;*&quot;</span>), <span class="hljs-string">&quot;***&quot;</span>)<br>                );<br>    &#125;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">IDCardSensitiveHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">SensitiveTypeHandler</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">SensitiveType</span> <span class="hljs-title function_">getType</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-title class_">SensitiveType</span>.<span class="hljs-property">ID_CARD</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">handle</span>(<span class="hljs-params"><span class="hljs-built_in">Object</span> source</span>) &#123;<br>        <span class="hljs-keyword">if</span> (source == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125;<br>        <span class="hljs-title class_">String</span> idCard = source.<span class="hljs-title function_">toString</span>();<br>        <span class="hljs-keyword">return</span> <span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">left</span>(idCard, <span class="hljs-number">3</span>).<span class="hljs-title function_">concat</span>(<span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">removeStart</span>(<span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">leftPad</span>(<span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">right</span>(idCard, <span class="hljs-number">4</span>), <span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">length</span>(idCard), <span class="hljs-string">&quot;*&quot;</span>), <span class="hljs-string">&quot;***&quot;</span>));<br>    &#125;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MobilePhoneSensitiveHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">SensitiveTypeHandler</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">SensitiveType</span> <span class="hljs-title function_">getType</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-title class_">SensitiveType</span>.<span class="hljs-property">MOBILE_PHONE</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">handle</span>(<span class="hljs-params"><span class="hljs-built_in">Object</span> source</span>) &#123;<br>        <span class="hljs-keyword">if</span> (source == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125;<br>        <span class="hljs-title class_">String</span> value = source.<span class="hljs-title function_">toString</span>();<br>        <span class="hljs-keyword">return</span> <span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">left</span>(value, <span class="hljs-number">3</span>)<br>                .<span class="hljs-title function_">concat</span>(<span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">removeStart</span>(<span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">leftPad</span>(<span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">right</span>(value, <span class="hljs-number">4</span>),<br>                        <span class="hljs-title class_">StringUtils</span>.<span class="hljs-title function_">length</span>(value), <span class="hljs-string">&quot;*&quot;</span>), <span class="hljs-string">&quot;***&quot;</span>)<br>                );<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>封装一个脱敏的register</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SensitiveTypeRegistry</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> final <span class="hljs-title class_">Map</span>&lt;<span class="hljs-title class_">SensitiveType</span>, <span class="hljs-title class_">SensitiveTypeHandler</span>&gt; <span class="hljs-variable constant_">HANDLER_REGISTY</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentHashMap</span>&lt;&gt;();<br><br>    <span class="hljs-keyword">static</span> &#123;<br>        <span class="hljs-variable constant_">HANDLER_REGISTY</span>.<span class="hljs-title function_">put</span>(<span class="hljs-title class_">SensitiveType</span>.<span class="hljs-property">ID_CARD</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">IDCardSensitiveHandler</span>());<br>        <span class="hljs-variable constant_">HANDLER_REGISTY</span>.<span class="hljs-title function_">put</span>(<span class="hljs-title class_">SensitiveType</span>.<span class="hljs-property">MOBILE_PHONE</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">MobilePhoneSensitiveHandler</span>());<br>        <span class="hljs-variable constant_">HANDLER_REGISTY</span>.<span class="hljs-title function_">put</span>(<span class="hljs-title class_">SensitiveType</span>.<span class="hljs-property">BANK_CARD</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">BandCardSensitiveHandler</span>());<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">put</span>(<span class="hljs-params">SensitiveTypeHandler sensitiveTypeHandler</span>) &#123;<br>        <span class="hljs-variable constant_">HANDLER_REGISTY</span>.<span class="hljs-title function_">put</span>(sensitiveTypeHandler.<span class="hljs-title function_">getType</span>(), sensitiveTypeHandler);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">SensitiveTypeHandler</span> <span class="hljs-title function_">get</span>(<span class="hljs-params">SensitiveType sensitiveType</span>) &#123;<br><br>        <span class="hljs-title class_">SensitiveTypeHandler</span> sensitiveTypeHandler = <span class="hljs-variable constant_">HANDLER_REGISTY</span>.<span class="hljs-title function_">get</span>(sensitiveType);<br>        <span class="hljs-keyword">if</span> (sensitiveTypeHandler == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>(<span class="hljs-string">&quot;none sensitiveTypeHandler be found!, type:&quot;</span> + sensitiveType.<span class="hljs-title function_">name</span>());<br>        &#125;<br>        <span class="hljs-keyword">return</span> sensitiveTypeHandler;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 是否已经是脱敏过的内容了</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> src 原始数据</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 是否已经脱敏了</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">boolean</span> <span class="hljs-title function_">alreadyBeSentisived</span>(<span class="hljs-params"><span class="hljs-built_in">Object</span> src</span>) &#123;<br>        <span class="hljs-keyword">return</span> src == <span class="hljs-literal">null</span> || src.<span class="hljs-title function_">toString</span>().<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&quot;*&quot;</span>) &gt; <span class="hljs-number">0</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>mybatis拦截器处理脱敏</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Intercepts(&#123;</span><br><span class="hljs-meta">        @Signature(type = ResultSetHandler.class, method = &quot;handleResultSets&quot;, args = &#123;java.sql.Statement.class&#125;)</span><br><span class="hljs-meta">&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SensitiveWordInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Interceptor</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">MAPPED_STATEMENT</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;mappedStatement&quot;</span>;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> SensitiveTypeRegistry sensitiveTypeRegistry;<br><br>    <span class="hljs-meta">@Setter</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">Boolean</span> <span class="hljs-variable">enabled</span> <span class="hljs-operator">=</span> Boolean.TRUE;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">SensitiveWordInterceptor</span><span class="hljs-params">(SensitiveTypeRegistry sensitiveTypeRegistry)</span> &#123;<br>        <span class="hljs-built_in">this</span>.sensitiveTypeRegistry = sensitiveTypeRegistry;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">intercept</span><span class="hljs-params">(Invocation invocation)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>        <span class="hljs-keyword">if</span> (enabled) &#123;<br>            <span class="hljs-keyword">final</span> List&lt;Object&gt; results = (List&lt;Object&gt;) invocation.proceed();<br><br>            <span class="hljs-keyword">if</span> (results.isEmpty()) &#123;<br>                <span class="hljs-keyword">return</span> results;<br>            &#125;<br><br>            <span class="hljs-keyword">final</span> <span class="hljs-type">ResultSetHandler</span> <span class="hljs-variable">statementHandler</span> <span class="hljs-operator">=</span> PluginUtils.realTarget(invocation.getTarget());<br>            <span class="hljs-keyword">final</span> <span class="hljs-type">MetaObject</span> <span class="hljs-variable">metaObject</span> <span class="hljs-operator">=</span> SystemMetaObject.forObject(statementHandler);<br>            <span class="hljs-keyword">final</span> <span class="hljs-type">MappedStatement</span> <span class="hljs-variable">mappedStatement</span> <span class="hljs-operator">=</span> (MappedStatement) metaObject.getValue(MAPPED_STATEMENT);<br>            <span class="hljs-keyword">final</span> <span class="hljs-type">ResultMap</span> <span class="hljs-variable">resultMap</span> <span class="hljs-operator">=</span> mappedStatement.getResultMaps().isEmpty() ? <span class="hljs-literal">null</span> : mappedStatement.getResultMaps().get(<span class="hljs-number">0</span>);<br><br>            <span class="hljs-type">Object</span> <span class="hljs-variable">result0</span> <span class="hljs-operator">=</span> results.get(<span class="hljs-number">0</span>);<br>            <span class="hljs-type">EnableSensitive</span> <span class="hljs-variable">enableSensitive</span> <span class="hljs-operator">=</span> result0.getClass().getAnnotation(EnableSensitive.class);<br>            <span class="hljs-keyword">if</span> (enableSensitive == <span class="hljs-literal">null</span> || !enableSensitive.value()) &#123;<br>                <span class="hljs-keyword">return</span> results;<br>            &#125;<br><br>            <span class="hljs-keyword">final</span> Map&lt;String, Sensitive&gt; encryptedMap = getSensitiveMap(resultMap);<br><br>            <span class="hljs-keyword">for</span> (Object obj : results) &#123;<br>                <span class="hljs-keyword">final</span> <span class="hljs-type">MetaObject</span> <span class="hljs-variable">objMetaObject</span> <span class="hljs-operator">=</span> mappedStatement.getConfiguration().newMetaObject(obj);<br>                <span class="hljs-keyword">for</span> (Map.Entry&lt;String, Sensitive&gt; entry : encryptedMap.entrySet()) &#123;<br>                    <span class="hljs-type">String</span> <span class="hljs-variable">property</span> <span class="hljs-operator">=</span> entry.getKey();<br>                    <span class="hljs-type">Sensitive</span> <span class="hljs-variable">sensitive</span> <span class="hljs-operator">=</span> entry.getValue();<br>                    <span class="hljs-type">String</span> <span class="hljs-variable">bindProperty</span> <span class="hljs-operator">=</span> sensitive.bind();<br><br>                    <span class="hljs-type">String</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> (String) objMetaObject.getValue(property);<br>                    <span class="hljs-keyword">if</span> (StringUtils.hasText(bindProperty)) &#123;<br>                        value = (String) objMetaObject.getValue(bindProperty);<br>                    &#125;<br><br>                    <span class="hljs-keyword">if</span> (value != <span class="hljs-literal">null</span>) &#123;<br>                        <span class="hljs-type">String</span> <span class="hljs-variable">decryptValue</span> <span class="hljs-operator">=</span> handle(sensitive, value);<br>                        objMetaObject.setValue(property, decryptValue);<br>                    &#125;<br>                &#125;<br>            &#125;<br><br>            <span class="hljs-keyword">return</span> results;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">return</span> invocation.proceed();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> Map&lt;String, Sensitive&gt; <span class="hljs-title function_">getSensitiveMap</span><span class="hljs-params">(ResultMap resultMap)</span> &#123;<br>        Map&lt;String, Sensitive&gt; sensitiveMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;(<span class="hljs-number">16</span>);<br><br>        <span class="hljs-keyword">if</span> (resultMap == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> sensitiveMap;<br>        &#125;<br><br>        Class&lt;?&gt; clazz = resultMap.getType();<br><br>        <span class="hljs-keyword">for</span> (Field field : clazz.getDeclaredFields()) &#123;<br>            <span class="hljs-type">Sensitive</span> <span class="hljs-variable">sensitive</span> <span class="hljs-operator">=</span> field.getAnnotation(Sensitive.class);<br>            <span class="hljs-keyword">if</span> (sensitive != <span class="hljs-literal">null</span>) &#123;<br>                sensitiveMap.put(field.getName(), sensitive);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> sensitiveMap;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> String <span class="hljs-title function_">handle</span><span class="hljs-params">(Sensitive sensitive, String value)</span> &#123;<br>        <span class="hljs-keyword">return</span> sensitiveTypeRegistry.get(sensitive.value()).handle(value);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">plugin</span><span class="hljs-params">(Object o)</span> &#123;<br>        <span class="hljs-keyword">return</span> Plugin.wrap(o, <span class="hljs-built_in">this</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setProperties</span><span class="hljs-params">(Properties properties)</span> &#123;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">#解决方案</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>脱敏</div>
+      <div>http://example.com/2020/09/12/解决方案-脱敏/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JingRuiHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年9月12日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/09/13/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-%E7%AD%BE%E5%90%8D/" title="签名">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">签名</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/09/10/springcloud-1.%E5%85%A5%E9%97%A8/" title="springcloud入门">
+                        <span class="hidden-mobile">springcloud入门</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"474398dbe7c152716f6e","clientSecret":"72b83431cf83b93e0e4ddfe1a37a31493ae65314","repo":"blog-gitalk","owner":"jingruihe","admin":["jingruihe"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'ef6ceee53a5febeaf359b3aebfc6aefa'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,746 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <link rel="icon" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JingRuiHe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="LocalDate在旧版的Java中, 日期时间API存在诸多问题  非线程安全(java.util.Date是非线程安全的) 设计很差(java.util.Date包含日期时间, java.sql.Date仅包含日期) 时区处理麻烦(日期类没有时区)  新版本主要api  本地日期和时间: LocalDateTime, LocalDate, LocalTime 带时区的日期和时间: ZonedD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java8新特性">
+<meta property="og:url" content="http://example.com/2020/03/11/java-version8/index.html">
+<meta property="og:site_name" content="景瑞">
+<meta property="og:description" content="LocalDate在旧版的Java中, 日期时间API存在诸多问题  非线程安全(java.util.Date是非线程安全的) 设计很差(java.util.Date包含日期时间, java.sql.Date仅包含日期) 时区处理麻烦(日期类没有时区)  新版本主要api  本地日期和时间: LocalDateTime, LocalDate, LocalTime 带时区的日期和时间: ZonedD">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/java8.jpg">
+<meta property="article:published_time" content="2020-03-11T06:23:20.000Z">
+<meta property="article:modified_time" content="2022-10-22T02:41:34.597Z">
+<meta property="article:author" content="JingRuiHe">
+<meta property="article:tag" content="JAVA版本">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/java8.jpg">
+  
+  
+  
+  <title>java8新特性 - 景瑞</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JingRuiHe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/java8.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="java8新特性"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-03-11 14:23" pubdate>
+          2020年3月11日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          99 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">java8新特性</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="LocalDate"><a href="#LocalDate" class="headerlink" title="LocalDate"></a>LocalDate</h1><p>在旧版的Java中, 日期时间API存在诸多问题</p>
+<ol>
+<li>非线程安全(java.util.Date是非线程安全的)</li>
+<li>设计很差(java.util.Date包含日期时间, java.sql.Date仅包含日期)</li>
+<li>时区处理麻烦(日期类没有时区)</li>
+</ol>
+<p>新版本主要api</p>
+<ul>
+<li>本地日期和时间: LocalDateTime, LocalDate, LocalTime</li>
+<li>带时区的日期和时间: ZonedDateTime</li>
+<li>时刻: Instant</li>
+<li>时区: ZoneId, ZoneOffset</li>
+<li>时间间隔: Duration</li>
+<li>格式化: DateTimeFormatter</li>
+</ul>
+<p>新API修正了旧API不合理的常量设计, Month的范围用1-12表示1月到12月; Week的范围用1-7表示周一到周日.<br>新API的类型几乎全部是不变类型(和String类似), 可以放心使用不必担心被修改.</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">LocalDateTime localDateTime = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDateTime</span>.</span></span>now<span class="hljs-literal">()</span>;<br><br><span class="hljs-comment">// Instant是时间戳</span><br><span class="hljs-comment">// LocalDateTime无法和时间戳转化, 因为他没有时区.</span><br><span class="hljs-comment">// ZonedDateTime = LocalDateTime + 时区组合</span><br><span class="hljs-comment">// ZoneOffset.systemDefault()和ZoneId.systemDefault()一样, 都是获取时区的. 我们是用东八区ZoneOffset.of(&quot;+8&quot;)</span><br><br><span class="hljs-comment">// 常用API</span><br><span class="hljs-comment">// localDateTime = 2022-10-14T10:26:59.347</span><br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;ISO 8601格式 = &quot;</span> + localDateTime);<br><span class="hljs-comment">// format = 2022-10-14 10:33:30</span><br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;格式化 = &quot;</span> + localDateTime.format(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">DateTimeFormatter</span>.</span></span><span class="hljs-keyword">of</span><span class="hljs-constructor">Pattern(<span class="hljs-string">&quot;yyyy-MM-dd hh:mm:ss&quot;</span>)</span>));<br><span class="hljs-comment">// 年: 2022, 月: 10,  日: 14时: 10分: 33秒: 30</span><br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;年: &quot;</span> + localDateTime.get<span class="hljs-constructor">Year()</span> +<span class="hljs-string">&quot;, 月: &quot;</span> + localDateTime.get<span class="hljs-constructor">MonthValue()</span> +<span class="hljs-string">&quot;,  日: &quot;</span> + localDateTime.get<span class="hljs-constructor">DayOfMonth()</span><br>                + <span class="hljs-string">&quot;时: &quot;</span> + localDateTime.get<span class="hljs-constructor">Hour()</span> + <span class="hljs-string">&quot;分: &quot;</span> + localDateTime.get<span class="hljs-constructor">Minute()</span> + <span class="hljs-string">&quot;秒: &quot;</span> + localDateTime.get<span class="hljs-constructor">Second()</span>);<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;加1天减2小时 = &quot;</span> + localDateTime.plus<span class="hljs-constructor">Days(1)</span>.minus<span class="hljs-constructor">Hours(2)</span>);<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;修改为2月 = &quot;</span> + localDateTime.<span class="hljs-keyword">with</span><span class="hljs-constructor">Month(2)</span>);<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;本月第一天的0:00 = &quot;</span> + <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDate</span>.</span></span>now<span class="hljs-literal">()</span>.<span class="hljs-keyword">with</span><span class="hljs-constructor">DayOfMonth(1)</span>.at<span class="hljs-constructor">StartOfDay()</span>);<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;本月最后一天 = &quot;</span> + <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDate</span>.</span></span>now<span class="hljs-literal">()</span>.<span class="hljs-keyword">with</span>(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">TemporalAdjusters</span>.</span></span>last<span class="hljs-constructor">DayOfMonth()</span>));<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;下月第一天 = &quot;</span> + <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDate</span>.</span></span>now<span class="hljs-literal">()</span>.<span class="hljs-keyword">with</span>(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">TemporalAdjusters</span>.</span></span>first<span class="hljs-constructor">DayOfNextMonth()</span>));<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;本月第一个周一 = &quot;</span> + <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDate</span>.</span></span>now<span class="hljs-literal">()</span>.<span class="hljs-keyword">with</span>(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">TemporalAdjusters</span>.</span></span>first<span class="hljs-constructor">InMonth(DayOfWeek.MONDAY)</span>));<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;比较时间先后, true = &quot;</span> + (<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDate</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-number">2020</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>).is<span class="hljs-constructor">Before(LocalDate.<span class="hljs-params">of</span>(2020,2,2)</span>)));<br><br><span class="hljs-comment">// Asia/Shanghai  ZoneOffset.of(&quot;+8&quot;)</span><br>ZoneId zoneId = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ZoneId</span>.</span></span>system<span class="hljs-constructor">Default()</span>;<br><span class="hljs-comment">// LocalDateTime Timestamp 互相转化</span><br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;LocalDateTime-&gt;Timestamp = &quot;</span> + localDateTime.at<span class="hljs-constructor">Zone(<span class="hljs-params">zoneId</span>)</span>.<span class="hljs-keyword">to</span><span class="hljs-constructor">Instant()</span>.<span class="hljs-keyword">to</span><span class="hljs-constructor">EpochMilli()</span>);<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;Timestamp-&gt;LocalDateTime = &quot;</span> + <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDateTime</span>.</span></span><span class="hljs-keyword">of</span><span class="hljs-constructor">Instant(Instant.<span class="hljs-params">ofEpochMilli</span>(1665717315495L)</span>, zoneId));<br><br><span class="hljs-comment">// LocalDateTime Date 互相转化</span><br>Date date = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Date</span>.</span></span>from(localDateTime.at<span class="hljs-constructor">Zone(<span class="hljs-params">zoneId</span>)</span>.<span class="hljs-keyword">to</span><span class="hljs-constructor">Instant()</span>);<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;LocalDateTime-&gt;Date = &quot;</span> + date);<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;Date-&gt;LocalDateTime = &quot;</span> + date.<span class="hljs-keyword">to</span><span class="hljs-constructor">Instant()</span>.at<span class="hljs-constructor">Zone(<span class="hljs-params">zoneId</span>)</span>.<span class="hljs-keyword">to</span><span class="hljs-constructor">LocalDateTime()</span>);<br><br><span class="hljs-comment">// 时间间隔, Duration表示时刻的间隔, Period表示日期的间隔</span><br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;获取时间间隔多少天 = &quot;</span> + (<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDate</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-number">2020</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>).until(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDate</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-number">2020</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>), ChronoUnit.DAYS)));<br><br>LocalDateTime start = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDateTime</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-number">2019</span>, <span class="hljs-number">11</span>, <span class="hljs-number">19</span>, <span class="hljs-number">8</span>, <span class="hljs-number">15</span>, <span class="hljs-number">0</span>);<br>LocalDateTime <span class="hljs-keyword">end</span> = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">LocalDateTime</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-number">2020</span>, <span class="hljs-number">1</span>, <span class="hljs-number">9</span>, <span class="hljs-number">19</span>, <span class="hljs-number">25</span>, <span class="hljs-number">30</span>);<br>Duration d = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Duration</span>.</span></span>between(start, <span class="hljs-keyword">end</span>);<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;获取时间间隔多少小时 = &quot;</span> + d.get(ChronoUnit.HOURS));<br></code></pre></td></tr></table></figure>
+
+<h1 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h1><p>其实就是将解决方式当做参数传递给函数，相当于匿名函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LambdaDemo</span> &#123;<br>    <span class="hljs-comment">//抽象功能接口</span><br>    <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Printer</span> &#123;<br>        <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">(String val)</span>;<br>    &#125;<br>    <span class="hljs-comment">//通过参数传递功能接口</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printSomething</span><span class="hljs-params">(String something, Printer printer)</span> &#123;<br>        printer.print(something);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>      <span class="hljs-type">LambdaDemo</span> <span class="hljs-variable">demo</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LambdaDemo</span>();<br>      <span class="hljs-type">String</span> <span class="hljs-variable">something</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;I am using a Functional interface&quot;</span>;<br>      <span class="hljs-comment">//实现Printer接口</span><br>      <span class="hljs-type">Printer</span> <span class="hljs-variable">printer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Printer</span>() &#123;<br>          <span class="hljs-meta">@Override</span><br>          <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">(String val)</span> &#123;<br>              <span class="hljs-comment">//控制台打印</span><br>              System.out.println(val);<br>          &#125;<br>      &#125;;<br>      demo.printSomething(something, printer);<br>  &#125;<br>&#125;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-type">LambdaDemo</span> <span class="hljs-variable">demo</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LambdaDemo</span>();<br>    <span class="hljs-type">String</span> <span class="hljs-variable">something</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;I am learning Lambda&quot;</span>;<br>    <span class="hljs-comment">//实现Printer接口（请关注下面这行lambda表达式代码）</span><br>    <span class="hljs-type">Printer</span> <span class="hljs-variable">printer</span> <span class="hljs-operator">=</span> (String toPrint)-&gt;&#123;System.out.println(toPrint);&#125;;<br>    <span class="hljs-comment">//调用接口打印</span><br>    demo.printSomething(something, printer);<br>&#125;<br><br><br><span class="hljs-type">Printer</span> <span class="hljs-variable">printer</span> <span class="hljs-operator">=</span> (String toPrint)-&gt;&#123;System.out.println(toPrint);&#125;;<br><span class="hljs-comment">//简化：去掉参数类型</span><br><span class="hljs-type">Printer</span> <span class="hljs-variable">printer</span> <span class="hljs-operator">=</span> (toPrint)-&gt;&#123;System.out.println(toPrint);&#125;;<br><span class="hljs-comment">//简化：去掉参数括号</span><br><span class="hljs-type">Printer</span> <span class="hljs-variable">printer</span> <span class="hljs-operator">=</span> toPrint-&gt;&#123;System.out.println(toPrint);&#125;;<br><span class="hljs-comment">//简化：去掉函数体花括号</span><br><span class="hljs-type">Printer</span> <span class="hljs-variable">printer</span> <span class="hljs-operator">=</span> toPrint-&gt;System.out.println(toPrint);<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-type">LambdaDemo</span> <span class="hljs-variable">demo</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LambdaDemo</span>();<br>    String something=<span class="hljs-string">&quot;I am Lambda&quot;</span>;<br>    <span class="hljs-comment">//关注下面的这行代码</span><br>    demo.printSomething(something, toPrint -&gt; System.out.println(toPrint));<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h1><p>比如<code>Comparator</code>接口</p>
+<ul>
+<li>接口有且仅有一个抽象方法，如上图的抽象方法compare</li>
+<li>允许定义静态非抽象方法</li>
+<li>允许定义默认defalut非抽象方法（default方法也是java8才有的，见下文）</li>
+<li>允许java.lang.Object中的public方法，如上图的方法equals。</li>
+<li>FunctionInterface注解不是必须的，如果一个接口符合”函数式接口”定义，那么加不加该注解都没有影响。加上该注解能够更好地让编译器进行检查。如果编写的不是函数式接口，但是加上了@FunctionInterface，那么编译器会报错</li>
+</ul>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs livescript">employees.sort<span class="hljs-function"><span class="hljs-params">((em1,em2) -&gt; &#123;</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">if</span>(em1.getAge() == em2.getAge())&#123;</span></span><br><span class="hljs-params"><span class="hljs-function">        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span></span><br><span class="hljs-params"><span class="hljs-function">    &#125;</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">return</span> em1.getAge() - em2.getAge() &gt; <span class="hljs-number">0</span> ? -<span class="hljs-number">1</span>:<span class="hljs-number">1</span>;</span></span><br><span class="hljs-params"><span class="hljs-function">&#125;)</span>;</span><br><span class="hljs-function"><span class="hljs-title">employees</span>.<span class="hljs-title">forEach</span><span class="hljs-params">(System.out::println)</span>;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="stream"><a href="#stream" class="headerlink" title="stream"></a>stream</h1><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-type">String</span>[] array = &#123;<span class="hljs-string">&quot;Monkey&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>, <span class="hljs-string">&quot;Giraffe&quot;</span>, <span class="hljs-string">&quot;Lemur&quot;</span>&#125;;<br><span class="hljs-built_in">Stream</span>&lt;<span class="hljs-type">String</span>&gt; nameStrs2 = <span class="hljs-built_in">Stream</span>.<span class="hljs-built_in">of</span>(array);<br><br><span class="hljs-built_in">Stream</span>&lt;<span class="hljs-type">String</span>&gt; nameStrs3 = <span class="hljs-built_in">Stream</span>.<span class="hljs-built_in">of</span>(<span class="hljs-string">&quot;Monkey&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>, <span class="hljs-string">&quot;Giraffe&quot;</span>, <span class="hljs-string">&quot;Lemur&quot;</span>);<br><br><span class="hljs-comment">//将文本文件转换为管道流</span><br><span class="hljs-built_in">Stream</span>&lt;<span class="hljs-type">String</span>&gt; lines = Files.<span class="hljs-built_in">lines</span>(Paths.<span class="hljs-built_in">get</span>(<span class="hljs-string">&quot;file.txt&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<h2 id="filter谓语"><a href="#filter谓语" class="headerlink" title="filter谓语"></a>filter谓语</h2><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">public static Predicate&lt;Employee&gt; ageGreaterThan70 = x -&gt; x.get<span class="hljs-constructor">Age()</span> &gt;<span class="hljs-number">70</span>;<br>public static Predicate&lt;Employee&gt; genderM = x -&gt; x.get<span class="hljs-constructor">Gender()</span>.equals(<span class="hljs-string">&quot;M&quot;</span>);<br><br><span class="hljs-comment">//交集</span><br>List&lt;Employee&gt; filtered = employees.stream<span class="hljs-literal">()</span><br>        .filter(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Employee</span>.</span></span>ageGreaterThan70.<span class="hljs-keyword">and</span>(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Employee</span>.</span></span>genderM))<br>        .collect(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Collectors</span>.</span></span><span class="hljs-keyword">to</span><span class="hljs-constructor">List()</span>);<br><br><span class="hljs-comment">//并集 or</span><br><span class="hljs-comment">//取反 .negate()</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs mathematica"><span class="hljs-operator">//</span> 也可以用<span class="hljs-variable">peek</span><br><span class="hljs-built_in">List</span><span class="hljs-operator">&lt;</span><span class="hljs-variable">Employee</span><span class="hljs-operator">&gt;</span> <span class="hljs-variable">maped</span> <span class="hljs-operator">=</span> <span class="hljs-variable">employees</span><span class="hljs-operator">.</span><span class="hljs-variable">stream</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br>        <span class="hljs-operator">.</span><span class="hljs-variable">peek</span><span class="hljs-punctuation">(</span><span class="hljs-variable">e</span> <span class="hljs-operator">-&gt;</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-variable">e</span><span class="hljs-operator">.</span><span class="hljs-variable">setAge</span><span class="hljs-punctuation">(</span><span class="hljs-variable">e</span><span class="hljs-operator">.</span><span class="hljs-variable">getAge</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span> <span class="hljs-number">1</span><span class="hljs-punctuation">)</span><span class="hljs-operator">;</span><br>            <span class="hljs-variable">e</span><span class="hljs-operator">.</span><span class="hljs-variable">setGender</span><span class="hljs-punctuation">(</span><span class="hljs-variable">e</span><span class="hljs-operator">.</span><span class="hljs-variable">getGender</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-operator">.</span><span class="hljs-variable">equals</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;M&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-operator">?</span><span class="hljs-string">&quot;male&quot;</span><span class="hljs-operator">:</span><span class="hljs-string">&quot;female&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-operator">;</span><br>        <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">)</span><span class="hljs-operator">.</span><span class="hljs-variable">collect</span><span class="hljs-punctuation">(</span><span class="hljs-variable">Collectors</span><span class="hljs-operator">.</span><span class="hljs-variable">toList</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-operator">;</span><br><br><span class="hljs-operator">//</span><span class="hljs-variable">flatMap</span>将若干个子管道中的数据全都，平面展开到父管道中进行处理<br><span class="hljs-built_in">List</span><span class="hljs-operator">&lt;</span><span class="hljs-built_in">String</span><span class="hljs-operator">&gt;</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-variable">new</span> <span class="hljs-variable">ArrayList</span><span class="hljs-operator">&lt;&gt;</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">Arrays</span><span class="hljs-operator">.</span><span class="hljs-variable">asList</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;a1&quot;</span><span class="hljs-operator">,</span><span class="hljs-string">&quot;a2&quot;</span><span class="hljs-operator">,</span><span class="hljs-string">&quot;a3&quot;</span><span class="hljs-operator">,</span><span class="hljs-string">&quot;a4&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-operator">;</span><br><span class="hljs-built_in">List</span><span class="hljs-operator">&lt;</span><span class="hljs-built_in">String</span><span class="hljs-operator">&gt;</span> <span class="hljs-variable">b</span> <span class="hljs-operator">=</span> <span class="hljs-variable">new</span> <span class="hljs-variable">ArrayList</span><span class="hljs-operator">&lt;&gt;</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">Arrays</span><span class="hljs-operator">.</span><span class="hljs-variable">asList</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;b1&quot;</span><span class="hljs-operator">,</span><span class="hljs-string">&quot;b2&quot;</span><span class="hljs-operator">,</span><span class="hljs-string">&quot;b3&quot;</span><span class="hljs-operator">,</span><span class="hljs-string">&quot;b4&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-operator">;</span><br><span class="hljs-built_in">List</span><span class="hljs-operator">&lt;</span><span class="hljs-built_in">List</span><span class="hljs-operator">&lt;</span><span class="hljs-built_in">String</span><span class="hljs-operator">&gt;&gt;</span> <span class="hljs-variable">ab</span> <span class="hljs-operator">=</span> <span class="hljs-variable">new</span> <span class="hljs-variable">ArrayList</span><span class="hljs-operator">&lt;&gt;</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">Arrays</span><span class="hljs-operator">.</span><span class="hljs-variable">asList</span><span class="hljs-punctuation">(</span><span class="hljs-variable">a</span><span class="hljs-operator">,</span> <span class="hljs-variable">b</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-operator">;</span><br><span class="hljs-operator">//</span>将<span class="hljs-variable">ab</span>内部的两个<span class="hljs-variable">list</span>平铺成一个<span class="hljs-variable">list</span><span class="hljs-operator">&lt;</span><span class="hljs-built_in">String</span><span class="hljs-operator">&gt;</span><br><span class="hljs-variable">ab</span><span class="hljs-operator">.</span><span class="hljs-variable">stream</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br><span class="hljs-operator">//</span>                <span class="hljs-operator">.</span><span class="hljs-variable">flatMap</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">Function</span><span class="hljs-operator">&lt;</span><span class="hljs-built_in">List</span><span class="hljs-operator">&lt;</span><span class="hljs-built_in">String</span><span class="hljs-operator">&gt;,</span> <span class="hljs-variable">Stream</span><span class="hljs-operator">&lt;</span><span class="hljs-built_in">String</span><span class="hljs-operator">&gt;&gt;</span><span class="hljs-punctuation">)</span> <span class="hljs-variable">strings</span> <span class="hljs-operator">-&gt;</span> <span class="hljs-variable">strings</span><span class="hljs-operator">.</span><span class="hljs-variable">stream</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>        <span class="hljs-operator">.</span><span class="hljs-variable">flatMap</span><span class="hljs-punctuation">(</span><span class="hljs-variable">Collection</span><span class="hljs-string">::stream</span><span class="hljs-punctuation">)</span><br>        <span class="hljs-operator">.</span><span class="hljs-variable">forEach</span><span class="hljs-punctuation">(</span><span class="hljs-variable">v</span><span class="hljs-operator">-&gt;</span><span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-variable">System</span><span class="hljs-operator">.</span><span class="hljs-variable">out</span><span class="hljs-operator">.</span><span class="hljs-variable">println</span><span class="hljs-punctuation">(</span><span class="hljs-variable">v</span><span class="hljs-punctuation">)</span><span class="hljs-operator">;</span><br>        <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">)</span><span class="hljs-operator">;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="并行"><a href="#并行" class="headerlink" title="并行"></a>并行</h2><p>有状态的不能使用并行，比如sorted、distinct、limit、skip这种，因为这几个都是和其他元素相关联的。</p>
+<p>并行的时候会将一个数据流分为几个数据流同时处理，如果有状态操作会出现和我们想象结果不一致。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Stream</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-string">&quot;Monkey&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>, <span class="hljs-string">&quot;Giraffe&quot;</span>, <span class="hljs-string">&quot;Lemur&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>)<br>        .parallel<span class="hljs-literal">()</span><br>        .<span class="hljs-keyword">for</span><span class="hljs-constructor">Each(System.<span class="hljs-params">out</span>::<span class="hljs-params">println</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+<p>两种情况不适合并行处理：</p>
+<ol>
+<li>适用于无状态操作：每个元素的计算都不得依赖或影响任何其他元素的计算，的运算场景。</li>
+<li>基础数据源无变化：从文本文件里面边读边处理的场景，不适合parallel()并行处理。parallel()一开始就容量固定的集合，这样能够平均的拆分、同步处理。</li>
+</ol>
+<h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><ul>
+<li>Stream并行流计算 &gt;&gt; 普通for循环 ~&#x3D; Stream串行流计算 (之所以用两个大于号，你细品)</li>
+<li>数据容量越大，Stream流的执行效率越高。</li>
+<li>Stream并行流计算通常能够比较好的利用CPU的多核优势。CPU核心越多，Stream并行流计算效率越高。</li>
+</ul>
+<h2 id="代码排序"><a href="#代码排序" class="headerlink" title="代码排序"></a>代码排序</h2><p>字符串list排序</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">List&lt;String&gt; cities = Arrays.asList(<br>        &quot;Milan&quot;,<br>        &quot;london&quot;,<br>        &quot;San Francisco&quot;,<br>        &quot;Tokyo&quot;,<br>        &quot;New Delhi&quot;<br>);<br><br>cities.sort(String.CASE_INSENSITIVE_ORDER);<br><span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(cities);<br>//[london, Milan, <span class="hljs-built_in">New</span> Delhi, San Francisco, Tokyo]<br><br>cities.sort(Comparator.naturalOrder());<br><span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(cities);<br>//[Milan, <span class="hljs-built_in">New</span> Delhi, San Francisco, Tokyo, london]<br><br><br>cities.stream().sorted(Comparator.naturalOrder()).<span class="hljs-keyword">forEach</span>(<span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>::println);<br></code></pre></td></tr></table></figure>
+
+<p>整形类型排序</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">List</span>&lt;Integer&gt; numbers = Arrays.asList(<span class="hljs-number">6</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">9</span>);<br><span class="hljs-attribute">System</span>.out.println(numbers); //[<span class="hljs-number">6</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">9</span>]<br><br><span class="hljs-attribute">numbers</span>.sort(Comparator.naturalOrder());  //自然排序<br><span class="hljs-attribute">System</span>.out.println(numbers); //[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">9</span>]<br><br><span class="hljs-attribute">numbers</span>.sort(Comparator.reverseOrder()); //倒序排序<br><span class="hljs-attribute">System</span>.out.println(numbers);  //[<span class="hljs-number">9</span>, <span class="hljs-number">6</span>, <span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>]<br></code></pre></td></tr></table></figure>
+
+<p>按对象字段对<code>List&lt;Object&gt;</code>排序</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">List&lt;Employee&gt; employees = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Arrays</span>.</span></span><span class="hljs-keyword">as</span><span class="hljs-constructor">List(<span class="hljs-params">e1</span>, <span class="hljs-params">e2</span>, <span class="hljs-params">e3</span>, <span class="hljs-params">e4</span>, <span class="hljs-params">e5</span>, <span class="hljs-params">e6</span>, <span class="hljs-params">e7</span>, <span class="hljs-params">e8</span>, <span class="hljs-params">e9</span>, <span class="hljs-params">e10</span>)</span>;<br><br>employees.sort(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Comparator</span>.</span></span>comparing(Employee::getAge));<br>employees.<span class="hljs-keyword">for</span><span class="hljs-constructor">Each(System.<span class="hljs-params">out</span>::<span class="hljs-params">println</span>)</span>;<br><br>employees.sort(<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Comparator</span>.</span></span>comparing(Employee::getGender)<br>        .<span class="hljs-keyword">then</span><span class="hljs-constructor">Comparing(Employee::<span class="hljs-params">getAge</span>)</span><br>        .reversed<span class="hljs-literal">()</span><br>);<br>employees.<span class="hljs-keyword">for</span><span class="hljs-constructor">Each(System.<span class="hljs-params">out</span>::<span class="hljs-params">println</span>)</span>;<br><br><span class="hljs-comment">//都是正序 ，不加reversed</span><br><span class="hljs-comment">//都是倒序，最后面加一个reserved</span><br><span class="hljs-comment">//先是倒序（加reserved），然后正序</span><br><span class="hljs-comment">//先是正序（加reserved），然后倒序（加reserved）</span><br><br></code></pre></td></tr></table></figure>
+
+<h2 id="查找-匹配"><a href="#查找-匹配" class="headerlink" title="查找+匹配"></a>查找+匹配</h2><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//是否包含年龄大于70的员工</span><br>boolean isExistAgeThan70 = employees.stream<span class="hljs-literal">()</span>.any<span class="hljs-constructor">Match(Employee.<span class="hljs-params">ageGreaterThan70</span>)</span>;<br><span class="hljs-comment">//谓语换成lambda</span><br>boolean isExistAgeThan72 = employees.stream<span class="hljs-literal">()</span>.any<span class="hljs-constructor">Match(<span class="hljs-params">e</span> -&gt; <span class="hljs-params">e</span>.<span class="hljs-params">getAge</span>()</span> &gt; <span class="hljs-number">72</span>);<br><br><span class="hljs-comment">//是否所有员工的年龄都大于10岁</span><br>boolean isExistAgeThan10 = employees.stream<span class="hljs-literal">()</span>.all<span class="hljs-constructor">Match(<span class="hljs-params">e</span> -&gt; <span class="hljs-params">e</span>.<span class="hljs-params">getAge</span>()</span> &gt; <span class="hljs-number">10</span>);<br><br><span class="hljs-comment">//是否不存在小于18岁的员工</span><br>boolean isExistAgeLess18 = employees.stream<span class="hljs-literal">()</span>.none<span class="hljs-constructor">Match(<span class="hljs-params">e</span> -&gt; <span class="hljs-params">e</span>.<span class="hljs-params">getAge</span>()</span> &lt; <span class="hljs-number">18</span>);<br></code></pre></td></tr></table></figure>
+
+<p>查找</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">Optional&lt;Employee&gt; employeeOptional<br>        =  employees.stream().<span class="hljs-keyword">filter</span>(e -&gt; e.getAge() &gt; <span class="hljs-number">40</span>).findFirst();<br><span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(employeeOptional.<span class="hljs-keyword">get</span>());<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>findFirst用于查找第一个符合“匹配规则”的元素，返回值为Optional</p>
+</li>
+<li><p>findAny用于查找任意一个符合“匹配规则”的元素，返回值为Optional</p>
+</li>
+</ul>
+<h2 id="Optional"><a href="#Optional" class="headerlink" title="Optional"></a>Optional</h2><p>Optional类代表一个值存在或者不存在。在java8中引入，这样就不用返回null了。</p>
+<ul>
+<li>isPresent()将在Optional包含值的时候返回 true,否则返回 false。</li>
+<li>ifPresent(Consumer block)会在值存在的时候执行给定的代码块。Consumer函数式接口；它让你传递一个接收T类型参数，并返回void的Lambda表达式。</li>
+<li>T get()会在值存在时返回值，否则?出一个NoSuchElement异常。</li>
+<li>T orElse(T other)会在值存在时返回值，否则返回一个默认值。</li>
+</ul>
+<h2 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h2><p>reduce函数有三个参数：</p>
+<ul>
+<li>Identity标识：一个元素，它是归约操作的初始值，如果流为空，则为默认结果。</li>
+<li>Accumulator累加器：具有两个参数的函数：归约运算的部分结果和流的下一个元素。</li>
+<li>Combiner合并器（可选）：当归约并行化时，或当累加器参数的类型与累加器实现的类型不匹配时，用于合并归约操作的部分结果的函数。</li>
+</ul>
+<p>累加逻辑</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs livescript">List&lt;Integer&gt; numbers = Arrays.asList(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>);<br>int result = numbers<br>        .stream()<br>        .reduce<span class="hljs-function"><span class="hljs-params">(<span class="hljs-number">0</span>, (subtotal, element) -&gt; subtotal + element)</span>;</span><br><span class="hljs-function"><span class="hljs-title">System</span>.<span class="hljs-title">out</span>.<span class="hljs-title">println</span><span class="hljs-params">(result)</span>;  //21</span><br><span class="hljs-function"></span><br><span class="hljs-function"><span class="hljs-title">int</span> <span class="hljs-title">result</span> = <span class="hljs-title">numbers</span></span><br><span class="hljs-function">        .<span class="hljs-title">stream</span><span class="hljs-params">()</span></span><br><span class="hljs-function">        .<span class="hljs-title">reduce</span><span class="hljs-params">(<span class="hljs-number">0</span>, Integer::sum)</span>;</span><br><span class="hljs-function"><span class="hljs-title">System</span>.<span class="hljs-title">out</span>.<span class="hljs-title">println</span><span class="hljs-params">(result)</span>; //21</span><br></code></pre></td></tr></table></figure>
+
+<p>除了使用map函数实现类型转换后的集合归约，我们还可以用Combiner合并器来实现，这里第一次使用到了Combiner合并器。并行结果使用合并器</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs lasso"><span class="hljs-built_in">Integer</span> total2 = employees<br>        .parallelStream()<br>        .<span class="hljs-built_in">map</span>(Employee<span class="hljs-type">::getAge</span>)<br>        .reduce(<span class="hljs-number">0</span>,<span class="hljs-built_in">Integer</span><span class="hljs-type">::sum</span>,<span class="hljs-built_in">Integer</span><span class="hljs-type">::sum</span>);  <span class="hljs-comment">//注意这里reduce方法有三个参数</span><br><br>System.out.println(total); <span class="hljs-comment">//346</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="终端操作"><a href="#终端操作" class="headerlink" title="终端操作"></a>终端操作</h2><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//并行时无法保证顺序</span><br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Stream</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-string">&quot;Monkey&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>, <span class="hljs-string">&quot;Giraffe&quot;</span>, <span class="hljs-string">&quot;Lemur&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>)<br>        .parallel<span class="hljs-literal">()</span><br>        .<span class="hljs-keyword">for</span><span class="hljs-constructor">Each(System.<span class="hljs-params">out</span>::<span class="hljs-params">println</span>)</span>;<br><br><span class="hljs-comment">//并行时可以保证和元素进入顺序一致</span><br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Stream</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-string">&quot;Monkey&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>, <span class="hljs-string">&quot;Giraffe&quot;</span>, <span class="hljs-string">&quot;Lemur&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>)<br>        .parallel<span class="hljs-literal">()</span><br>        .<span class="hljs-keyword">for</span><span class="hljs-constructor">EachOrdered(System.<span class="hljs-params">out</span>::<span class="hljs-params">println</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>collect(Collectors.toSet())</li>
+<li>collect(Collectors.toList())</li>
+<li>collect(Collectors.toCollection(LinkedList::new)) 可以转成linkedlist，还可以LinkedHashSet::new和PriorityQueue::new</li>
+<li>toArray(String[]::new)</li>
+<li>转为map<br>  <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs arcade"><span class="hljs-built_in">Map</span>&lt;String, Integer&gt; toMap = Stream.of(<span class="hljs-string">&quot;Monkey&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>, <span class="hljs-string">&quot;Giraffe&quot;</span>, <span class="hljs-string">&quot;Lemur&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>)<br>.<span class="hljs-built_in">distinct</span>()<br>.collect(Collectors.toMap(<br>        <span class="hljs-keyword">Function</span>.identity(),   <span class="hljs-comment">//元素输入就是输出，作为key</span><br>        s -&gt; (int) s.chars().<span class="hljs-built_in">distinct</span>().<span class="hljs-built_in">count</span>()<span class="hljs-comment">// 输入元素的不同的字母个数，作为value</span><br>));<br></code></pre></td></tr></table></figure></li>
+<li>分组<br>  <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs awk">Map&lt;Character, List&lt;String&gt;&gt; groupingByList =  Stream.of(<span class="hljs-string">&quot;Monkey&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>, <span class="hljs-string">&quot;Giraffe&quot;</span>, <span class="hljs-string">&quot;Lemur&quot;</span>, <span class="hljs-string">&quot;Lion&quot;</span>)<br>.collect(Collectors.groupingBy(<br>s -&gt; s.charAt(<span class="hljs-number">0</span>) ,  <span class="hljs-regexp">//</span>根据元素首字母分组，相同的在一组<br><span class="hljs-regexp">//</span> counting()        <span class="hljs-regexp">//</span> 加上这一行代码可以实现分组统计<br>));<br><span class="hljs-regexp">//</span> 最终groupingByList内的元素: &#123;G=[Giraffe], L=[Lion, Lemur, Lion], M=[Monkey]&#125;<br><span class="hljs-regexp">//</span>如果加上counting() ，结果是:  &#123;G=<span class="hljs-number">1</span>, L=<span class="hljs-number">3</span>, M=<span class="hljs-number">1</span>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>count()</li>
+<li>sum()</li>
+<li>average()</li>
+<li>max().orElse(0)</li>
+<li>全面统计<br>  <figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs excel">IntSummaryStatistics statistics = IntStream.of(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>).summaryStatistics();<br>// 全面的统计结果statisti<span class="hljs-symbol">cs:</span> IntSummaryStatistics&#123;<span class="hljs-built_in">count</span>=<span class="hljs-number">3</span>, <span class="hljs-built_in">sum</span>=<span class="hljs-number">6</span>, <span class="hljs-built_in">min</span>=<span class="hljs-number">1</span>, <span class="hljs-built_in">average</span>=<span class="hljs-number">2.000000</span>, <span class="hljs-built_in">max</span>=<span class="hljs-number">3</span>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="map排序"><a href="#map排序" class="headerlink" title="map排序"></a>map排序</h2><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-keyword">String</span> k = <span class="hljs-string">&quot;key&quot;</span>;<br>HashMap&lt;<span class="hljs-keyword">String</span>, Integer&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-type">HashMap</span>&lt;<span class="hljs-keyword">String</span>, Integer&gt;() &#123;&#123;<br>    put(k, <span class="hljs-number">1</span>);<br>&#125;&#125;;<br><br><span class="hljs-comment">// 向map里面put的键; 向map里面put的值; 参数三：如果键发生重复，如何处理值。可以是一个函数，也可以写成lambda表达式。</span><br>map.merge(k, <span class="hljs-number">2</span>, (oldVal, <span class="hljs-keyword">new</span><span class="hljs-type">Val</span>) -&gt; oldVal + <span class="hljs-keyword">new</span><span class="hljs-type">Val</span>);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs lasso"><span class="hljs-comment">// 创建一个Map，并填入数据</span><br><span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>, <span class="hljs-built_in">Integer</span>&gt; codes = <span class="hljs-literal">new</span> HashMap&lt;&gt;();<br>codes.put(<span class="hljs-string">&quot;United States&quot;</span>, <span class="hljs-number">1</span>);<br>codes.put(<span class="hljs-string">&quot;Germany&quot;</span>, <span class="hljs-number">49</span>);<br>codes.put(<span class="hljs-string">&quot;France&quot;</span>, <span class="hljs-number">33</span>);<br>codes.put(<span class="hljs-string">&quot;China&quot;</span>, <span class="hljs-number">86</span>);<br>codes.put(<span class="hljs-string">&quot;Pakistan&quot;</span>, <span class="hljs-number">92</span>);<br><br><span class="hljs-comment">// 按照Map的键进行排序</span><br><span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>, <span class="hljs-built_in">Integer</span>&gt; sortedMap = codes.entrySet().stream()    <br>        .sorted(<span class="hljs-built_in">Map</span>.Entry.comparingByKey())<br>        .collect(<br>                Collectors.toMap(<br>                    <span class="hljs-built_in">Map</span>.Entry<span class="hljs-type">::getKey</span>, <br>                    <span class="hljs-built_in">Map</span>.Entry<span class="hljs-type">::getValue</span>,<br>                    (oldVal, newVal) -&gt; oldVal, <span class="hljs-comment">//这里没有val重复所以随便选一个都可以</span><br>                    LinkedHashMap<span class="hljs-type">::new</span> <span class="hljs-comment">//这个才能保证map的顺序</span><br>                )<br>        );<br><br><span class="hljs-comment">// 将排序后的Map打印</span><br>sortedMap.entrySet().forEach(System.out<span class="hljs-type">::println</span>);<br><br><br><span class="hljs-comment">// 将 `HashMap` 转为 `TreeMap`排序</span><br><span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>, <span class="hljs-built_in">Integer</span>&gt; sorted = <span class="hljs-literal">new</span> TreeMap&lt;&gt;(codes);<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JAVA%E7%89%88%E6%9C%AC/">#JAVA版本</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>java8新特性</div>
+      <div>http://example.com/2020/03/11/java-version8/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JingRuiHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年3月11日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/01/thread-1.threadlocal/" title="ThreadLocal">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ThreadLocal</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/02/15/algorithm-2%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="1.排序算法">
+                        <span class="hidden-mobile">1.排序算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"474398dbe7c152716f6e","clientSecret":"72b83431cf83b93e0e4ddfe1a37a31493ae65314","repo":"blog-gitalk","owner":"jingruihe","admin":["jingruihe"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '7b877aafcc4a6bc3429544c81b853f9c'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

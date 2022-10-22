@@ -1,0 +1,686 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <link rel="icon" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JingRuiHe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="概述 ApplicationContext事件机制是观察者设计模式的实现，通过ApplicationEvent类和ApplicationListener接口，可以实现ApplicationContext事件处理。  如果容器中有一个ApplicationListener Bean，每当ApplicationContext发布ApplicationEvent时，ApplicationListener">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring源码-Event">
+<meta property="og:url" content="http://example.com/2019/03/13/spring%E6%BA%90%E7%A0%81-event/index.html">
+<meta property="og:site_name" content="景瑞">
+<meta property="og:description" content="概述 ApplicationContext事件机制是观察者设计模式的实现，通过ApplicationEvent类和ApplicationListener接口，可以实现ApplicationContext事件处理。  如果容器中有一个ApplicationListener Bean，每当ApplicationContext发布ApplicationEvent时，ApplicationListener">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/Spring.png">
+<meta property="article:published_time" content="2019-03-13T06:23:20.000Z">
+<meta property="article:modified_time" content="2022-10-22T03:25:35.554Z">
+<meta property="article:author" content="JingRuiHe">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/Spring.png">
+  
+  
+  
+  <title>Spring源码-Event - 景瑞</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JingRuiHe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/Spring.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Spring源码-Event"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-03-13 14:23" pubdate>
+          2019年3月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          61 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring源码-Event</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p> ApplicationContext事件机制是观察者设计模式的实现，通过ApplicationEvent类和ApplicationListener接口，可以实现ApplicationContext事件处理。</p>
+<p> 如果容器中有一个ApplicationListener Bean，每当ApplicationContext发布ApplicationEvent时，ApplicationListener Bean将自动被触发。这种事件机制都必须需要程序显示的触发。</p>
+<p>其中spring有一些内置的事件，当完成某种操作时会发出某些事件动作。比如监听ContextRefreshedEvent事件，当所有的bean都初始化完成并被成功装载后会触发该事件，实现ApplicationListener<ContextRefreshedEvent>接口可以收到监听动作，然后可以写自己的逻辑。</p>
+<p>Spring 内置事件 &amp; 描述</p>
+<ul>
+<li><p>ContextRefreshedEvent：ApplicationContext被初始化或刷新时，该事件被发布。这也可以在 ConfigurableApplicationContext接口中使用 refresh() 方法来发生。此处的初始化是指：所有的Bean被成功装载，后处理Bean被检测并激活，所有Singleton Bean 被预实例化，ApplicationContext容器已就绪可用</p>
+</li>
+<li><p>ContextStartedEvent：当使用ConfigurableApplicationContext（ApplicationContext子接口）接口中的start()方法启动ApplicationContext时，该事件被发布。你可以调查你的数据库，或者你可以在接受到这个事件后重启任何停止的应用程序。</p>
+</li>
+<li><p>ContextStoppedEvent：当使用 ConfigurableApplicationContext 接口中的 stop() 停止 ApplicationContext时，发布这个事件。你可以在接受到这个事件后做必要的清理的工作。</p>
+</li>
+<li><p>ContextClosedEvent：当使用ConfigurableApplicationContext接口中的close() 方法关闭 ApplicationContext时，该事件被发布。一个已关闭的上下文到达生命周期末端；它不能被刷新或重启。</p>
+</li>
+<li><p>RequestHandledEvent：这是一个 web-specific 事件，告诉所有 bean HTTP 请求已经被服务。只能应用于使用DispatcherServlet的Web应用。在使用Spring作为前端的MVC控制器时，当Spring处理用户请求结束后，系统会自动触发该事件。</p>
+</li>
+</ul>
+<p>通常有这几种方式实现监听：</p>
+<ol>
+<li>IOC的bean实现<code>ApplicationListener</code></li>
+<li> <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp">@EventListener(classes = ApplicationEvent.<span class="hljs-keyword">class</span>)<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">listen</span>(<span class="hljs-params">ApplicationEvent <span class="hljs-keyword">event</span></span>)</span> &#123;<br>    System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">&quot;@EventListener：&quot;</span> + <span class="hljs-keyword">event</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+之后<code>context.publishEvent(new ApplicationEvent(&quot;my event&quot;) &#123;&#125;);</code></li>
+</ol>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EvaluationXxlJobRegister</span> <span class="hljs-title">implements</span> <span class="hljs-title">ApplicationListener</span>&lt;<span class="hljs-type">ContextRefreshedEvent</span>&gt; &#123;<br><br>    <span class="hljs-keyword">private</span> ApplicationContext applicationContext;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) &#123;<br>        <span class="hljs-keyword">this</span>.applicationContext = contextRefreshedEvent.getApplicationContext();<br><br>        <span class="hljs-comment">//设置spring上下文信息</span><br>        EvaluationContext.setApplicationContext(contextRefreshedEvent.getApplicationContext());<br><br>        <span class="hljs-comment">//执行器管理：新增或者编辑任务时用到</span><br>        <span class="hljs-keyword">this</span>.registerXxlExecutorManageHandler();<br><br>        <span class="hljs-comment">//任务管理:定时任务执行类的服务用到</span><br>        <span class="hljs-keyword">this</span>.registerXxlAppTaskManage();<br><br><br>        <span class="hljs-comment">//本机ip地址</span><br>        <span class="hljs-keyword">this</span>.registerIp();<br><br>        <span class="hljs-comment">//注册任务终断发布订阅消息</span><br>        <span class="hljs-keyword">this</span>.registerRedisTopic();<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-comment">// 事件定义</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EmailEvent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">ApplicationEvent</span>&#123;<br>　　 <span class="hljs-keyword">private</span> <span class="hljs-title class_">String</span> address;<br>　　 <span class="hljs-keyword">private</span> <span class="hljs-title class_">String</span> text;<br>　　 <span class="hljs-keyword">public</span> <span class="hljs-title class_">EmailEvent</span>(<span class="hljs-title class_">Object</span> source, <span class="hljs-title class_">String</span> address, <span class="hljs-title class_">String</span> text)&#123;<br>　　 <span class="hljs-variable language_">super</span>(source);<br>　　　　　 <span class="hljs-variable language_">this</span>.<span class="hljs-property">address</span> = address;<br>　　　　　 <span class="hljs-variable language_">this</span>.<span class="hljs-property">text</span> = text;<br>　　 &#125;<br>　　 <span class="hljs-keyword">public</span> <span class="hljs-title class_">EmailEvent</span>(<span class="hljs-title class_">Object</span> source) &#123;<br>　　　　　<span class="hljs-variable language_">super</span>(source);<br>　　 &#125;<br>　　 <span class="hljs-comment">//......address和text的setter、getter</span><br>&#125;<br><br><br><span class="hljs-comment">// 监听定义</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EmailNotifier</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ApplicationListener</span>&#123;<br>　　 <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">onApplicationEvent</span>(<span class="hljs-params">ApplicationEvent event</span>) &#123;<br>　　　　　<span class="hljs-keyword">if</span> (event <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">EmailEvent</span>) &#123;<br>　　　　　　　 <span class="hljs-title class_">EmailEvent</span> emailEvent = (<span class="hljs-title class_">EmailEvent</span>)event;<br>　　　　　　　 <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;邮件地址：&quot;</span> + emailEvent.<span class="hljs-title function_">getAddress</span>());<br>　　　　　　　 <span class="hljs-title class_">System</span>.<span class="hljs-property">our</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;邮件内容：&quot;</span> + emailEvent.<span class="hljs-title function_">getText</span>());<br>　　　　　&#125; <span class="hljs-keyword">else</span> &#123;<br>　　　　　　　 <span class="hljs-title class_">System</span>.<span class="hljs-property">our</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;容器本身事件：&quot;</span> + event);<br>　　　　　&#125;<br>　　 &#125;<br>&#125;<br><br><span class="hljs-comment">// 业务触发</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SpringTest</span> &#123;<br>　　 <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"><span class="hljs-built_in">String</span> args[]</span>)&#123;<br>　　　　　<span class="hljs-title class_">ApplicationContext</span> context = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>(<span class="hljs-string">&quot;bean.xml&quot;</span>);<br>　　　　　<span class="hljs-comment">//创建一个ApplicationEvent对象</span><br>　　　　　<span class="hljs-title class_">EmailEvent</span> event = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EmailEvent</span>(<span class="hljs-string">&quot;hello&quot;</span>,<span class="hljs-string">&quot;abc@163.com&quot;</span>,<span class="hljs-string">&quot;This is a test&quot;</span>);<br>　　　　　<span class="hljs-comment">//主动触发该事件</span><br>　　　　　context.<span class="hljs-title function_">publishEvent</span>(event);<br>　　 &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><p>在refresh中<code>initApplicationEventMulticaster();</code>初始化派发器</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">protected void init<span class="hljs-constructor">ApplicationEventMulticaster()</span> &#123;<br>  ConfigurableListableBeanFactory beanFactory = get<span class="hljs-constructor">BeanFactory()</span>;<br>  <span class="hljs-comment">// 存在applicationEventMulticaster就直接取出来</span><br>  <span class="hljs-keyword">if</span> (beanFactory.contains<span class="hljs-constructor">LocalBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME)</span>) &#123;<br>    this.applicationEventMulticaster =<br>        beanFactory.get<span class="hljs-constructor">Bean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, ApplicationEventMulticaster.<span class="hljs-params">class</span>)</span>;<br>    <span class="hljs-keyword">if</span> (logger.is<span class="hljs-constructor">TraceEnabled()</span>) &#123;<br>      logger.trace(<span class="hljs-string">&quot;Using ApplicationEventMulticaster [&quot;</span> + this.applicationEventMulticaster + <span class="hljs-string">&quot;]&quot;</span>);<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-comment">// 派发器不存在就new一个放入IOC中</span><br>    this.applicationEventMulticaster = <span class="hljs-keyword">new</span> <span class="hljs-constructor">SimpleApplicationEventMulticaster(<span class="hljs-params">beanFactory</span>)</span>;<br>    beanFactory.register<span class="hljs-constructor">Singleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, <span class="hljs-params">this</span>.<span class="hljs-params">applicationEventMulticaster</span>)</span>;<br>    <span class="hljs-keyword">if</span> (logger.is<span class="hljs-constructor">TraceEnabled()</span>) &#123;<br>      logger.trace(<span class="hljs-string">&quot;No &#x27;&quot;</span> + APPLICATION_EVENT_MULTICASTER_BEAN_NAME + <span class="hljs-string">&quot;&#x27; bean, using &quot;</span> +<br>          <span class="hljs-string">&quot;[&quot;</span> + this.applicationEventMulticaster.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">SimpleName()</span> + <span class="hljs-string">&quot;]&quot;</span>);<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在refresh中<code>registerListeners();</code></p>
+<ol>
+<li><p>将BeanFactory监听器注册到派发器中</p>
+</li>
+<li><p>将类型为ApplicationListener注册到派发器中</p>
+</li>
+<li><p>派发器初始化之前的BeanFactory中注册的事件注册到派发器</p>
+</li>
+</ol>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">protected void register<span class="hljs-constructor">Listeners()</span> &#123;<br>  <span class="hljs-comment">// Register statically specified listeners first.</span><br>  <span class="hljs-keyword">for</span> (ApplicationListener&lt;?&gt; listener : get<span class="hljs-constructor">ApplicationListeners()</span>) &#123;<br>    get<span class="hljs-constructor">ApplicationEventMulticaster()</span>.add<span class="hljs-constructor">ApplicationListener(<span class="hljs-params">listener</span>)</span>;<br>  &#125;<br><br>  <span class="hljs-comment">// Do not initialize FactoryBeans here: We need to leave all regular beans</span><br>  <span class="hljs-comment">// uninitialized to let post-processors apply to them!</span><br>  String<span class="hljs-literal">[]</span> listenerBeanNames = get<span class="hljs-constructor">BeanNamesForType(ApplicationListener.<span class="hljs-params">class</span>, <span class="hljs-params">true</span>, <span class="hljs-params">false</span>)</span>;<br>  <span class="hljs-keyword">for</span> (String listenerBeanName : listenerBeanNames) &#123;<br>    get<span class="hljs-constructor">ApplicationEventMulticaster()</span>.add<span class="hljs-constructor">ApplicationListenerBean(<span class="hljs-params">listenerBeanName</span>)</span>;<br>  &#125;<br><br>  <span class="hljs-comment">// Publish early application events now that we finally have a multicaster...</span><br>  Set&lt;ApplicationEvent&gt; earlyEventsToProcess = this.earlyApplicationEvents;<br>  this.earlyApplicationEvents = null;<br>  <span class="hljs-keyword">if</span> (!<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">CollectionUtils</span>.</span></span>is<span class="hljs-constructor">Empty(<span class="hljs-params">earlyEventsToProcess</span>)</span>) &#123;<br>    <span class="hljs-keyword">for</span> (ApplicationEvent earlyEvent : earlyEventsToProcess) &#123;<br>      get<span class="hljs-constructor">ApplicationEventMulticaster()</span>.multicast<span class="hljs-constructor">Event(<span class="hljs-params">earlyEvent</span>)</span>;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">publishEvent</span>(<span class="hljs-params">Object <span class="hljs-keyword">event</span>, @Nullable ResolvableType eventType</span>)</span> &#123;<br>  Assert.notNull(<span class="hljs-keyword">event</span>, <span class="hljs-string">&quot;Event must not be null&quot;</span>);<br><br>  <span class="hljs-comment">// Decorate event as an ApplicationEvent if necessary</span><br>  ApplicationEvent applicationEvent;<br>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">event</span> instanceof ApplicationEvent) &#123;<br>    applicationEvent = (ApplicationEvent) <span class="hljs-keyword">event</span>;<br>  &#125;<br>  <span class="hljs-keyword">else</span> &#123;<br>    applicationEvent = <span class="hljs-keyword">new</span> PayloadApplicationEvent&lt;&gt;(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">event</span>);<br>    <span class="hljs-keyword">if</span> (eventType == <span class="hljs-literal">null</span>) &#123;<br>      eventType = ((PayloadApplicationEvent&lt;?&gt;) applicationEvent).getResolvableType();<br>    &#125;<br>  &#125;<br><br>  <span class="hljs-comment">// Multicast right now if possible - or lazily once the multicaster is initialized</span><br>  <span class="hljs-comment">// 是否延迟多播，即将事件发布到所有监听器中</span><br>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.earlyApplicationEvents != <span class="hljs-literal">null</span>) &#123;<br>    <span class="hljs-keyword">this</span>.earlyApplicationEvents.<span class="hljs-keyword">add</span>(applicationEvent);<br>  &#125;<br>  <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-comment">// 此处为事件监听处理器的调用关键</span><br>    getApplicationEventMulticaster().multicastEvent(applicationEvent, eventType);<br>  &#125;<br><br>  <span class="hljs-comment">// Publish event via parent context as well...</span><br>  <span class="hljs-comment">// 是否将事件发布到父容器中</span><br>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.parent != <span class="hljs-literal">null</span>) &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.parent instanceof AbstractApplicationContext) &#123;<br>      ((AbstractApplicationContext) <span class="hljs-keyword">this</span>.parent).publishEvent(<span class="hljs-keyword">event</span>, eventType);<br>    &#125;<br>    <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-keyword">this</span>.parent.publishEvent(<span class="hljs-keyword">event</span>);<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>ApplicationEventMulticaster默认实现SimpleApplicationEventMulticaster来触发事件的监听，关键方法为multicastEvent()方法</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">@Override<br>public void multicast<span class="hljs-constructor">Event(<span class="hljs-params">final</span> ApplicationEvent <span class="hljs-params">event</span>, ResolvableType <span class="hljs-params">eventType</span>)</span> &#123;<br>  <span class="hljs-comment">// 获取事件类型</span><br>  ResolvableType <span class="hljs-keyword">type</span> = (eventType != null ? eventType : resolve<span class="hljs-constructor">DefaultEventType(<span class="hljs-params">event</span>)</span>);<br>  <span class="hljs-keyword">for</span> (final ApplicationListener&lt;?&gt; listener : get<span class="hljs-constructor">ApplicationListeners(<span class="hljs-params">event</span>, <span class="hljs-params">type</span>)</span>) &#123;<span class="hljs-comment">//依次遍历事件监听器</span><br>    <span class="hljs-comment">// 获取线程池</span><br>    Executor executor = get<span class="hljs-constructor">TaskExecutor()</span>;<br>    <span class="hljs-keyword">if</span> (executor != null) &#123;<span class="hljs-comment">//线程池不为null，则异步调用监听器</span><br>      executor.execute(<span class="hljs-keyword">new</span> <span class="hljs-constructor">Runnable()</span> &#123;<br>        @Override<br>        public void run<span class="hljs-literal">()</span> &#123;<br>          invoke<span class="hljs-constructor">Listener(<span class="hljs-params">listener</span>, <span class="hljs-params">event</span>)</span>;<br>        &#125;<br>      &#125;);<br>    &#125;<br>    <span class="hljs-keyword">else</span> &#123;<span class="hljs-comment">// 同步调用监听器</span><br>      invoke<span class="hljs-constructor">Listener(<span class="hljs-params">listener</span>, <span class="hljs-params">event</span>)</span>;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>spring内置了几个Event，ContextRefreshedEvent、ContextStartedEvent、ContextStoppedEvent、ContextClosedEvent</p>
+<p>内部会自己调用，比如<code>AbstractApplicationContext#finishRefresh中publishEvent(new ContextRefreshedEvent(this));</code></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Spring/">#Spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Spring源码-Event</div>
+      <div>http://example.com/2019/03/13/spring源码-event/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JingRuiHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年3月13日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/03/14/spring%E6%BA%90%E7%A0%81-aware/" title="Spring源码-Aware">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring源码-Aware</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/03/11/spring%E6%BA%90%E7%A0%81-aop/" title="Spring源码-AOP">
+                        <span class="hidden-mobile">Spring源码-AOP</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"474398dbe7c152716f6e","clientSecret":"72b83431cf83b93e0e4ddfe1a37a31493ae65314","repo":"blog-gitalk","owner":"jingruihe","admin":["jingruihe"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '92cf8e77ef60ac9ba008d6ce96c802c6'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

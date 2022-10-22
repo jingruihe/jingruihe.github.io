@@ -1,0 +1,813 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <link rel="icon" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JingRuiHe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="命令JpsJVM Process Status Tool,显示指定系统内所有的HotSpot虚拟机进程。 格式 jps [options] [hostid] 其中[option]、[hostid]参数也可以不写 参数option参数  l : 输出主类全名或jar路径  long q : 只输出LVMID  quit m : 输出JVM启动时传递给main()的参数 v : 输出JVM启动时显示指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5.优化命令+工具">
+<meta property="og:url" content="http://example.com/2021/06/06/jvm-5.%E4%BC%98%E5%8C%96%E5%91%BD%E4%BB%A4+%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="景瑞">
+<meta property="og:description" content="命令JpsJVM Process Status Tool,显示指定系统内所有的HotSpot虚拟机进程。 格式 jps [options] [hostid] 其中[option]、[hostid]参数也可以不写 参数option参数  l : 输出主类全名或jar路径  long q : 只输出LVMID  quit m : 输出JVM启动时传递给main()的参数 v : 输出JVM启动时显示指">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/jvm.png">
+<meta property="article:published_time" content="2021-06-06T04:45:09.000Z">
+<meta property="article:modified_time" content="2022-10-22T02:43:25.238Z">
+<meta property="article:author" content="JingRuiHe">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/jvm.png">
+  
+  
+  
+  <title>5.优化命令+工具 - 景瑞</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JingRuiHe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/jvm.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="5.优化命令+工具"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-06-06 12:45" pubdate>
+          2021年6月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">5.优化命令+工具</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><h2 id="Jps"><a href="#Jps" class="headerlink" title="Jps"></a>Jps</h2><p>JVM Process Status Tool,显示指定系统内所有的HotSpot虚拟机进程。</p>
+<p>格式 <code>jps [options] [hostid]</code></p>
+<p>其中[option]、[hostid]参数也可以不写</p>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><p>option参数</p>
+<ul>
+<li>l : 输出主类全名或jar路径  long</li>
+<li>q : 只输出LVMID  quit</li>
+<li>m : 输出JVM启动时传递给main()的参数</li>
+<li>v : 输出JVM启动时显示指定的JVM参数</li>
+</ul>
+<h2 id="Jstat"><a href="#Jstat" class="headerlink" title="Jstat"></a>Jstat</h2><p>jstat(JVM statistics Monitoring)是用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译等运行数据。<strong>没有GUI界面，是检测垃圾回收和内存泄露首选工具</strong></p>
+<p>格式 <code>jstat [option] [-t] [-h&lt;lines&gt;] LVMID [interval] [count]</code></p>
+<ul>
+<li>[option] : 操作参数</li>
+<li>[-t]：程序执行的总时间</li>
+<li>[-h<lines>]： 每隔几次打印出现一次表头， 比如<code>-h10</code>就是打印10行之后出现一个表头</li>
+<li>LVMID : 本地虚拟机进程ID</li>
+<li>[interval] : 连续输出的时间间隔，默认只打印一次</li>
+<li>[count] : 连续输出的次数</li>
+</ul>
+<p>下面介绍<code>option</code>参数</p>
+<h3 id="class"><a href="#class" class="headerlink" title="class"></a>class</h3><p>class loader的行为统计, 监视类装载、卸载数量、总空间以及耗费的时间</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@iZwz9b4zp8flndh7pb8o0qZ</span> /]<span class="hljs-meta"># jstat -class 11752</span><br>Loaded  Bytes  Unloaded  Bytes     Time   <br><span class="hljs-number">14074</span> <span class="hljs-number">26039.7</span>      <span class="hljs-number">288</span>   <span class="hljs-number">364.1</span>      <span class="hljs-number">32.75</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>Loaded : 加载class的数量</li>
+<li>Bytes : class字节大小</li>
+<li>Unloaded : 未加载class的数量</li>
+<li>Bytes : 未加载class的字节大小</li>
+<li>Time : 加载时间</li>
+</ul>
+<h3 id="垃圾回收相关"><a href="#垃圾回收相关" class="headerlink" title="垃圾回收相关"></a>垃圾回收相关</h3><p><strong>-gc</strong></p>
+<p>垃圾回收堆的行为统计</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dns">[root@iZwz9b4zp8flndh7pb8o0qZ /]# jstat -gc <span class="hljs-number">30593</span><br> S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT   <br><span class="hljs-number">512</span>.<span class="hljs-number">0</span>  <span class="hljs-number">512</span>.<span class="hljs-number">0</span>  <span class="hljs-number">160</span>.<span class="hljs-number">0</span>   <span class="hljs-number">0</span>.<span class="hljs-number">0</span>   <span class="hljs-number">459776.0</span> <span class="hljs-number">174477.1</span>  <span class="hljs-number">464384.0</span>   <span class="hljs-number">393415.3</span>  <span class="hljs-number">149248.0</span> <span class="hljs-number">138211.8</span> <span class="hljs-number">14848.0</span> <span class="hljs-number">13429.1</span> <span class="hljs-number">244930 1560</span>.<span class="hljs-number">761</span>  <span class="hljs-number">98</span>     <span class="hljs-number">52</span>.<span class="hljs-number">611 1613</span>.<span class="hljs-number">372</span><br></code></pre></td></tr></table></figure>
+
+<p>C即Capacity 总容量，U即Used 已使用的容量</p>
+<ul>
+<li>S0C : survivor0区的总容量</li>
+<li>S1C : survivor1区的总容量</li>
+<li>S0U : survivor0区已使用的容量</li>
+<li>S1U : survivor1区已使用的容量</li>
+<li>EC : Eden区的总容量</li>
+<li>EU : Eden区已使用的容量</li>
+<li>OC : Old区的总容量</li>
+<li>OU : Old区已使用的容量(如果这个一直再涨，可能就是因为内存泄露)</li>
+<li>PC  当前perm的容量 (KB)</li>
+<li>PU  perm的使用 (KB)</li>
+<li>MC：方法区大小</li>
+<li>MU：方法区使用大小</li>
+<li>CCSC:压缩类空间大小</li>
+<li>CCSU:压缩类空间使用大小</li>
+<li>YGC : 新生代垃圾回收次数</li>
+<li>YGCT : 新生代垃圾回收时间</li>
+<li>FGC : 老年代垃圾回收次数</li>
+<li>FGCT : 老年代垃圾回收时间</li>
+<li>GCT : 垃圾回收总消耗时间</li>
+</ul>
+<p><code>jstat -gc 30593 2000 20</code> 每隔2000ms输出1262的gc情况，一共输出20次</p>
+<p><strong>-gccapacity</strong></p>
+<p>同-gc，不过还会输出Java堆各区域使用到的最大、最小空间</p>
+<ul>
+<li>NGCMN : 新生代占用的最小空间</li>
+<li>NGCMX : 新生代占用的最大空间</li>
+<li>OGCMN : 老年代占用的最小空间</li>
+<li>OGCMX : 老年代占用的最大空间</li>
+<li>OGC：当前年老代的容量 (KB)</li>
+<li>OC：当前年老代的空间 (KB)</li>
+<li>PGCMN : perm占用的最小空间</li>
+<li>PGCMX : perm占用的最大空间</li>
+</ul>
+<p><strong>-gcutil</strong></p>
+<p>垃圾回收统计概述. 同-gc，不过输出的是已使用空间占总空间的百分比</p>
+<p><strong>-gccause</strong></p>
+<p>垃圾收集统计概述（同-gcutil），附加最近两次垃圾回收事件的原因</p>
+<ul>
+<li>LGCC：最近垃圾回收的原因</li>
+<li>GCC：当前垃圾回收的原因</li>
+</ul>
+<p><strong>-gcnew</strong></p>
+<p>新生代行为统计</p>
+<ul>
+<li>TT：Tenuring threshold(提升阈值)</li>
+<li>MTT：最大的tenuring threshold</li>
+<li>DSS：survivor区域大小 (KB)</li>
+</ul>
+<p><strong>-gcnewcapacity</strong></p>
+<p>新生代与其相应的内存空间的统计</p>
+<ul>
+<li>NGC:当前年轻代的容量 (KB)</li>
+<li>S0CMX:最大的S0空间 (KB)</li>
+<li>S0C:当前S0空间 (KB)</li>
+<li>ECMX:最大eden空间 (KB)</li>
+<li>EC:当前eden空间 (KB)</li>
+</ul>
+<p><strong>-gcold</strong></p>
+<p>显示老年代GC状况</p>
+<p><strong>-gcoldcapacity</strong></p>
+<p>显示老年代GC状况，主要关注使用到最大、最小空间</p>
+<p><strong>-gcpermcapacity</strong></p>
+<p>显示永久代使用到的最大、最小空间</p>
+<h3 id="JIT相关"><a href="#JIT相关" class="headerlink" title="JIT相关"></a>JIT相关</h3><p><strong>-compiler</strong></p>
+<p>HotSpt JIT编译器行为统计, 输出JIT编译过的方法数量耗时等</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@iZwz9b4zp8flndh7pb8o0qZ /]<span class="hljs-comment"># jstat -compiler 30593</span><br>Compiled Failed Invalid   Time   FailedType FailedMethod<br>   <span class="hljs-number">43948</span>      <span class="hljs-number">5</span>       <span class="hljs-number">0</span>   <span class="hljs-number">299.39</span>          <span class="hljs-number">1</span> org<span class="hljs-regexp">/eclipse/</span>jdt<span class="hljs-regexp">/internal/</span>compiler<span class="hljs-regexp">/lookup/</span>ReferenceBinding computeId<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>Compiled : 编译数量</li>
+<li>Failed : 编译失败数量</li>
+<li>Invalid : 无效数量</li>
+<li>Time : 编译耗时</li>
+<li>FailedType : 失败类型</li>
+<li>FailedMethod : 失败方法的全限定名</li>
+</ul>
+<p><strong>-printcompilation</strong></p>
+<p>HotSpot编译方法统计</p>
+<ul>
+<li>Compiled：被执行的编译任务的数量</li>
+<li>Size：方法字节码的字节数</li>
+<li>Type：编译类型</li>
+<li>Method：编译方法的类名和方法名。类名使用”&#x2F;” 代替 “.” 作为空间分隔符. 方法名是给出类的方法名. 格式是一致于HotSpot - XX:+PrintComplation 选项</li>
+</ul>
+<h2 id="Jinfo"><a href="#Jinfo" class="headerlink" title="Jinfo"></a>Jinfo</h2><p>jinfo(JVM Configuration info)这个命令作用是实时查看和调整虚拟机运行参数。 之前的<code>jps -v</code>口令只能查看到显示指定的参数，如果想要查看未被显示指定的参数的值就要使用<code>jinfo</code>口令</p>
+<p>格式<code>jinfo [option] [args] LVMID</code></p>
+<p>option参数</p>
+<ul>
+<li>-flag : 输出指定args参数的值</li>
+<li>-flags : 不需要args参数，输出所有JVM参数的值</li>
+<li>-sysprops : 输出系统属性，等同于System.getProperties()</li>
+</ul>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs awk">λ jinfo -flag UseG1GC <span class="hljs-number">21568</span><br>-XX:-UseG1GC  <span class="hljs-regexp">//</span>-表示不使用<br><br><span class="hljs-regexp">//</span>查看PrintGCDetails没有使用<br>C:\cmder<br>λ jinfo -flag PrintGCDetails <span class="hljs-number">21568</span><br>-XX:-PrintGCDetails<br><span class="hljs-regexp">//</span>设置PrintGCDetails，注意重启后失效，而且设置的参数非常有限<br>C:\cmder<br>λ jinfo -flag +PrintGCDetails <span class="hljs-number">21568</span><br><span class="hljs-regexp">//</span>查看PrintGCDetails已经被使用<br>C:\cmder<br>λ jinfo -flag PrintGCDetails <span class="hljs-number">21568</span><br>-XX:+PrintGCDetails<br></code></pre></td></tr></table></figure>
+
+<h2 id="Jmap"><a href="#Jmap" class="headerlink" title="Jmap"></a>Jmap</h2><p>jmap(JVM Memory Map)命令用于生成heap dump文件，如果不使用这个命令，还阔以使用-XX:+HeapDumpOnOutOfMemoryError参数来让虚拟机出现OOM的时候·自动生成dump文件。 jmap不仅能生成dump文件，还阔以查询finalize执行队列、Java堆和永久代的详细信息，如当前使用率、当前使用的是哪种收集器等。</p>
+<p>格式<code>jmap [option] LVMID</code></p>
+<p>option参数</p>
+<ul>
+<li>dump : 生成堆转储快照</li>
+<li>finalizerinfo : 显示在F-Queue队列等待Finalizer线程执行finalizer方法的对象</li>
+<li>heap : 显示Java堆详细信息</li>
+<li>histo : 显示堆中对象的统计信息</li>
+<li>permstat : to print permanent generation statistics</li>
+<li>F : 当-dump没有响应时，强制生成dump快照</li>
+</ul>
+<h3 id="导出内存映像文件"><a href="#导出内存映像文件" class="headerlink" title="导出内存映像文件"></a>导出内存映像文件</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span>手动<br><span class="hljs-regexp">//</span>全部对象<br>jmap -dump:format=b,file=<span class="hljs-number">1</span>.hprof &lt;pid&gt;<br><span class="hljs-regexp">//</span>只保存存活对象,生产一般用这个<br>jmap -dump:live,format=b,file=<span class="hljs-number">1</span>.hprof &lt;pid&gt;<br><br><span class="hljs-regexp">//</span>自动<br>-XX:+HeapDumpOnOutOfMemoryError <span class="hljs-regexp">//</span>oom之前调用<br>-XX:+HeapDumpBeforeFullGC  <span class="hljs-regexp">//</span>fullGC之前调用<br>-XX:HeapDumpPath=C:\m.hprof <span class="hljs-regexp">//</span>指定路径<br></code></pre></td></tr></table></figure>
+
+<h3 id="内存使用情况"><a href="#内存使用情况" class="headerlink" title="内存使用情况"></a>内存使用情况</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-comment">//展示某个时间点内存占用</span><br>jmap -heap &lt;pid&gt; &gt; c:\<span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.txt</span> <br><br><span class="hljs-comment">//内存中有什么对象，占用字节数多少</span><br>jmap -histo &lt;pid&gt; &gt; c:\<span class="hljs-selector-tag">b</span>.txt<br></code></pre></td></tr></table></figure>
+
+<h2 id="Jhat"><a href="#Jhat" class="headerlink" title="Jhat"></a>Jhat</h2><p>分析dump，jdk9之后去删掉了，官方推荐<code>jvisualvm</code></p>
+<h2 id="Jstack"><a href="#Jstack" class="headerlink" title="Jstack"></a>Jstack</h2><p>jstack用于生成java虚拟机当前时刻的线程快照。</p>
+<p>线程快照是当前java虚拟机内每一条线程正在执行的方法堆栈的集合，生成线程快照的主要目的是<strong>定位线程出现长时间停顿的原因</strong>，如线程间死锁、死循环、请求外部资源导致的长时间等待等。</p>
+<p>线程出现停顿的时候通过jstack来查看各个线程的调用堆栈，就可以知道没有响应的线程到底在后台做什么事情，或者等待什么资源。 如果java程序崩溃生成core文件，jstack工具可以用来获得core文件的java stack和native stack的信息，从而可以轻松地知道java程序是如何崩溃和在程序何处发生问题。另外，jstack工具还可以附属到正在运行的java程序中，看到当时运行的java程序的java stack和native stack的信息, 如果现在运行的java程序呈现hung的状态，jstack是非常有用的。</p>
+<p>格式<code>jstack [option] LVMID</code></p>
+<p>option参数</p>
+<ul>
+<li>-F : 当正常输出请求不被响应时，强制输出线程堆栈</li>
+<li>-l : 除堆栈外，显示关于锁的附加信息</li>
+<li>-m : 如果调用到本地方法的话，可以显示C&#x2F;C++的堆栈</li>
+</ul>
+<h2 id="Jcmd"><a href="#Jcmd" class="headerlink" title="Jcmd"></a>Jcmd</h2><p>除了前面<code>jstat</code>之外所有功能，官方建议替换</p>
+<h1 id="GUI"><a href="#GUI" class="headerlink" title="GUI"></a>GUI</h1><h2 id="java自带"><a href="#java自带" class="headerlink" title="java自带"></a>java自带</h2><h3 id="Jconsole"><a href="#Jconsole" class="headerlink" title="Jconsole"></a>Jconsole</h3><h3 id="VisualVM（自带推荐）"><a href="#VisualVM（自带推荐）" class="headerlink" title="VisualVM（自带推荐）"></a>VisualVM（自带推荐）</h3><p>安装插件VisualGC</p>
+<h3 id="JMC"><a href="#JMC" class="headerlink" title="JMC"></a>JMC</h3><h2 id="第三方工具"><a href="#第三方工具" class="headerlink" title="第三方工具"></a>第三方工具</h2><h3 id="MAT（专门分析dump）"><a href="#MAT（专门分析dump）" class="headerlink" title="MAT（专门分析dump）"></a>MAT（专门分析dump）</h3><p>最吸引人的还是可以快速生成内存泄漏报表</p>
+<h3 id="JProfiler"><a href="#JProfiler" class="headerlink" title="JProfiler"></a>JProfiler</h3><h3 id="Arthas"><a href="#Arthas" class="headerlink" title="Arthas"></a>Arthas</h3><h3 id="Btrace"><a href="#Btrace" class="headerlink" title="Btrace"></a>Btrace</h3><h1 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h1><ol>
+<li>静态集合类</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-comment">//静态集合类生命周期很长，在方法中add对象进入之后回收不了</span><br><span class="hljs-keyword">static</span> <span class="hljs-title class_">List</span> list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>();<br><br><span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">test</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-title class_">Object</span> obj = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>();<br>    list.<span class="hljs-title function_">add</span>(obj);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>单例模式，持有外部引用就不会被回收</li>
+<li>内部类持有外部类，如果外部类实例对象返回了一个内部类实例。这时候如果内部类实例周期很长，外部类也回收不了</li>
+<li>各种连接，比如数据库close等</li>
+<li>变量不合理作用域。可以局部变量就不要去成员变量</li>
+<li>改变哈希值。当一个对象被存储到hashSet中，就不能修改这个对象中参与计算的字段。因为存进去了之后修改了参与计算的字段，hash就变了。对象就取不出来了。</li>
+<li>缓存，一旦把对象放入缓存就很容易被遗忘。所以建议用弱引用WeakHashMap实现</li>
+<li>回调，如果在api中注册回调但是没有显示取消，那么就会聚集。建议使用弱引用WeakHashMap实现</li>
+<li>出栈的时候记得把值设置为null</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JVM/">#JVM</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>5.优化命令+工具</div>
+      <div>http://example.com/2021/06/06/jvm-5.优化命令+工具/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JingRuiHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年6月6日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/06/07/jvm-6.%E8%BF%90%E8%A1%8C%E6%97%B6%E5%8F%82%E6%95%B0/" title="6.运行时参数">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">6.运行时参数</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/05/jvm-4.%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" title="4.垃圾回收">
+                        <span class="hidden-mobile">4.垃圾回收</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"474398dbe7c152716f6e","clientSecret":"72b83431cf83b93e0e4ddfe1a37a31493ae65314","repo":"blog-gitalk","owner":"jingruihe","admin":["jingruihe"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '6edaf124297114070c6dede655a9db3a'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

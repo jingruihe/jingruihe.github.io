@@ -1,0 +1,685 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <link rel="icon" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JingRuiHe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="常用命令  topic1234567891011121314151617&#x2F;&#x2F; 查看主题列表：kafka-topics.sh --list --zookeeper zookeeper1:2181&#x2F;&#x2F; 创建主题kafka-topics.sh --create --zookeeper zookeeper1:2181 --replication-factor 1 --partitions 3 --top">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3.kafka使用">
+<meta property="og:url" content="http://example.com/2022/08/03/kafka-3.%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="景瑞">
+<meta property="og:description" content="常用命令  topic1234567891011121314151617&#x2F;&#x2F; 查看主题列表：kafka-topics.sh --list --zookeeper zookeeper1:2181&#x2F;&#x2F; 创建主题kafka-topics.sh --create --zookeeper zookeeper1:2181 --replication-factor 1 --partitions 3 --top">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg">
+<meta property="article:published_time" content="2022-08-03T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-10-22T02:43:48.932Z">
+<meta property="article:author" content="JingRuiHe">
+<meta property="article:tag" content="Kafka">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg">
+  
+  
+  
+  <title>3.kafka使用 - 景瑞</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JingRuiHe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="3.kafka使用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-03 10:00" pubdate>
+          2022年8月3日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          77 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">3.kafka使用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41191343/article/details/112523490">常用命令</a></li>
+</ol>
+<h1 id="topic"><a href="#topic" class="headerlink" title="topic"></a>topic</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-comment">// 查看主题列表：</span><br>kafka-topics<span class="hljs-selector-class">.sh</span> <span class="hljs-attr">--list</span> <span class="hljs-attr">--zookeeper</span> zookeeper1:<span class="hljs-number">2181</span><br><br><span class="hljs-comment">// 创建主题</span><br>kafka-topics<span class="hljs-selector-class">.sh</span> <span class="hljs-attr">--create</span> <span class="hljs-attr">--zookeeper</span> zookeeper1:<span class="hljs-number">2181</span> <span class="hljs-attr">--replication-factor</span> <span class="hljs-number">1</span> <span class="hljs-attr">--partitions</span> <span class="hljs-number">3</span> <span class="hljs-attr">--topic</span> test<br><br><span class="hljs-comment">//查看主题描述，里面可以看到分区信息</span><br>kafka-topics<span class="hljs-selector-class">.sh</span> <span class="hljs-attr">--zookeeper</span> zookeeper1:<span class="hljs-number">2181</span> <span class="hljs-attr">--topic</span> test <span class="hljs-attr">--describe</span><br><br><span class="hljs-comment">// 删除主题：</span><br>kafka-topics<span class="hljs-selector-class">.sh</span> <span class="hljs-attr">--delete</span> <span class="hljs-attr">--topic</span> test <span class="hljs-attr">--zookeeper</span> zookeeper1:<span class="hljs-number">2181</span><br><br><span class="hljs-comment">//查看每个分区数目</span><br><span class="hljs-comment">// --time-1 表示要获取指定topic所有分区当前的最大位移，--time-2 表示获取当前最早位移。</span><br><span class="hljs-comment">// 分区当前的消息总数 = [--time-1] - [--time-2]</span><br><span class="hljs-comment">// 相减是因为随着 kafka 的运行，topic 中有的消息可能会被删除，，因此 --time-1 的结果其实表示的是历史上该topic生产的最大消息数，如果用户要统计当前的消息总数就必须减去 --time-2 的结果。</span><br>kafka-run-class<span class="hljs-selector-class">.sh</span> kafka<span class="hljs-selector-class">.tools</span><span class="hljs-selector-class">.GetOffsetShell</span> <span class="hljs-attr">--broker-list</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">31.122</span>:<span class="hljs-number">9092</span> <span class="hljs-attr">--topic</span> test <span class="hljs-attr">--time</span> -<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<h1 id="producer"><a href="#producer" class="headerlink" title="producer"></a>producer</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-comment">// 创建生产者：</span><br>kafka-console-producer<span class="hljs-selector-class">.sh</span> <span class="hljs-attr">--broker-list</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">31.122</span>:<span class="hljs-number">9092</span> <span class="hljs-attr">--topic</span> test<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="consumer"><a href="#consumer" class="headerlink" title="consumer"></a>consumer</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><br><span class="hljs-comment">// 创建消费者(从头开始)：</span><br>kafka-console-consumer<span class="hljs-selector-class">.sh</span> <span class="hljs-attr">--bootstrap-server</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">31.122</span>:<span class="hljs-number">9093</span> <span class="hljs-attr">--topic</span> test <span class="hljs-attr">--from-beginning</span><br><br><span class="hljs-comment">// 查看消费者组</span><br>kafka-consumer-groups<span class="hljs-selector-class">.sh</span> <span class="hljs-attr">--bootstrap-server</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">31.122</span>:<span class="hljs-number">9092</span>,<span class="hljs-number">192.168</span>.<span class="hljs-number">31.122</span>:<span class="hljs-number">9093</span>,<span class="hljs-number">192.168</span>.<span class="hljs-number">31.122</span>:<span class="hljs-number">9094</span> <span class="hljs-attr">--list</span><br><br><span class="hljs-comment">// 查看消费者组消费情况【console-consumer-16720是上面出现的消费者组名称】</span><br>kafka-consumer-groups<span class="hljs-selector-class">.sh</span> <span class="hljs-attr">--bootstrap-server</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">31.122</span>:<span class="hljs-number">9092</span>,<span class="hljs-number">192.168</span>.<span class="hljs-number">31.122</span>:<span class="hljs-number">9093</span>,<span class="hljs-number">192.168</span>.<span class="hljs-number">31.122</span>:<span class="hljs-number">9094</span> <span class="hljs-attr">--describe</span> <span class="hljs-attr">--group</span> console-consumer-<span class="hljs-number">16720</span><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">cd</span> opt/kafka/<br><br><span class="hljs-comment">// 首先要获取对应容器的ip， docker inspect [容器id] 查看对应ip</span><br><br><span class="hljs-comment">// 高级点的用法:</span><br>kafka-simple-consumer-<span class="hljs-keyword">shell</span>.<span class="hljs-keyword">sh</span>--brist localhost:9092--topic <span class="hljs-keyword">test</span> --partition0--offset1234--max-messages10<br><br><span class="hljs-comment">// 平衡leader:</span><br>kafka-preferred-replica-election.<span class="hljs-keyword">sh</span>--zookeeper zk_host:port/chroot<br><br><span class="hljs-comment">// kafka自带压测命令:</span><br>bin/kafka-producer-perf-<span class="hljs-keyword">test</span>.<span class="hljs-keyword">sh</span>--topic <span class="hljs-keyword">test</span> --num-records100--record-size1--throughput100--producer-props <span class="hljs-keyword">bootstrap</span>.servers=localhost:9092<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="springboot使用"><a href="#springboot使用" class="headerlink" title="springboot使用"></a>springboot使用</h1><h2 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h2><p>Kafka的Producer发送消息采用的是<strong>异步发送</strong>的方式。在消息发送的过程中，涉及到了两个线程<code>main线程</code>和<code>Sender线程</code>，以及一个线程共享变量<code>RecordAccumulator</code>。main线程将消息发送给RecordAccumulator，Sender线程不断从RecordAccumulator中拉取消息发送到Kafka broker。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs swift">main线程-&gt; send -&gt; <span class="hljs-type">Interceptors</span> -&gt; <span class="hljs-type">Serializer</span> -&gt; <span class="hljs-type">Partitioner</span><br><br><span class="hljs-operator">--</span><span class="hljs-type">RecordBatch</span><span class="hljs-operator">--&gt;</span> <span class="hljs-type">RecordAccumulator</span><br><br>send线程 <span class="hljs-operator">--&gt;</span> <span class="hljs-type">RecordAccumulator</span><br><span class="hljs-comment">//生产者配置</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">Map</span>&lt;<span class="hljs-type">String</span>, <span class="hljs-type">Object</span>&gt; senderProps ()&#123;<br>	<span class="hljs-type">Map</span>&lt;<span class="hljs-type">String</span>, <span class="hljs-type">Object</span>&gt; props <span class="hljs-operator">=</span> new <span class="hljs-type">HashMap</span>&lt;&gt;();<br>	<span class="hljs-comment">//连接地址</span><br>	props.put(<span class="hljs-type">ProducerConfig</span>.<span class="hljs-type">BOOTSTRAP_SERVERS_CONFIG</span>, <span class="hljs-string">&quot;localhost:9092&quot;</span>);<br>	<span class="hljs-comment">//重试，0为不启用重试机制</span><br>	props.put(<span class="hljs-type">ProducerConfig</span>.<span class="hljs-type">RETRIES_CONFIG</span>, <span class="hljs-number">1</span>);<br>	<span class="hljs-comment">//只有数据积累到batch.size之后，sender才会发送数据，单位为字节</span><br>	props.put(<span class="hljs-type">ProducerConfig</span>.<span class="hljs-type">BATCH_SIZE_CONFIG</span>, <span class="hljs-number">16384</span>);<br>	<span class="hljs-comment">//批量发送，延迟为1毫秒，启用该功能能有效减少生产者发送消息次数，从而提高并发量</span><br>	props.put(<span class="hljs-type">ProducerConfig</span>.<span class="hljs-type">LINGER_MS_CONFIG</span>, <span class="hljs-number">1</span>);<br>	<span class="hljs-comment">//生产者可以使用的总内存字节来缓冲等待发送到服务器的记录</span><br>	props.put(<span class="hljs-type">ProducerConfig</span>.<span class="hljs-type">BUFFER_MEMORY_CONFIG</span>, <span class="hljs-number">1024000</span>);<br>	<span class="hljs-comment">//键的序列化方式</span><br>	props.put(<span class="hljs-type">ProducerConfig</span>.<span class="hljs-type">KEY_SERIALIZER_CLASS_CONFIG</span>, <span class="hljs-type">IntegerSerializer</span>.class);<br>	<span class="hljs-comment">//值的序列化方式</span><br>	props.put(<span class="hljs-type">ProducerConfig</span>.<span class="hljs-type">VALUE_SERIALIZER_CLASS_CONFIG</span>, <span class="hljs-type">StringSerializer</span>.class);<br>	<span class="hljs-keyword">return</span> props;<br>&#125;<br><br><span class="hljs-comment">//发送api</span><br><span class="hljs-type">ListenableFuture</span>&lt;<span class="hljs-type">SendResult</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt;&gt; sendDefault(<span class="hljs-type">V</span> data);<br><span class="hljs-type">ListenableFuture</span>&lt;<span class="hljs-type">SendResult</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt;&gt; sendDefault(<span class="hljs-type">K</span> key, <span class="hljs-type">V</span> data);<br><span class="hljs-type">ListenableFuture</span>&lt;<span class="hljs-type">SendResult</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt;&gt; sendDefault(<span class="hljs-type">Integer</span> partition, <span class="hljs-type">K</span> key, <span class="hljs-type">V</span> data);<br><span class="hljs-type">ListenableFuture</span>&lt;<span class="hljs-type">SendResult</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt;&gt; sendDefault(<span class="hljs-type">Integer</span> partition, <span class="hljs-type">Long</span> timestamp, <span class="hljs-type">K</span> key, <span class="hljs-type">V</span> data);<br><span class="hljs-type">ListenableFuture</span>&lt;<span class="hljs-type">SendResult</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt;&gt; send(<span class="hljs-type">String</span> topic, <span class="hljs-type">V</span> data);<br><span class="hljs-type">ListenableFuture</span>&lt;<span class="hljs-type">SendResult</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt;&gt; send(<span class="hljs-type">String</span> topic, <span class="hljs-type">K</span> key, <span class="hljs-type">V</span> data);<br><span class="hljs-type">ListenableFuture</span>&lt;<span class="hljs-type">SendResult</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt;&gt; send(<span class="hljs-type">String</span> topic, <span class="hljs-type">Integer</span> partition, <span class="hljs-type">K</span> key, <span class="hljs-type">V</span> data);<br><span class="hljs-type">ListenableFuture</span>&lt;<span class="hljs-type">SendResult</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt;&gt; send(<span class="hljs-type">String</span> topic, <span class="hljs-type">Integer</span> partition, <span class="hljs-type">Long</span> timestamp, <span class="hljs-type">K</span> key, <span class="hljs-type">V</span> data);<br><span class="hljs-type">ListenableFuture</span>&lt;<span class="hljs-type">SendResult</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt;&gt; send(<span class="hljs-type">ProducerRecord</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt; record);<br><span class="hljs-type">ListenableFuture</span>&lt;<span class="hljs-type">SendResult</span>&lt;<span class="hljs-type">K</span>, <span class="hljs-type">V</span>&gt;&gt; send(<span class="hljs-type">Message</span>&lt;?&gt; message);<br><br><span class="hljs-comment">//拿到发送结果回调</span><br>future.addCallback(<br>				successCallback -&gt; log.info(<span class="hljs-string">&quot;发送成功：topic= &quot;</span> <span class="hljs-operator">+</span> topic <span class="hljs-operator">+</span> <span class="hljs-string">&quot; value= &quot;</span> <span class="hljs-operator">+</span> value),<br>				failureCallback -&gt; log.info(<span class="hljs-string">&quot;发送失败：topic= &quot;</span> <span class="hljs-operator">+</span> topic <span class="hljs-operator">+</span> <span class="hljs-string">&quot; value= &quot;</span> <span class="hljs-operator">+</span> value));<br></code></pre></td></tr></table></figure>
+<p>同步发送只需要使用调用Future对象的get就好了。get方法还有一个比较有意思的重载方法，get(long timeout, TimeUnit unit)，当send方法耗时大于get方法所设定的参数时会抛出一个超时异常，但需要注意，这里仅抛出异常，消息还是会发送成功的。作为慢查询记录的一个方式。</p>
+<p>注意：</p>
+<ol>
+<li>消息发送失败会自动重试，不需要我们在回调函数中手动重试。</li>
+<li>如果使用produce发送，如果发送时间和发送大小没有达到配置大小，线程直接走完了会导致不会发送出去。需要手动调用<code>producer.close();</code>刷新过去</li>
+</ol>
+<h2 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h2><p>Consumer消费数据时的可靠性是很容易保证的，因为数据在Kafka中是持久化的，故不用担心数据丢失问题。由于consumer在消费过程中可能会出现断电宕机等故障，consumer恢复后，需要从故障前的位置的继续消费，所以consumer需要实时记录自己消费到了哪个offset，以便故障恢复后继续消费。所以offset的维护是Consumer消费数据是必须考虑的问题。</p>
+<p>为了使我们能够专注于自己的业务逻辑，Kafka提供了自动提交offset的功能。</p>
+<p>自动提交offset的相关参数：</p>
+<ul>
+<li><p><code>enable.auto.commit</code>：是否开启自动提交offset功能</p>
+</li>
+<li><p><code>auto.commit.interval.ms</code>：自动提交offset的时间间隔</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs sqf"><span class="hljs-comment">//消费者配置参数</span><br><span class="hljs-keyword">private</span> Map\&lt;String, <span class="hljs-built_in">Object</span>&gt; consumerProps() &#123;<br>    Map&lt;String, <span class="hljs-built_in">Object</span>&gt; props = new HashMap&lt;&gt;();<br>    <span class="hljs-comment">//连接地址</span><br>    props.put(ConsumerConfig.BOOTSTRAP\<span class="hljs-variable">_SERVERS</span>\<span class="hljs-variable">_CONFIG</span>, <span class="hljs-string">&quot;localhost:9092&quot;</span>);<br>    <span class="hljs-comment">//GroupID</span><br>    props.put(ConsumerConfig.<span class="hljs-built_in">GROUP</span>\<span class="hljs-variable">_ID</span>\<span class="hljs-variable">_CONFIG</span>, <span class="hljs-string">&quot;bootKafka&quot;</span>);<br>    <span class="hljs-comment">//是否自动提交</span><br>    props.put(ConsumerConfig.ENABLE\<span class="hljs-variable">_AUTO</span>\<span class="hljs-variable">_COMMIT</span>\<span class="hljs-variable">_CONFIG</span>, <span class="hljs-literal">true</span>);<br>    <span class="hljs-comment">//自动提交的频率</span><br>    props.put(ConsumerConfig.AUTO\<span class="hljs-variable">_COMMIT</span>\<span class="hljs-variable">_INTERVAL</span>\<span class="hljs-variable">_MS</span>\<span class="hljs-variable">_CONFIG</span>, <span class="hljs-string">&quot;100&quot;</span>);<br>    <span class="hljs-comment">//Session超时设置</span><br>    props.put(ConsumerConfig.SESSION\<span class="hljs-variable">_TIMEOUT</span>\<span class="hljs-variable">_MS</span>\<span class="hljs-variable">_CONFIG</span>, <span class="hljs-string">&quot;15000&quot;</span>);<br>    <span class="hljs-comment">//键的反序列化方式</span><br>    props.put(ConsumerConfig.KEY\<span class="hljs-variable">_DESERIALIZER</span>\<span class="hljs-variable">_CLASS</span>\<span class="hljs-variable">_CONFIG</span>, IntegerDeserializer.class);<br>    <span class="hljs-comment">//值的反序列化方式</span><br>    props.put(ConsumerConfig.VALUE\<span class="hljs-variable">_DESERIALIZER</span>\<span class="hljs-variable">_CLASS</span>\<span class="hljs-variable">_CONFIG</span>, StringDeserializer.class);<br>    return props;<br><br>    KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;&gt;(props);<br>    onsumer.subscribe(Arrays.asList(<span class="hljs-string">&quot;first&quot;</span>));<br>    hile (<span class="hljs-literal">true</span>) &#123;<br>    ConsumerRecords\&lt;String, String&gt; records = consumer.poll(<span class="hljs-number">100</span>);<br>    <span class="hljs-keyword">for</span> (ConsumerRecord\&lt;String, String&gt; record : records)&#123;<br>    System.out.printf(<span class="hljs-string">&quot;offset = %d, key = %s, value = %s%n&quot;</span>, record.offset(), record.key(), record.value());<br>    &#125;<br><br>    <span class="hljs-comment">//或者 声明consumerID为demo，groupId不配置默认是consumerID，监听topicName为topic.quick.demo的Topic</span><br>    KafkaListener(id = <span class="hljs-string">&quot;demo&quot;</span>, topics = <span class="hljs-string">&quot;topic.quick.demo&quot;</span>)<br>    ublic void listen(String msgData) &#123;<br>    <span class="hljs-built_in">log</span>.info(<span class="hljs-string">&quot;demo receive : &quot;</span>+msgData);<br></code></pre></td></tr></table></figure>
+<p>自动提交offset虽然方便，但是还是难以把握提交时机。比如自动提交了之后消费者还没有消费完，然后消费者宕机了。所以也可以手动提交，将本次poll的一批数据最高的偏移量提交。</p>
+</li>
+<li><p>commitSync（同步提交）：先消费在提交offset，可能offset提交失败，数据就会重复消费</p>
+</li>
+<li><p>commitAsync（异步提交）：先提交offset再消费，可能提交了offset之后消费者宕机，数据会漏消费</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">// 1.关闭自动提交 offset</span><br>props.put(<span class="hljs-string">&quot;enable.auto.commit&quot;</span>, <span class="hljs-string">&quot;false&quot;</span>);<br><br><span class="hljs-comment">// 2.consumer.poll(100);消费之后，同步提交</span><br>consumer.commit<span class="hljs-constructor">Sync()</span>;<br><br><span class="hljs-comment">// 3.或者异步提交</span><br>consumer.commit<span class="hljs-constructor">Async(<span class="hljs-params">new</span> OffsetCommitCallback()</span> &#123;<br>@Override<br>public void on<span class="hljs-constructor">Complete(Map\&lt;TopicPartition, OffsetAndMetadata&gt; <span class="hljs-params">offsets</span>, Exception <span class="hljs-params">exception</span>)</span> &#123;<br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">exception</span> != null) &#123;<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>err.println(<span class="hljs-string">&quot;Commit failed for&quot;</span> + offsets);<br>&#125;<br>&#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+<p><strong>注意：kafka0.9之前offset保存在zk中，之后默认保存在kafka内置的topic中。</strong></p>
+</li>
+</ul>
+<p>当然还支持自动存储offset，比较繁琐因为要考虑到消费者的Rebalance（新消费者加入消费者组、已有的消费者退出、订阅主题分区发生变化，会触发分区重新分配，叫rebalance）。所以消费者要获取到自己被重新分配到的分区，并且定位到每个分区的最近提交的offset继续消费。</p>
+<p>需要借助<code>ConsumerRebalanceListener</code>，实现略</p>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ol>
+<li>配置Kafka事务管理器并使用@Transactional注解</li>
+<li>使用KafkaTemplate的executeInTransaction方法</li>
+</ol>
+<p>我们需要在producerFactory中开启事务功能，并设置TransactionIdPrefix，TransactionIdPrefix是用来生成Transactional.id的前缀。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-keyword">public</span> ProducerFactory&lt;Integer, String&gt; <span class="hljs-title function_">producerFactory</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">DefaultKafkaProducerFactory</span> <span class="hljs-variable">factory</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultKafkaProducerFactory</span>&lt;&gt;(senderProps());<br>    factory.transactionCapable();<br>    factory.setTransactionIdPrefix(<span class="hljs-string">&quot;tran-&quot;</span>);<br>    <span class="hljs-keyword">return</span> factory;<br>&#125;<br><br><span class="hljs-meta">@Bean</span><br><span class="hljs-keyword">public</span> KafkaTransactionManager <span class="hljs-title function_">transactionManager</span><span class="hljs-params">(ProducerFactory producerFactory)</span> &#123;<br>    <span class="hljs-type">KafkaTransactionManager</span> <span class="hljs-variable">manager</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">KafkaTransactionManager</span>(producerFactory);<br>    <span class="hljs-keyword">return</span> manager;<br>&#125;<br><br><span class="hljs-meta">@Test</span><br><span class="hljs-meta">@Transactional</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testTransactionalAnnotation</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException &#123;<br>    kafkaTemplate.send(<span class="hljs-string">&quot;topic.quick.tran&quot;</span>, <span class="hljs-string">&quot;test transactional annotation&quot;</span>);<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;fail&quot;</span>);<br>&#125;<br><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testExecuteInTransaction</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException &#123;<br>    kafkaTemplate.executeInTransaction(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KafkaOperations</span>.OperationsCallback() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">doInOperations</span><span class="hljs-params">(KafkaOperations kafkaOperations)</span> &#123;<br>            kafkaOperations.send(<span class="hljs-string">&quot;topic.quick.tran&quot;</span>, <span class="hljs-string">&quot;test executeInTransaction&quot;</span>);<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;fail&quot;</span>);<br>            <span class="hljs-comment">//return true;</span><br>        &#125;<br>    &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>produce可以自定义拦截器，处理生产者发送的消息。同时运行多个拦截器按照顺序形成一个拦截链，需要实现<code>org.apache.kafka.clients.producer.ProducerInterceptor</code>。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ProducerInterceptor</span>&lt;<span class="hljs-title class_">String</span>, <span class="hljs-title class_">String</span>&gt; &#123;<br><br>    <span class="hljs-keyword">private</span> int errorCounter = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">private</span> int successCounter = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-comment">// 获取配置信息和初始化数据时调用</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">configure</span>(<span class="hljs-params"><span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>, ?&gt; configs</span>) &#123;<br>    &#125;<br><br>    <span class="hljs-comment">// 消息被序列化以及计算分区前调用该方法，最好保证不要修改消息所属的 topic 和分区，否则会影响目标分区的计算。</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">ProducerRecord</span>&lt;<span class="hljs-title class_">String</span>, <span class="hljs-title class_">String</span>&gt; <span class="hljs-title function_">onSend</span>(<span class="hljs-params">ProducerRecord&lt;<span class="hljs-built_in">String</span>, <span class="hljs-built_in">String</span>&gt; record</span>) &#123;<br>        <span class="hljs-comment">// 创建一个新的record，把时间戳写入消息体的最前部</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProducerRecord</span>(record.<span class="hljs-title function_">topic</span>(), record.<span class="hljs-title function_">partition</span>(), record.<span class="hljs-title function_">timestamp</span>(),<br>                record.<span class="hljs-title function_">key</span>(), <span class="hljs-title class_">System</span>.<span class="hljs-title function_">currentTimeMillis</span>() + <span class="hljs-string">&quot;,&quot;</span> + record.<span class="hljs-title function_">value</span>().<span class="hljs-title function_">toString</span>());<br>    &#125;<br><br>    <span class="hljs-comment">// 在消息从RecordAccumulator成功发送到Kafka Broker之后，或者在发送过程中失败时调用。</span><br>    <span class="hljs-comment">// onAcknowledgement运行在producer的IO线程中，因此不要在该方法中放入很重的逻辑，否则会拖慢producer的消息发送效率</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">onAcknowledgement</span>(<span class="hljs-params">RecordMetadata metadata, Exception exception</span>) &#123;<br>        <span class="hljs-comment">// 统计成功和失败的次数</span><br>        <span class="hljs-keyword">if</span> (exception == <span class="hljs-literal">null</span>) &#123;<br>            successCounter++;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            errorCounter++;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// 关闭interceptor，主要用于执行一些资源清理工作，一定要调用</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">close</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 保存结果</span><br>        <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;Successful sent: &quot;</span> + successCounter);<br>        <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;Failed sent: &quot;</span> + errorCounter);<br>    &#125;<br>&#125;<br><br><br><br><span class="hljs-comment">// 生产者属性中设置，这里拦截链的顺序就是list的顺序</span><br><span class="hljs-title class_">List</span>&lt;<span class="hljs-title class_">String</span>&gt; interceptors = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>interceptors.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;com.kafka.CustomInterceptor&quot;</span>);<br>props.<span class="hljs-title function_">put</span>(<span class="hljs-title class_">ProducerConfig</span>.<span class="hljs-property">INTERCEPTOR_CLASSES_CONFIG</span>, interceptors);<br></code></pre></td></tr></table></figure>
+<h1 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h1><p>Kafka Eagle 略</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Kafka/">#Kafka</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>3.kafka使用</div>
+      <div>http://example.com/2022/08/03/kafka-3.使用/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JingRuiHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月3日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/08/read-loveself/" title="当我真正开始爱自己">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">当我真正开始爱自己</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/02/kafka-2.%E6%90%AD%E5%BB%BA/" title="2.kafka搭建">
+                        <span class="hidden-mobile">2.kafka搭建</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"474398dbe7c152716f6e","clientSecret":"72b83431cf83b93e0e4ddfe1a37a31493ae65314","repo":"blog-gitalk","owner":"jingruihe","admin":["jingruihe"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'd437b8b74c3e32c1c911fab3f7380f19'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

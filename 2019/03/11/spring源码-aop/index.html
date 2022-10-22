@@ -1,0 +1,752 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <link rel="icon" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JingRuiHe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="aop核心思想就是通过织入增强代码， 分为动态织入（运行时通过动态代理技术产生代理对象完成增强）和静态织入（不修改源代码，只对class文件修改，AspectJ） 动态代理分为静态代理和动态代理。 静态代理是在写源码的时候为目标去编写一个对应的代理类 动态代理其实是在运行时通过不同技术实现，去创建新的对象。JDK（目标类必须有接口）、CGLIB（只要不是final就可以，使用继承）。 默认JDK，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring源码-AOP">
+<meta property="og:url" content="http://example.com/2019/03/11/spring%E6%BA%90%E7%A0%81-aop/index.html">
+<meta property="og:site_name" content="景瑞">
+<meta property="og:description" content="aop核心思想就是通过织入增强代码， 分为动态织入（运行时通过动态代理技术产生代理对象完成增强）和静态织入（不修改源代码，只对class文件修改，AspectJ） 动态代理分为静态代理和动态代理。 静态代理是在写源码的时候为目标去编写一个对应的代理类 动态代理其实是在运行时通过不同技术实现，去创建新的对象。JDK（目标类必须有接口）、CGLIB（只要不是final就可以，使用继承）。 默认JDK，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/Spring.png">
+<meta property="article:published_time" content="2019-03-11T06:23:20.000Z">
+<meta property="article:modified_time" content="2022-10-22T03:25:27.034Z">
+<meta property="article:author" content="JingRuiHe">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/Spring.png">
+  
+  
+  
+  <title>Spring源码-AOP - 景瑞</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JingRuiHe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/Spring.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Spring源码-AOP"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-03-11 14:23" pubdate>
+          2019年3月11日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          33k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          272 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring源码-AOP</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>aop核心思想就是通过织入增强代码， 分为动态织入（运行时通过动态代理技术产生代理对象完成增强）和静态织入（不修改源代码，只对class文件修改，AspectJ） 动态代理分为静态代理和动态代理。 静态代理是在写源码的时候为目标去编写一个对应的代理类 动态代理其实是在运行时通过不同技术实现，去创建新的对象。JDK（目标类必须有接口）、CGLIB（只要不是final就可以，使用继承）。 默认JDK，可以指定使用CGLIB。 jdk1.7之前，CGLIB运行比JDK要快，之后效率差不多。但是JDK产生代理对象的效率要高。</p>
+<p>spring AOP，即面向切面编程。AOP核心概念：</p>
+<ol>
+<li>通知（Advice）:定义了切面(各处业务代码中都需要的逻辑提炼成的一个切面)做什么what+when何时使用。例如：前置通知Before、后置通知After、返回通知After-returning、异常通知After-throwing、环绕通知Around.</li>
+<li>连接点（Joint point）：程序执行过程中能够插入切面的点，一般有多个。比如调用方式时、抛出异常时。</li>
+<li>切点（Pointcut）:切点定义了连接点，切点包含多个连接点,即where哪里使用通知.通常指定类+方法 或者 正则表达式来匹配 类和方法名称。</li>
+<li>切面（Aspect）:切面&#x3D;通知+切点，即when+where+what何时何地做什么。</li>
+<li>引入（Introduction）:允许我们向现有的类添加新方法或属性。</li>
+<li>织入（Weaving）:织入是把切面应用到目标对象并创建新的代理对象的过程。</li>
+</ol>
+<p>bean有代理对象，spring容器只会存代理对象。<br>CGLIB底层通过ASM字节码工具包实现字节码重写，JDK只是相当于帮程序员在后台写了java文件并编译加载。</p>
+<p>JDK和CGLIB产生代理对象的方式是怎么样？</p>
+<ol>
+<li>类加载器</li>
+<li>获取完整的代理接口</li>
+<li>代理逻辑<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">public static Object <span class="hljs-keyword">new</span><span class="hljs-constructor">ProxyInstance(ClassLoader <span class="hljs-params">loader</span>,Class&lt;?&gt;[] <span class="hljs-params">interfaces</span>,InvocationHandler <span class="hljs-params">h</span>)</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>调用原生方法的时候就会调用<code>InvocationHandler # invoke(Object proxy, Method method, Object[] args)</code>, 第一个原生对象， 第二个反射获得的Method，第三个方法参数</p>
+<p>CGLIB：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//创建增强器</span><br>Enhancer enhancer = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Enhancer()</span><br><span class="hljs-comment">//设置增强类对象</span><br>enhancer.set<span class="hljs-constructor">Superclass(<span class="hljs-params">clazz</span>)</span>;<br><span class="hljs-comment">//设置回调函数</span><br>enhancer.set<span class="hljs-constructor">Callback(<span class="hljs-params">new</span> MyMethodInterceptor()</span>);<br><span class="hljs-comment">//获取增强之后的代理对象</span><br>Object <span class="hljs-keyword">object</span> = enhancer.create<span class="hljs-literal">()</span>;<br>return <span class="hljs-keyword">object</span>;<br></code></pre></td></tr></table></figure>
+
+<p>JDK和CGLIB产生代理对象的处理步骤是什么样的？<br>调用原生方法的时候就会调用InvocationHandler或者MethodInterceptor去增强功能</p>
+<p>Spring AOP的原理很简单，就是动态代理。在IOC调用getBean的时候不返回真实对象，而是返回代理对象。所以IOC没有管理的bean不能使用AOP。Spring采用JDK Proxy或CGLIB动态生成的。它和AspectJ不一样，AspectJ是直接修改掉你的字节码。</p>
+<h1 id="栗子"><a href="#栗子" class="headerlink" title="栗子"></a>栗子</h1><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">AService</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">barA</span>();<br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">fooA</span>(<span class="hljs-title class_">String</span> msg);<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">AService</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">barA</span>(<span class="hljs-params"></span>)&#123;<br>        <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;AServiceImpl.barA()&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;返回结果barA啦&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">fooA</span>(<span class="hljs-params"><span class="hljs-built_in">String</span> msg</span>)&#123;<br>        <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;AServiceImpl.fooA(msg:&quot;</span> + msg + <span class="hljs-string">&quot;)&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;返回结果fooA啦&quot;</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">XmlAspect</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">doBefore</span>(<span class="hljs-params"></span>)&#123;<br>        <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;前置通知&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-comment">//声明后置通知</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">doAfterReturning</span>(<span class="hljs-params"><span class="hljs-built_in">String</span> result</span>)&#123;<br>        <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;返回通知&quot;</span> + <span class="hljs-string">&quot;---&quot;</span> + result + <span class="hljs-string">&quot;---&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-comment">//声明异常通知</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">doAfterThrowing</span>(<span class="hljs-params">Exception e</span>)&#123;<br>        <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;异常通知&quot;</span> + e.<span class="hljs-title function_">getMessage</span>());<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">doAfter</span>(<span class="hljs-params"></span>)&#123;<br>        <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;最终通知&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">Object</span> <span class="hljs-title function_">doAround</span>(<span class="hljs-title class_">ProceedingJoinPoint</span> pjp) throws <span class="hljs-title class_">Throwable</span>&#123;<br>        <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;进入方法---环绕通知&quot;</span>);<br>        <span class="hljs-title class_">Object</span> o = pjp.<span class="hljs-title function_">proceed</span>();<br>        <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">&quot;退出方法---环绕通知&quot;</span>);<br>        <span class="hljs-keyword">return</span> o;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xmlns:aop</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/aop&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span><br><span class="hljs-string"><span class="hljs-tag">                           http://www.springframework.org/schema/beans/spring-beans.xsd</span></span><br><span class="hljs-string"><span class="hljs-tag">                           http://www.springframework.org/schema/context</span></span><br><span class="hljs-string"><span class="hljs-tag">                           http://www.springframework.org/schema/context/spring-context.xsd</span></span><br><span class="hljs-string"><span class="hljs-tag">                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd</span></span><br><span class="hljs-string"><span class="hljs-tag">                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd&quot;</span>&gt;</span><br><br><span class="hljs-comment">&lt;!--    &lt;context:component-scan base-package=&quot;cn.pisces.cloud.demo.aop&quot;/&gt;--&gt;</span><br><span class="hljs-comment">&lt;!--    &lt;context:annotation-config/&gt;--&gt;</span><br><span class="hljs-comment">&lt;!--    &lt;aop:aspectj-autoproxy&gt;&lt;/aop:aspectj-autoproxy&gt;--&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;AServiceImpl&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;cn.pisces.cloud.demo.aop.AServiceImpl&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;xmlAspect&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;cn.pisces.cloud.demo.aop.XmlAspect&quot;</span> /&gt;</span><br><br>    <span class="hljs-comment">&lt;!--xml 配置aop--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">aop:config</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">aop:aspect</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;TestAspect&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;xmlAspect&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">aop:pointcut</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;pointcut&quot;</span> <span class="hljs-attr">expression</span>=<span class="hljs-string">&quot;execution(* cn.pisces.cloud.demo.aop.*.*(..))&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">aop:around</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;pointcut&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;doAround&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">aop:before</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;pointcut&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;doBefore&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">aop:after</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;pointcut&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;doAfter&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">aop:after-returning</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;pointcut&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;doAfterReturning&quot;</span> <span class="hljs-attr">returning</span>=<span class="hljs-string">&quot;result&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">aop:after-throwing</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;pointcut&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;doAfterThrowing&quot;</span> <span class="hljs-attr">throwing</span>=<span class="hljs-string">&quot;e&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">aop:aspect</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">aop:config</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!--&lt;bean id=&quot;logArgsAdvice&quot; class=&quot;cn.pisces.cloud.demo.aop.LogArgsAdvice&quot; /&gt;</span><br><span class="hljs-comment">    &lt;bean id=&quot;logArgsAdvisor&quot; class=&quot;org.springframework.aop.support.RegexpMethodPointcutAdvisor&quot;&gt;</span><br><span class="hljs-comment">        &lt;property name=&quot;advice&quot; ref=&quot;logArgsAdvice&quot;/&gt;</span><br><span class="hljs-comment">        &lt;property name=&quot;pattern&quot; value=&quot;cn.pisces.cloud.demo.aop.*.*(..)&quot;/&gt;</span><br><span class="hljs-comment">    &lt;/bean&gt;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    &lt;bean class=&quot;org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator&quot;/&gt;--&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>test</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestAop</span> &#123;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testAop</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">ApplicationContext</span> <span class="hljs-variable">ac</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>(<span class="hljs-string">&quot;aop-xml.xml&quot;</span>);<br>        <span class="hljs-type">AService</span> <span class="hljs-variable">aService</span> <span class="hljs-operator">=</span> (AService) ac.getBean(<span class="hljs-string">&quot;AServiceImpl&quot;</span>);<br>        aService.fooA(<span class="hljs-string">&quot;test&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="beanDefinition处理"><a href="#beanDefinition处理" class="headerlink" title="beanDefinition处理"></a>beanDefinition处理</h1><p>首先aop在加载BeanDefinition的时候会处理一遍</p>
+<p>DefaultBeanDefinitionDocumentReader#parseBeanDefinitions</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">protected void parse<span class="hljs-constructor">BeanDefinitions(Element <span class="hljs-params">root</span>, BeanDefinitionParserDelegate <span class="hljs-params">delegate</span>)</span> &#123;<br>	<span class="hljs-keyword">if</span> (delegate.is<span class="hljs-constructor">DefaultNamespace(<span class="hljs-params">root</span>)</span>) &#123;<br>		NodeList nl = root.get<span class="hljs-constructor">ChildNodes()</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; nl.get<span class="hljs-constructor">Length()</span>; i++) &#123;<br>			Node node = nl.item(i);<br>			<span class="hljs-keyword">if</span> (node instanceof Element) &#123;<br>				Element ele = (Element) node;<br>				<span class="hljs-keyword">if</span> (delegate.is<span class="hljs-constructor">DefaultNamespace(<span class="hljs-params">ele</span>)</span>) &#123;<br>					<span class="hljs-comment">// &lt;bean&gt;</span><br>					parse<span class="hljs-constructor">DefaultElement(<span class="hljs-params">ele</span>, <span class="hljs-params">delegate</span>)</span>;<br>				&#125;<br>				<span class="hljs-keyword">else</span> &#123;<br>					<span class="hljs-comment">// &lt;aop:config&gt;</span><br>					delegate.parse<span class="hljs-constructor">CustomElement(<span class="hljs-params">ele</span>)</span>;<br>				&#125;<br>			&#125;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		delegate.parse<span class="hljs-constructor">CustomElement(<span class="hljs-params">root</span>)</span>;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>跟进BeanDefinitionParserDelegate#parseCustomElement</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@Nullable</span><br><span class="hljs-keyword">public</span> BeanDefinition parseCustomElement(Element ele, <span class="hljs-meta">@Nullable</span> BeanDefinition containingBd) &#123;<br>	<span class="hljs-comment">// namespaceUri为http://www.springframework.org/schema/aop</span><br>	String namespaceUri = getNamespaceURI(ele);<br>	<span class="hljs-keyword">if</span> (namespaceUri == <span class="hljs-literal">null</span>) &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>	&#125;<br>	<span class="hljs-comment">// 根据这个Namespace获取对应的NamespaceHandler即Namespace处理器, AopNamespaceHandler</span><br>	NamespaceHandler handler = <span class="hljs-keyword">this</span>.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri);<br>	<span class="hljs-keyword">if</span> (handler == <span class="hljs-literal">null</span>) &#123;<br>		error(<span class="hljs-string">&quot;Unable to locate Spring NamespaceHandler for XML schema namespace [&quot;</span> + namespaceUri + <span class="hljs-string">&quot;]&quot;</span>, ele);<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>	&#125;<br>	<span class="hljs-keyword">return</span> handler.parse(ele, new ParserContext(<span class="hljs-keyword">this</span>.readerContext, <span class="hljs-keyword">this</span>, containingBd));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>AopNamespaceHandler继承了NamespaceHandlerSupport，所以进入NamespaceHandlerSupport#parse</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-meta">@Nullable</span><br><span class="hljs-keyword">public</span> BeanDefinition <span class="hljs-title function_">parse</span><span class="hljs-params">(Element element, ParserContext parserContext)</span> &#123;<br>	<span class="hljs-type">BeanDefinitionParser</span> <span class="hljs-variable">parser</span> <span class="hljs-operator">=</span> findParserForElement(element, parserContext);<br>	<span class="hljs-keyword">return</span> (parser != <span class="hljs-literal">null</span> ? parser.parse(element, parserContext) : <span class="hljs-literal">null</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这里对应了一些parser</p>
+<ul>
+<li>config–&gt;ConfigBeanDefinitionParser</li>
+<li>aspectj-autoproxy–&gt;AspectJAutoProxyBeanDefinitionParser</li>
+<li>scoped-proxy–&gt;ScopedProxyBeanDefinitionDecorator</li>
+<li>spring-configured–&gt;SpringConfiguredBeanDefinitionParser<br>我们这里是<code>&lt;aop:config&gt;</code>所以进入ConfigBeanDefinitionParser#parse</li>
+</ul>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">@Override<br>@Nullable<br>public BeanDefinition parse(Element element, ParserContext parserContext) &#123;<br>	CompositeComponentDefinition compositeDef =<br>			<span class="hljs-keyword">new</span> <span class="hljs-constructor">CompositeComponentDefinition(<span class="hljs-params">element</span>.<span class="hljs-params">getTagName</span>()</span>, parserContext.extract<span class="hljs-constructor">Source(<span class="hljs-params">element</span>)</span>);<br>	parserContext.push<span class="hljs-constructor">ContainingComponent(<span class="hljs-params">compositeDef</span>)</span>;<br><br>	<span class="hljs-comment">// 重要:</span><br>	<span class="hljs-comment">// 向Spring容器注册了一个BeanName为org.springframework.aop.config.internalAutoProxyCreator的Bean定义，可以自定义也可以使用Spring提供的（根据优先级来）</span><br>	<span class="hljs-comment">// Spring默认提供的是org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator，这个类是AOP的核心类</span><br>	<span class="hljs-comment">// 在这个方法里面也会根据配置proxy-target-class和expose-proxy，设置是否使用CGLIB进行代理以及是否暴露最终的代理</span><br>	configure<span class="hljs-constructor">AutoProxyCreator(<span class="hljs-params">parserContext</span>, <span class="hljs-params">element</span>)</span>;<br><br>	List&lt;Element&gt; childElts = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">DomUtils</span>.</span></span>get<span class="hljs-constructor">ChildElements(<span class="hljs-params">element</span>)</span>;<br>	<span class="hljs-keyword">for</span> (Element elt: childElts) &#123;<br>		String localName = parserContext.get<span class="hljs-constructor">Delegate()</span>.get<span class="hljs-constructor">LocalName(<span class="hljs-params">elt</span>)</span>;<br>		<span class="hljs-keyword">if</span> (<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">POINTCUT</span>.</span></span>equals(localName)) &#123;<br>			parse<span class="hljs-constructor">Pointcut(<span class="hljs-params">elt</span>, <span class="hljs-params">parserContext</span>)</span>;<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ADVISOR</span>.</span></span>equals(localName)) &#123;<br>			parse<span class="hljs-constructor">Advisor(<span class="hljs-params">elt</span>, <span class="hljs-params">parserContext</span>)</span>;<br>		&#125;<br>		<span class="hljs-comment">// &lt;aop:config&gt;下的节点为&lt;aop:aspect&gt;所以执行这一行</span><br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ASPECT</span>.</span></span>equals(localName)) &#123;<br>			parse<span class="hljs-constructor">Aspect(<span class="hljs-params">elt</span>, <span class="hljs-params">parserContext</span>)</span>;<br>		&#125;<br>	&#125;<br><br>	parserContext.pop<span class="hljs-constructor">AndRegisterContainingComponent()</span>;<br>	return null;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>ConfigBeanDefinitionParser#parseAspect</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">private <span class="hljs-type">void</span> parseAspect(Element aspectElement, ParserContext parserContext) &#123;<br>	//aspectId=TestAspect<br>	String aspectId = aspectElement.getAttribute(ID);<br>	//aspectName=xmlAspect<br>	String aspectName = aspectElement.getAttribute(<span class="hljs-keyword">REF</span>);<br><br>	try &#123;<br>		// 标识正在解析Aspect<br>		this.parseState.push(<span class="hljs-built_in">new</span> AspectEntry(aspectId, aspectName));<br>		List&lt;BeanDefinition&gt; beanDefinitions = <span class="hljs-built_in">new</span> ArrayList&lt;&gt;();<br>		List&lt;BeanReference&gt; beanReferences = <span class="hljs-built_in">new</span> ArrayList&lt;&gt;();<br><br>		List&lt;Element&gt; declareParents = DomUtils.getChildElementsByTagName(aspectElement, DECLARE_PARENTS);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = METHOD_INDEX; i &lt; declareParents.size(); i++) &#123;<br>			Element declareParentsElement = declareParents.<span class="hljs-keyword">get</span>(i);<br>			beanDefinitions.<span class="hljs-keyword">add</span>(parseDeclareParents(declareParentsElement, parserContext));<br>		&#125;<br><br>		// We have <span class="hljs-keyword">to</span> parse &quot;advice&quot; <span class="hljs-keyword">and</span> <span class="hljs-keyword">all</span> the advice kinds <span class="hljs-keyword">in</span> one <span class="hljs-keyword">loop</span>, <span class="hljs-keyword">to</span> <span class="hljs-keyword">get</span> the<br>		// ordering semantics right.<br>		NodeList nodeList = aspectElement.getChildNodes();<br>		<span class="hljs-type">boolean</span> adviceFoundAlready = <span class="hljs-keyword">false</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; nodeList.getLength(); i++) &#123;<br>			Node node = nodeList.item(i);<br>			// <span class="hljs-keyword">for</span>循环只用来处理&lt;aop:aspect&gt;标签下的&lt;aop:<span class="hljs-keyword">before</span>&gt;、&lt;aop:<span class="hljs-keyword">after</span>&gt;、&lt;aop:<span class="hljs-keyword">after</span>-<span class="hljs-keyword">returning</span>&gt;、&lt;aop:<span class="hljs-keyword">after</span>-throwing <span class="hljs-keyword">method</span>=&quot;&quot;&gt;、&lt;aop:around <span class="hljs-keyword">method</span>=&quot;&quot;&gt;这五个标签<br>			<span class="hljs-keyword">if</span> (isAdviceNode(node, parserContext)) &#123;<br>				<span class="hljs-keyword">if</span> (!adviceFoundAlready) &#123;<br>					adviceFoundAlready = <span class="hljs-keyword">true</span>;<br>					<span class="hljs-keyword">if</span> (!StringUtils.hasText(aspectName)) &#123;<br>						parserContext.getReaderContext().error(<br>								&quot;&lt;aspect&gt; tag needs aspect bean reference via &#x27;ref&#x27; attribute when declaring advices.&quot;,<br>								aspectElement, this.parseState.<span class="hljs-keyword">snapshot</span>());<br>						<span class="hljs-keyword">return</span>;<br>					&#125;<br>					beanReferences.<span class="hljs-keyword">add</span>(<span class="hljs-built_in">new</span> RuntimeBeanReference(aspectName));<br>				&#125;<br>				// 解析&lt;aop:<span class="hljs-keyword">before</span>&gt;、&lt;aop:<span class="hljs-keyword">after</span>&gt;、&lt;aop:<span class="hljs-keyword">after</span>-<span class="hljs-keyword">returning</span>&gt;、&lt;aop:<span class="hljs-keyword">after</span>-throwing <span class="hljs-keyword">method</span>=&quot;&quot;&gt;、&lt;aop:around <span class="hljs-keyword">method</span>=&quot;&quot;&gt;<br>				AbstractBeanDefinition advisorDefinition = parseAdvice(<br>						aspectName, i, aspectElement, (Element) node, parserContext, beanDefinitions, beanReferences);<br>				beanDefinitions.<span class="hljs-keyword">add</span>(advisorDefinition);<br>			&#125;<br>		&#125;<br><br>		AspectComponentDefinition aspectComponentDefinition = createAspectComponentDefinition(<br>				aspectElement, aspectId, beanDefinitions, beanReferences, parserContext);<br>		parserContext.pushContainingComponent(aspectComponentDefinition);<br><br>		List&lt;Element&gt; pointcuts = DomUtils.getChildElementsByTagName(aspectElement, POINTCUT);<br>		// 解析&lt;aop:pointcut&gt;<br>		<span class="hljs-keyword">for</span> (Element pointcutElement : pointcuts) &#123;<br>			parsePointcut(pointcutElement, parserContext);<br>		&#125;<br><br>		parserContext.popAndRegisterContainingComponent();<br>	&#125;<br>	finally &#123;<br>		this.parseState.pop();<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="解析Advice"><a href="#解析Advice" class="headerlink" title="解析Advice"></a>解析Advice</h2><p>ConfigBeanDefinitionParser#parseAdvice</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">private</span> AbstractBeanDefinition <span class="hljs-title">parseAdvice</span>(<span class="hljs-params"></span></span><br><span class="hljs-params"><span class="hljs-function">		String aspectName, <span class="hljs-built_in">int</span> order, Element aspectElement, Element adviceElement, ParserContext parserContext,</span></span><br><span class="hljs-params"><span class="hljs-function">		List&lt;BeanDefinition&gt; beanDefinitions, List&lt;BeanReference&gt; beanReferences</span>)</span> &#123;<br><br>	<span class="hljs-keyword">try</span> &#123;<br>		<span class="hljs-keyword">this</span>.parseState.push(<span class="hljs-keyword">new</span> AdviceEntry(parserContext.getDelegate().getLocalName(adviceElement)));<br><br>		<span class="hljs-comment">// create the method factory bean</span><br>		RootBeanDefinition methodDefinition = <span class="hljs-keyword">new</span> RootBeanDefinition(MethodLocatingFactoryBean.<span class="hljs-keyword">class</span>);<br>		methodDefinition.getPropertyValues().<span class="hljs-keyword">add</span>(<span class="hljs-string">&quot;targetBeanName&quot;</span>, aspectName);<br>		methodDefinition.getPropertyValues().<span class="hljs-keyword">add</span>(<span class="hljs-string">&quot;methodName&quot;</span>, adviceElement.getAttribute(<span class="hljs-string">&quot;method&quot;</span>));<br>		methodDefinition.setSynthetic(<span class="hljs-literal">true</span>);<br><br>		<span class="hljs-comment">// create instance factory definition</span><br>		RootBeanDefinition aspectFactoryDef =<br>				<span class="hljs-keyword">new</span> RootBeanDefinition(SimpleBeanFactoryAwareAspectInstanceFactory.<span class="hljs-keyword">class</span>);<br>		aspectFactoryDef.getPropertyValues().<span class="hljs-keyword">add</span>(<span class="hljs-string">&quot;aspectBeanName&quot;</span>, aspectName);<br>		aspectFactoryDef.setSynthetic(<span class="hljs-literal">true</span>);<br><br>		<span class="hljs-comment">// register the pointcut</span><br>		<span class="hljs-comment">// 创建的AbstractBeanDefinition实例是RootBeanDefinition，这和普通Bean创建的实例为GenericBeanDefinition不同</span><br>		<span class="hljs-comment">// 进入createAdviceDefinition#getAdviceClass可以发现，不同的Bean定义中要对应一个具体的Class，不同的切入方式对应不同的Class</span><br>		<span class="hljs-comment">// 1. before对应AspectJMethodBeforeAdvice</span><br>		<span class="hljs-comment">// 2. After对应AspectJAfterAdvice</span><br>		<span class="hljs-comment">// 3. after-returning对应AspectJAfterReturningAdvice</span><br>		<span class="hljs-comment">// 4. after-throwing对应AspectJAfterThrowingAdvice</span><br>		<span class="hljs-comment">// 5. around对应AspectJAroundAdvice</span><br>		AbstractBeanDefinition adviceDef = createAdviceDefinition(<br>				adviceElement, parserContext, aspectName, order, methodDefinition, aspectFactoryDef,<br>				beanDefinitions, beanReferences);<br><br>		<span class="hljs-comment">// configure the advisor</span><br>		<span class="hljs-comment">// 将上一步adviceDef包装一下生成一个新的RootBeanDefinition，Class类型是org.springframework.aop.aspectj.AspectJPointcutAdvisor</span><br>		RootBeanDefinition advisorDefinition = <span class="hljs-keyword">new</span> RootBeanDefinition(AspectJPointcutAdvisor.<span class="hljs-keyword">class</span>);<br>		advisorDefinition.setSource(parserContext.extractSource(adviceElement));<br>		advisorDefinition.getConstructorArgumentValues().addGenericArgumentValue(adviceDef);<br>		<span class="hljs-keyword">if</span> (aspectElement.hasAttribute(ORDER_PROPERTY)) &#123;<br>			advisorDefinition.getPropertyValues().<span class="hljs-keyword">add</span>(<br>					ORDER_PROPERTY, aspectElement.getAttribute(ORDER_PROPERTY));<br>		&#125;<br><br>		<span class="hljs-comment">// register the final advisor</span><br>		<span class="hljs-comment">// advisorDefinition的BeanDefinition注册到DefaultListableBeanFactory</span><br>		<span class="hljs-comment">// 注册的名称为Class全路径+&quot;#&quot;+全局计数器，比如org.springframework.aop.aspectj.AspectJPointcutAdvisor#0、org.springframework.aop.aspectj.AspectJPointcutAdvisor#1</span><br>		parserContext.getReaderContext().registerWithGeneratedName(advisorDefinition);<br><br>		<span class="hljs-keyword">return</span> advisorDefinition;<br>	&#125;<br>	<span class="hljs-keyword">finally</span> &#123;<br>		<span class="hljs-keyword">this</span>.parseState.pop();<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="解析pointcut"><a href="#解析pointcut" class="headerlink" title="解析pointcut"></a>解析pointcut</h2><p>进入ConfigBeanDefinitionParser#parsePointcut</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> AbstractBeanDefinition <span class="hljs-title function_">parsePointcut</span><span class="hljs-params">(Element pointcutElement, ParserContext parserContext)</span> &#123;<br>	<span class="hljs-comment">// 获取&lt;aop:pointcut&gt;标签下的&quot;id&quot;属性与&quot;expression&quot;属性</span><br>	<span class="hljs-type">String</span> <span class="hljs-variable">id</span> <span class="hljs-operator">=</span> pointcutElement.getAttribute(ID);<br>	<span class="hljs-type">String</span> <span class="hljs-variable">expression</span> <span class="hljs-operator">=</span> pointcutElement.getAttribute(EXPRESSION);<br>	<br>	<span class="hljs-type">AbstractBeanDefinition</span> <span class="hljs-variable">pointcutDefinition</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br><br>	<span class="hljs-keyword">try</span> &#123;<br>		<span class="hljs-comment">// 推送一个PointcutEntry，表示当前Spring上下文正在解析Pointcut标签</span><br>		<span class="hljs-built_in">this</span>.parseState.push(<span class="hljs-keyword">new</span> <span class="hljs-title class_">PointcutEntry</span>(id));<br>		<span class="hljs-comment">// &lt;aop:pointcut&gt;标签对应解析出来的BeanDefinition是RootBeanDefinition，且RootBenaDefinitoin中的Class是org.springframework.aop.aspectj.AspectJExpressionPointcut</span><br>		<span class="hljs-comment">// &lt;aop:pointcut&gt;标签对应的Bean是prototype即原型的</span><br>		pointcutDefinition = createPointcutDefinition(expression);<br>		<span class="hljs-comment">// 为空跳过</span><br>		pointcutDefinition.setSource(parserContext.extractSource(pointcutElement));<br><br>		<span class="hljs-type">String</span> <span class="hljs-variable">pointcutBeanName</span> <span class="hljs-operator">=</span> id;<br>		<span class="hljs-comment">// 如果&lt;aop:pointcut&gt;标签中配置了id属性就执行</span><br>		<span class="hljs-keyword">if</span> (StringUtils.hasText(pointcutBeanName)) &#123;<br>			parserContext.getRegistry().registerBeanDefinition(pointcutBeanName, pointcutDefinition);<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-comment">// 没有默认为org.springframework.aop.aspectj.AspectJExpressionPointcut#序号</span><br>			pointcutBeanName = parserContext.getReaderContext().registerWithGeneratedName(pointcutDefinition);<br>		&#125;<br><br>		parserContext.registerComponent(<br>				<span class="hljs-keyword">new</span> <span class="hljs-title class_">PointcutComponentDefinition</span>(pointcutBeanName, pointcutDefinition, expression));<br>	&#125;<br>	<span class="hljs-keyword">finally</span> &#123;<br>		<span class="hljs-comment">// &lt;aop:pointcut&gt;标签解析完毕后，让之前推送至栈顶的PointcutEntry出栈，表示此次&lt;aop:pointcut&gt;标签解析完毕</span><br>		<span class="hljs-built_in">this</span>.parseState.pop();<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> pointcutDefinition;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="beanDefinition处理总结"><a href="#beanDefinition处理总结" class="headerlink" title="beanDefinition处理总结"></a>beanDefinition处理总结</h2><p>这时候我们beanDefinitionMap中</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs autoit"><span class="hljs-string">&quot;org.springframework.aop.aspectj.AspectJPointcutAdvisor#4&quot;</span> -&gt; &#123;RootBeanDefinition<span class="hljs-symbol">@2488</span>&#125; <span class="hljs-string">&quot;Root bean: class [org.springframework.aop.aspectj.AspectJPointcutAdvisor]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null&quot;</span><br><br><span class="hljs-string">&quot;org.springframework.aop.aspectj.AspectJPointcutAdvisor#2&quot;</span> -&gt; &#123;RootBeanDefinition<span class="hljs-symbol">@2490</span>&#125; <span class="hljs-string">&quot;Root bean: class [org.springframework.aop.aspectj.AspectJPointcutAdvisor]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null&quot;</span><br><br><span class="hljs-string">&quot;org.springframework.aop.aspectj.AspectJPointcutAdvisor#3&quot;</span> -&gt; &#123;RootBeanDefinition<span class="hljs-symbol">@2492</span>&#125; <span class="hljs-string">&quot;Root bean: class [org.springframework.aop.aspectj.AspectJPointcutAdvisor]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null&quot;</span><br><br><span class="hljs-string">&quot;org.springframework.aop.aspectj.AspectJPointcutAdvisor#0&quot;</span> -&gt; &#123;RootBeanDefinition<span class="hljs-symbol">@2349</span>&#125; <span class="hljs-string">&quot;Root bean: class [org.springframework.aop.aspectj.AspectJPointcutAdvisor]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null&quot;</span><br><br><span class="hljs-string">&quot;org.springframework.aop.aspectj.AspectJPointcutAdvisor#1&quot;</span> -&gt; &#123;RootBeanDefinition<span class="hljs-symbol">@2495</span>&#125; <span class="hljs-string">&quot;Root bean: class [org.springframework.aop.aspectj.AspectJPointcutAdvisor]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null&quot;</span><br><br><span class="hljs-string">&quot;org.springframework.aop.config.internalAutoProxyCreator&quot;</span> -&gt; &#123;RootBeanDefinition<span class="hljs-symbol">@2497</span>&#125; <span class="hljs-string">&quot;Root bean: class [org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null&quot;</span><br><br><span class="hljs-string">&quot;xmlAspect&quot;</span> -&gt; &#123;GenericBeanDefinition<span class="hljs-symbol">@2499</span>&#125; <span class="hljs-string">&quot;Generic bean: class [cn.pisces.cloud.demo.aop.XmlAspect]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in class path resource [aop-xml.xml]&quot;</span><br><br><span class="hljs-string">&quot;pointcut&quot;</span> -&gt; &#123;RootBeanDefinition<span class="hljs-symbol">@2500</span>&#125; <span class="hljs-string">&quot;Root bean: class [org.springframework.aop.aspectj.AspectJExpressionPointcut]; scope=prototype; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null&quot;</span><br><br><span class="hljs-string">&quot;AServiceImpl&quot;</span> -&gt; &#123;GenericBeanDefinition<span class="hljs-symbol">@2502</span>&#125; <span class="hljs-string">&quot;Generic bean: class [cn.pisces.cloud.demo.aop.AServiceImpl]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in class path resource [aop-xml.xml]&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="实例化处理"><a href="#实例化处理" class="headerlink" title="实例化处理"></a>实例化处理</h1><p>org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator这个类是Spring提供给开发者的AOP的核心类，就是AspectJAwareAdvisorAutoProxyCreator完成了类&#x2F;接口–&gt;代理的转换过程。<br>AspectJAwareAdvisorAutoProxyCreator是BeanPostProcessor接口的实现类，具体实现在父类AbstractAutoProxyCreator中。postProcessBeforeInitialization是一个空实现，增强代码在postProcessAfterInitialization中。</p>
+<blockquote>
+<p>在每个Bean初始化之后，如果需要，调用AspectJAwareAdvisorAutoProxyCreator中的postProcessBeforeInitialization为Bean生成代理</p>
+</blockquote>
+<p>跟进源码</p>
+<ol>
+<li>AbstractApplicationContext#finishBeanFactoryInitialization</li>
+<li>DefaultListableBeanFactory#preInstantiateSingletons</li>
+<li>AbstractBeanFactory#doGetBean</li>
+<li>AbstractAutowireCapableBeanFactory#createBean</li>
+<li>AbstractAutowireCapableBeanFactory#doCreateBean</li>
+<li>AbstractAutowireCapableBeanFactory#initializeBean</li>
+<li>AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsAfterInitialization，其中有一个processor就是AspectJAwareAdvisorAutoProxyCreator</li>
+<li>AbstractAutoProxyCreator#postProcessAfterInitialization</li>
+<li>AbstractAutoProxyCreator#wrapIfNecessary</li>
+</ol>
+<p>进入wrapIfNecessary</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">protected</span> Object wrapIfNecessary(Object bean, String beanName, Object cacheKey) &#123;<br>	<span class="hljs-keyword">if</span> (StringUtils.hasLength(beanName) &amp;&amp; <span class="hljs-keyword">this</span>.targetSourcedBeans.contains(beanName)) &#123;<br>		<span class="hljs-keyword">return</span> bean;<br>	&#125;<br>	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">Boolean</span>.FALSE.equals(<span class="hljs-keyword">this</span>.advisedBeans.<span class="hljs-keyword">get</span>(cacheKey))) &#123;<br>		<span class="hljs-keyword">return</span> bean;<br>	&#125;<br>	<span class="hljs-keyword">if</span> (isInfrastructureClass(bean.getClass()) || shouldSkip(bean.getClass(), beanName)) &#123;<br>		<span class="hljs-keyword">this</span>.advisedBeans.put(cacheKey, <span class="hljs-built_in">Boolean</span>.FALSE);<br>		<span class="hljs-keyword">return</span> bean;<br>	&#125;<br><br>	<span class="hljs-comment">// Create proxy if we have advice.</span><br>	<span class="hljs-comment">// 这里会把所有Advices实例化到IOC中</span><br>	Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, <span class="hljs-literal">null</span>);<br>	<span class="hljs-keyword">if</span> (specificInterceptors != DO_NOT_PROXY) &#123;<br>		<span class="hljs-keyword">this</span>.advisedBeans.put(cacheKey, <span class="hljs-built_in">Boolean</span>.TRUE);<br>		Object proxy = createProxy(<br>				bean.getClass(), beanName, specificInterceptors, new SingletonTargetSource(bean));<br>		<span class="hljs-keyword">this</span>.proxyTypes.put(cacheKey, proxy.getClass());<br>		<span class="hljs-keyword">return</span> proxy;<br>	&#125;<br><br>	<span class="hljs-keyword">this</span>.advisedBeans.put(cacheKey, <span class="hljs-built_in">Boolean</span>.FALSE);<br>	<span class="hljs-keyword">return</span> bean;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-comment">// 因为配置文件里面有很多Bean，肯定不能对每个Bean都生成代理，因此需要一套规则判断Bean是不是需要生成代理</span><br><span class="hljs-meta">@Override</span><br><span class="hljs-meta">@Nullable</span><br><span class="hljs-keyword">protected</span> <span class="hljs-title class_">Object</span>[] <span class="hljs-title function_">getAdvicesAndAdvisorsForBean</span>(<span class="hljs-params"></span><br><span class="hljs-params">		Class&lt;?&gt; beanClass, <span class="hljs-built_in">String</span> beanName, <span class="hljs-meta">@Nullable</span> TargetSource targetSource</span>) &#123;<br><br>	<span class="hljs-title class_">List</span>&lt;<span class="hljs-title class_">Advisor</span>&gt; advisors = <span class="hljs-title function_">findEligibleAdvisors</span>(beanClass, beanName);<br>	<span class="hljs-keyword">if</span> (advisors.<span class="hljs-title function_">isEmpty</span>()) &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-variable constant_">DO_NOT_PROXY</span>;<br>	&#125;<br>	<span class="hljs-keyword">return</span> advisors.<span class="hljs-title function_">toArray</span>();<br>&#125;<br><br><span class="hljs-keyword">protected</span> <span class="hljs-title class_">List</span>&lt;<span class="hljs-title class_">Advisor</span>&gt; <span class="hljs-title function_">findEligibleAdvisors</span>(<span class="hljs-params">Class&lt;?&gt; beanClass, <span class="hljs-built_in">String</span> beanName</span>) &#123;<br>	<span class="hljs-comment">// 寻找候选Advisors, 在XML解析的时候已经被转换生成了RootBeanDefinition会被注入到IOC中</span><br>	<span class="hljs-title class_">List</span>&lt;<span class="hljs-title class_">Advisor</span>&gt; candidateAdvisors = <span class="hljs-title function_">findCandidateAdvisors</span>();<br>	<span class="hljs-comment">// 寻找可以使用的Advisor</span><br>	<span class="hljs-comment">// 1. 目标类必须满足expression的匹配规则</span><br>	<span class="hljs-comment">// 2. 目标类中的方法必须满足expression的匹配规则，当然这里方法不是全部需要满足expression的匹配规则，有一个方法满足即可</span><br>	<span class="hljs-title class_">List</span>&lt;<span class="hljs-title class_">Advisor</span>&gt; eligibleAdvisors = <span class="hljs-title function_">findAdvisorsThatCanApply</span>(candidateAdvisors, beanClass, beanName);<br>	<span class="hljs-comment">// 向候选Advisor链的开头添加一个org.springframework.aop.support.DefaultPointcutAdvisor</span><br>	<span class="hljs-title function_">extendAdvisors</span>(eligibleAdvisors);<br>	<span class="hljs-keyword">if</span> (!eligibleAdvisors.<span class="hljs-title function_">isEmpty</span>()) &#123;<br>		eligibleAdvisors = <span class="hljs-title function_">sortAdvisors</span>(eligibleAdvisors);<br>	&#125;<br>	<span class="hljs-keyword">return</span> eligibleAdvisors;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这时候回到wrapIfNecessary的<code>Object proxy = createProxy(bean.getClass(), beanName, specificInterceptors, new SingletonTargetSource(bean));</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">protected</span> <span class="hljs-title class_">Object</span> <span class="hljs-title function_">createProxy</span>(<span class="hljs-params">Class&lt;?&gt; beanClass, <span class="hljs-meta">@Nullable</span> <span class="hljs-built_in">String</span> beanName,</span><br><span class="hljs-params">		<span class="hljs-meta">@Nullable</span> <span class="hljs-built_in">Object</span>[] specificInterceptors, TargetSource targetSource</span>) &#123;<br><br>	<span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">beanFactory</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">ConfigurableListableBeanFactory</span>) &#123;<br>		<span class="hljs-title class_">AutoProxyUtils</span>.<span class="hljs-title function_">exposeTargetClass</span>((<span class="hljs-title class_">ConfigurableListableBeanFactory</span>) <span class="hljs-variable language_">this</span>.<span class="hljs-property">beanFactory</span>, beanName, beanClass);<br>	&#125;<br>	<span class="hljs-comment">// 创建代理工厂</span><br>	<span class="hljs-title class_">ProxyFactory</span> proxyFactory = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProxyFactory</span>();<br>	proxyFactory.<span class="hljs-title function_">copyFrom</span>(<span class="hljs-variable language_">this</span>);<br>	<span class="hljs-comment">// 判断的内容是&lt;aop:config&gt;这个节点中proxy-target-class=&quot;false&quot;或者proxy-target-class不配置，即不使用CGLIB生成代理</span><br>	<span class="hljs-keyword">if</span> (!proxyFactory.<span class="hljs-title function_">isProxyTargetClass</span>()) &#123;<br>		<span class="hljs-keyword">if</span> (<span class="hljs-title function_">shouldProxyTargetClass</span>(beanClass, beanName)) &#123;<br>			proxyFactory.<span class="hljs-title function_">setProxyTargetClass</span>(<span class="hljs-literal">true</span>);<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-comment">// 这些接口Class对象都添加到ProxyFactory中</span><br>			evaluateProxyInterfaces(beanClass, proxyFactory);<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">// 向ProxyFactory中添加一些参数, 略</span><br>	<span class="hljs-title class_">Advisor</span>[] advisors = <span class="hljs-title function_">buildAdvisors</span>(beanName, specificInterceptors);<br>	proxyFactory.<span class="hljs-title function_">addAdvisors</span>(advisors);<br>	proxyFactory.<span class="hljs-title function_">setTargetSource</span>(targetSource);<br>	<span class="hljs-title function_">customizeProxyFactory</span>(proxyFactory);<br><br>	proxyFactory.<span class="hljs-title function_">setFrozen</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">freezeProxy</span>);<br>	<span class="hljs-keyword">if</span> (<span class="hljs-title function_">advisorsPreFiltered</span>()) &#123;<br>		proxyFactory.<span class="hljs-title function_">setPreFiltered</span>(<span class="hljs-literal">true</span>);<br>	&#125;<br>	<span class="hljs-comment">// 实际代理对象</span><br>	<span class="hljs-keyword">return</span> proxyFactory.<span class="hljs-title function_">getProxy</span>(<span class="hljs-title function_">getProxyClassLoader</span>());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">public</span> <span class="hljs-selector-tag">Object</span> <span class="hljs-selector-tag">getProxy</span>(<span class="hljs-variable">@Nullable</span> ClassLoader classLoader) &#123;<br>	<span class="hljs-selector-tag">return</span> <span class="hljs-selector-tag">createAopProxy</span>()<span class="hljs-selector-class">.getProxy</span>(classLoader);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>createAopProxy默认使用JdkDynamicAopProxy，三种情况除外：</p>
+<ol>
+<li>ProxyConfig的isOptimize方法为true，这表示让Spring自己去优化而不是用户指定</li>
+<li>ProxyConfig的isProxyTargetClass方法为true，这表示配置了proxy-target-class&#x3D;”true”</li>
+<li>ProxyConfig满足hasNoUserSuppliedProxyInterfaces方法执行结果为true，这表示<bean>对象没有实现任何接口或者实现的接口是SpringProxy接口</li>
+</ol>
+<p>来看一下JdkDynamicAopProxy#getProxy的实现</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">@Override<br>public Object get<span class="hljs-constructor">Proxy(@Nullable ClassLoader <span class="hljs-params">classLoader</span>)</span> &#123;<br>	<span class="hljs-keyword">if</span> (logger.is<span class="hljs-constructor">TraceEnabled()</span>) &#123;<br>		logger.trace(<span class="hljs-string">&quot;Creating JDK dynamic proxy: &quot;</span> + this.advised.get<span class="hljs-constructor">TargetSource()</span>);<br>	&#125;<br>	<span class="hljs-comment">// 拿到所有要代理的接口</span><br>	Class&lt;?&gt;<span class="hljs-literal">[]</span> proxiedInterfaces = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AopProxyUtils</span>.</span></span>complete<span class="hljs-constructor">ProxiedInterfaces(<span class="hljs-params">this</span>.<span class="hljs-params">advised</span>, <span class="hljs-params">true</span>)</span>;<br>	<span class="hljs-comment">// 尝试寻找这些接口方法里面有没有equals方法和hashCode方法，同时都有的话打个标记，寻找结束，equals方法和hashCode方法有特殊处理</span><br>	find<span class="hljs-constructor">DefinedEqualsAndHashCodeMethods(<span class="hljs-params">proxiedInterfaces</span>)</span>;<br>	<span class="hljs-comment">// 获取接口/类对应的代理对象，Proxy是JDK原生支持的生成代理的方式</span><br>	return <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Proxy</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">ProxyInstance(<span class="hljs-params">classLoader</span>, <span class="hljs-params">proxiedInterfaces</span>, <span class="hljs-params">this</span>)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>由于JdkDynamicAopProxy本身实现了InvocationHandler接口，因此具体代理前后处理的逻辑在invoke方法中</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@Override</span><br><span class="hljs-meta">@Nullable</span><br><span class="hljs-keyword">public</span> Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;<br>	Object oldProxy = <span class="hljs-literal">null</span>;<br>	boolean setProxyContext = <span class="hljs-literal">false</span>;<br><br>	TargetSource targetSource = <span class="hljs-keyword">this</span>.advised.targetSource;<br>	Object target = <span class="hljs-literal">null</span>;<br><br>	<span class="hljs-keyword">try</span> &#123;<br>		<span class="hljs-comment">// 表示equals方法与hashCode方法即使满足expression规则，也不会为之产生代理内容，调用的是JdkDynamicAopProxy的equals方法与hashCode方法</span><br>		<span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.equalsDefined &amp;&amp; AopUtils.isEqualsMethod(method)) &#123;<br>			<span class="hljs-comment">// The target does not implement the equals(Object) method itself.</span><br>			<span class="hljs-keyword">return</span> equals(args[<span class="hljs-number">0</span>]);<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.hashCodeDefined &amp;&amp; AopUtils.isHashCodeMethod(method)) &#123;<br>			<span class="hljs-comment">// The target does not implement the hashCode() method itself.</span><br>			<span class="hljs-keyword">return</span> hashCode();<br>		&#125;<br>		<span class="hljs-comment">// 表示方法所属的Class是一个接口并且方法所属的Class是AdvisedSupport的父类或者父接口，直接通过反射调用该方法</span><br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (method.getDeclaringClass() == DecoratingProxy.<span class="hljs-keyword">class</span>) &#123;<br>			<span class="hljs-comment">// There is only getDecoratedClass() declared -&gt; dispatch to proxy config.</span><br>			<span class="hljs-keyword">return</span> AopProxyUtils.ultimateTargetClass(<span class="hljs-keyword">this</span>.advised);<br>		&#125;<br>		<span class="hljs-comment">// 判断是否将代理暴露出去的，由&lt;aop:config&gt;标签中的expose-proxy=&quot;true/false&quot;配置</span><br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.advised.opaque &amp;&amp; method.getDeclaringClass().isInterface() &amp;&amp;<br>				method.getDeclaringClass().isAssignableFrom(Advised.<span class="hljs-keyword">class</span>)) &#123;<br>			<span class="hljs-comment">// Service invocations on ProxyConfig with the proxy config...</span><br>			<span class="hljs-keyword">return</span> AopUtils.invokeJoinpointUsingReflection(<span class="hljs-keyword">this</span>.advised, method, args);<br>		&#125;<br><br>		Object retVal;<br><br>		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.advised.exposeProxy) &#123;<br>			<span class="hljs-comment">// Make invocation available if necessary.</span><br>			oldProxy = AopContext.setCurrentProxy(proxy);<br>			setProxyContext = <span class="hljs-literal">true</span>;<br>		&#125;<br><br>		<span class="hljs-comment">// Get as late as possible to minimize the time we &quot;own&quot; the target,</span><br>		<span class="hljs-comment">// in case it comes from a pool.</span><br>		target = targetSource.getTarget();<br>		Class&lt;?&gt; targetClass = (target != <span class="hljs-literal">null</span> ? target.getClass() : <span class="hljs-literal">null</span>);<br><br>		<span class="hljs-comment">// Get the interception chain for this method.</span><br>		<span class="hljs-comment">// 获取AdvisedSupport中的所有拦截器和动态拦截器列表，用于拦截方法，具体到我们的实际代码. 这时候存在6个</span><br>		<span class="hljs-comment">// 0 = &#123;ExposeInvocationInterceptor@2756&#125; </span><br>		<span class="hljs-comment">// 1 = &#123;AspectJAfterThrowingAdvice@2757&#125; &quot;org.springframework.aop.aspectj.AspectJAfterThrowingAdvice: advice method [public void cn.pisces.cloud.demo.aop.XmlAspect.doAfterThrowing(java.lang.Exception)]; aspect name &#x27;xmlAspect&#x27;&quot;</span><br>		<span class="hljs-comment">// 2 = &#123;AfterReturningAdviceInterceptor@2758&#125; </span><br>		<span class="hljs-comment">// 3 = &#123;AspectJAfterAdvice@2759&#125; &quot;org.springframework.aop.aspectj.AspectJAfterAdvice: advice method [public void cn.pisces.cloud.demo.aop.XmlAspect.doAfter()]; aspect name &#x27;xmlAspect&#x27;&quot;</span><br>		<span class="hljs-comment">// 4 = &#123;AspectJAroundAdvice@2434&#125; &quot;org.springframework.aop.aspectj.AspectJAroundAdvice: advice method [public java.lang.Object cn.pisces.cloud.demo.aop.XmlAspect.doAround(org.aspectj.lang.ProceedingJoinPoint) throws java.lang.Throwable]; aspect name &#x27;xmlAspect&#x27;&quot;</span><br>		<span class="hljs-comment">// 5 = &#123;MethodBeforeAdviceInterceptor@2760&#125; </span><br>		List&lt;Object&gt; chain = <span class="hljs-keyword">this</span>.advised.getInterceptorsAndDynamicInterceptionAdvice(method, targetClass);<br><br>		<span class="hljs-comment">// Check whether we have any advice. If we don&#x27;t, we can fallback on direct</span><br>		<span class="hljs-comment">// reflective invocation of the target, and avoid creating a MethodInvocation.</span><br>		<span class="hljs-comment">// 如果拦截器列表为空，很正常，因为某个类/接口下的某个方法可能不满足expression的匹配规则，因此此时通过反射直接调用该方法</span><br>		<span class="hljs-keyword">if</span> (chain.isEmpty()) &#123;<br>			<span class="hljs-comment">// We can skip creating a MethodInvocation: just invoke the target directly</span><br>			<span class="hljs-comment">// Note that the final invoker must be an InvokerInterceptor so we know it does</span><br>			<span class="hljs-comment">// nothing but a reflective operation on the target, and no hot swapping or fancy proxying.</span><br>			Object[] argsToUse = AopProxyUtils.adaptArgumentsIfNecessary(method, args);<br>			retVal = AopUtils.invokeJoinpointUsingReflection(target, method, argsToUse);<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-comment">// We need to create a method invocation...</span><br>			<span class="hljs-comment">// 如果拦截器列表不为空，按照注释的意思，需要一个ReflectiveMethodInvocation，并通过proceed方法对原方法进行拦截</span><br>			MethodInvocation invocation =<br>					new ReflectiveMethodInvocation(proxy, target, method, args, targetClass, chain);<br>			<span class="hljs-comment">// Proceed to the joinpoint through the interceptor chain.</span><br>			retVal = invocation.proceed();<br>		&#125;<br><br>		<span class="hljs-comment">// Massage return value if necessary.</span><br>		Class&lt;?&gt; returnType = method.getReturnType();<br>		<span class="hljs-keyword">if</span> (retVal != <span class="hljs-literal">null</span> &amp;&amp; retVal == target &amp;&amp;<br>				returnType != Object.<span class="hljs-keyword">class</span> &amp;&amp; returnType.isInstance(proxy) &amp;&amp;<br>				!RawTargetAccess.<span class="hljs-keyword">class</span>.isAssignableFrom(method.getDeclaringClass())) &#123;<br>			<span class="hljs-comment">// Special case: it returned &quot;this&quot; and the return type of the method</span><br>			<span class="hljs-comment">// is type-compatible. Note that we can&#x27;t help if the target sets</span><br>			<span class="hljs-comment">// a reference to itself in another returned object.</span><br>			retVal = proxy;<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (retVal == <span class="hljs-literal">null</span> &amp;&amp; returnType != <span class="hljs-built_in">Void</span>.TYPE &amp;&amp; returnType.isPrimitive()) &#123;<br>			<span class="hljs-keyword">throw</span> new AopInvocationException(<br>					<span class="hljs-string">&quot;Null return value from advice does not match primitive return type for: &quot;</span> + method);<br>		&#125;<br>		<span class="hljs-keyword">return</span> retVal;<br>	&#125;<br>	<span class="hljs-keyword">finally</span> &#123;<br>		<span class="hljs-keyword">if</span> (target != <span class="hljs-literal">null</span> &amp;&amp; !targetSource.isStatic()) &#123;<br>			<span class="hljs-comment">// Must have come from TargetSource.</span><br>			targetSource.releaseTarget(target);<br>		&#125;<br>		<span class="hljs-keyword">if</span> (setProxyContext) &#123;<br>			<span class="hljs-comment">// Restore old proxy.</span><br>			AopContext.setCurrentProxy(oldProxy);<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>MethodInvocation invocation = new ReflectiveMethodInvocation(proxy, target, method, args, targetClass, chain);</code><br>这里我们看一下invocation有什么</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">proxy</span> = &#123;<span class="hljs-variable">$Proxy6</span>@<span class="hljs-number">2381</span>&#125; <span class="hljs-string">&quot;cn.pisces.cloud.demo.aop.AServiceImpl@674bd420&quot;</span><br><span class="hljs-attr">target</span> = &#123;AServiceImpl@<span class="hljs-number">2232</span>&#125; <br><span class="hljs-attr">method</span> = &#123;Method@<span class="hljs-number">2382</span>&#125; <span class="hljs-string">&quot;public abstract java.lang.String cn.pisces.cloud.demo.aop.AService.fooA(java.lang.String)&quot;</span><br><span class="hljs-attr">arguments</span> = &#123;Object[<span class="hljs-number">1</span>]@<span class="hljs-number">2383</span>&#125; <br><span class="hljs-attr">targetClass</span> = &#123;Class@<span class="hljs-number">2228</span>&#125; <span class="hljs-string">&quot;class cn.pisces.cloud.demo.aop.AServiceImpl&quot;</span><br><span class="hljs-attr">userAttributes</span> = null<br><span class="hljs-attr">interceptorsAndDynamicMethodMatchers</span> = &#123;ArrayList@<span class="hljs-number">2836</span>&#125;  size = <span class="hljs-number">6</span><br> <span class="hljs-attr">0</span> = &#123;ExposeInvocationInterceptor@<span class="hljs-number">2883</span>&#125; <br> <span class="hljs-attr">1</span> = &#123;AspectJAfterThrowingAdvice@<span class="hljs-number">2884</span>&#125; <span class="hljs-string">&quot;org.springframework.aop.aspectj.AspectJAfterThrowingAdvice: advice method [public void cn.pisces.cloud.demo.aop.XmlAspect.doAfterThrowing(java.lang.Exception)]; aspect name &#x27;xmlAspect&#x27;&quot;</span><br> <span class="hljs-attr">2</span> = &#123;AfterReturningAdviceInterceptor@<span class="hljs-number">2885</span>&#125; <br> <span class="hljs-attr">3</span> = &#123;AspectJAfterAdvice@<span class="hljs-number">2886</span>&#125; <span class="hljs-string">&quot;org.springframework.aop.aspectj.AspectJAfterAdvice: advice method [public void cn.pisces.cloud.demo.aop.XmlAspect.doAfter()]; aspect name &#x27;xmlAspect&#x27;&quot;</span><br> <span class="hljs-attr">4</span> = &#123;AspectJAroundAdvice@<span class="hljs-number">2887</span>&#125; <span class="hljs-string">&quot;org.springframework.aop.aspectj.AspectJAroundAdvice: advice method [public java.lang.Object cn.pisces.cloud.demo.aop.XmlAspect.doAround(org.aspectj.lang.ProceedingJoinPoint) throws java.lang.Throwable]; aspect name &#x27;xmlAspect&#x27;&quot;</span><br> <span class="hljs-attr">5</span> = &#123;MethodBeforeAdviceInterceptor@<span class="hljs-number">2888</span>&#125; <br><span class="hljs-attr">currentInterceptorIndex</span> = -<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>之后<code>invocation.proceed();</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@Override</span><br><span class="hljs-meta">@Nullable</span><br><span class="hljs-keyword">public</span> Object proceed() throws Throwable &#123;<br>	<span class="hljs-comment">// We start with an index of -1 and increment early.</span><br>	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.currentInterceptorIndex == <span class="hljs-keyword">this</span>.interceptorsAndDynamicMethodMatchers.size() - <span class="hljs-number">1</span>) &#123;<br>		<span class="hljs-keyword">return</span> invokeJoinpoint();<br>	&#125;<br><br>	<span class="hljs-comment">// 使用下标获取chain，之后下标+1</span><br>	Object interceptorOrInterceptionAdvice =<br>			<span class="hljs-keyword">this</span>.interceptorsAndDynamicMethodMatchers.<span class="hljs-keyword">get</span>(++<span class="hljs-keyword">this</span>.currentInterceptorIndex);<br>	<span class="hljs-keyword">if</span> (interceptorOrInterceptionAdvice instanceof InterceptorAndDynamicMethodMatcher) &#123;<br>		<span class="hljs-comment">// Evaluate dynamic method matcher here: static part will already have</span><br>		<span class="hljs-comment">// been evaluated and found to match.</span><br>		InterceptorAndDynamicMethodMatcher dm =<br>				(InterceptorAndDynamicMethodMatcher) interceptorOrInterceptionAdvice;<br>		Class&lt;?&gt; targetClass = (<span class="hljs-keyword">this</span>.targetClass != <span class="hljs-literal">null</span> ? <span class="hljs-keyword">this</span>.targetClass : <span class="hljs-keyword">this</span>.method.getDeclaringClass());<br>		<span class="hljs-keyword">if</span> (dm.methodMatcher.matches(<span class="hljs-keyword">this</span>.method, targetClass, <span class="hljs-keyword">this</span>.arguments)) &#123;<br>			<span class="hljs-keyword">return</span> dm.interceptor.invoke(<span class="hljs-keyword">this</span>);<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-comment">// Dynamic matching failed.</span><br>			<span class="hljs-comment">// Skip this interceptor and invoke the next in the chain.</span><br>			<span class="hljs-keyword">return</span> proceed();<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-comment">// It&#x27;s an interceptor, so we just invoke it: The pointcut will have</span><br>		<span class="hljs-comment">// been evaluated statically before this object was constructed.</span><br>		<span class="hljs-keyword">return</span> ((MethodInterceptor) interceptorOrInterceptionAdvice).invoke(<span class="hljs-keyword">this</span>);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>第一次肯定是ExposeInvocationInterceptor，直接invoke。里面没有实现什么逻辑，直接继续调用MethodInvocation的proceed()。<br>之后就是每次调用完chain里面的proceed()。<br>最后每个chain链调用完了进入<code>invokeJoinpoint()</code>，这个方法就是调用原方法的逻辑（没有加强的原来逻辑），之后再一层层返回。</p>
+<p>所有通知调用完之后调用本身逻辑, 之前调用调用的advice只是为了指定通知执行顺序, 把链中的执行顺序逻辑罗列清楚, 按照具体的方法进行返回操作.<br>执行完本身逻辑之后又按照原路返回回去</p>
+<p>ReflectiveMethodInvocation使用interceptorsAndDynamicMethodMatchers保存了chain的引用, 链条顺序由<code>AspectJAwareAdvisorAutoProxyCreator#sortAdvisors</code>决定(topo-sort拓扑排序). 每次顺序不一定一致. </p>
+<p>为什么不能用硬编码直接确定顺序, 比如自定义一个不就能在硬编码中使用, 因为更灵活</p>
+<h1 id="主流程"><a href="#主流程" class="headerlink" title="主流程"></a>主流程</h1><ol>
+<li>解析<a href="aop:config">aop:config</a>节点<br> 1.1 DefaultListableBeanFactory中注册AspectJAwareAdvisorAutoProxyCreator<br> 1.2 解析aop:aspect<br> 1.2.1 解析<a href="aop:before">aop:before</a>、<a href="aop:after">aop:after</a>、<a href="aop:after-returning">aop:after-returning</a>、&lt;aop:after-throwing method&#x3D;””&gt;、&lt;aop:around method&#x3D;””&gt;<br>     <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs awk">RootBeanDefinition<br><span class="hljs-regexp">//</span> <span class="hljs-number">1</span>. before对应AspectJMethodBeforeAdvice<br><span class="hljs-regexp">//</span> <span class="hljs-number">2</span>. After对应AspectJAfterAdvice<br><span class="hljs-regexp">//</span> <span class="hljs-number">3</span>. after-returning对应AspectJAfterReturningAdvice<br><span class="hljs-regexp">//</span> <span class="hljs-number">4</span>. after-throwing对应AspectJAfterThrowingAdvice<br><span class="hljs-regexp">//</span> <span class="hljs-number">5</span>. around对应AspectJAroundAdvice<br>再次包装AspectJPointcutAdvisor，注册为org.springframework.aop.aspectj.AspectJPointcutAdvisor<span class="hljs-comment">#0、org.springframework.aop.aspectj.AspectJPointcutAdvisor#1</span><br></code></pre></td></tr></table></figure><br> 1.2.2 解析<a href="aop:pointcut">aop:pointcut</a> RootBeanDefinition  AspectJExpressionPointcut</li>
+<li>getBean调用postProcessBeforeInitialization<br> 2.1 查找符合条件的Advisors，找到之后再chain开头添加DefaultPointcutAdvisor<br> 2.2 判断使用JDK代理还是CGLIB代理<br> 2.3 递归调用chain链的invocation.proceed()</li>
+</ol>
+<p>参考：<br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1497770">https://cloud.tencent.com/developer/article/1497770</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xrq730/p/6753160.html">https://www.cnblogs.com/xrq730/p/6753160.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43767015/article/details/109851001">https://blog.csdn.net/weixin_43767015/article/details/109851001</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Spring/">#Spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Spring源码-AOP</div>
+      <div>http://example.com/2019/03/11/spring源码-aop/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JingRuiHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年3月11日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/03/13/spring%E6%BA%90%E7%A0%81-event/" title="Spring源码-Event">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring源码-Event</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/03/10/spring%E6%BA%90%E7%A0%81-ioc%E6%B5%81%E7%A8%8B/" title="Spring源码-IOC流程">
+                        <span class="hidden-mobile">Spring源码-IOC流程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"474398dbe7c152716f6e","clientSecret":"72b83431cf83b93e0e4ddfe1a37a31493ae65314","repo":"blog-gitalk","owner":"jingruihe","admin":["jingruihe"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '669c375bc51d74ebbc731e650a0b07f7'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

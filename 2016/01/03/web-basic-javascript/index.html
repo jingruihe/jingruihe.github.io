@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/web/javascript.png">
 <meta property="article:published_time" content="2016-01-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-09-06T12:57:30.050Z">
+<meta property="article:modified_time" content="2022-10-22T01:52:29.322Z">
 <meta property="article:author" content="JingRuiHe">
 <meta property="article:tag" content="javascript">
 <meta name="twitter:card" content="summary_large_image">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          105k 字
+          148k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          875 分钟
+          1233 分钟
         
       </span>
     
@@ -1293,176 +1293,43 @@
 
 
 
-<h2 id="6-查找-HTML-对象"><a href="#6-查找-HTML-对象" class="headerlink" title="6. 查找 HTML 对象"></a>6. 查找 HTML 对象</h2><table>
-<thead>
-<tr>
-<th align="left">属性</th>
-<th align="left">描述</th>
-<th align="left">DOM</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">document.anchors</td>
-<td align="left">返回拥有 name 属性的所有 <a> 元素.</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">document.applets</td>
-<td align="left">返回所有 <applet> 元素(HTML5 不建议使用)</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">document.baseURI</td>
-<td align="left">返回文档的绝对基准 URI</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.body</td>
-<td align="left">返回 <body> 元素</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">document.cookie</td>
-<td align="left">返回文档的 cookie</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">document.doctype</td>
-<td align="left">返回文档的 doctype</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.documentElement</td>
-<td align="left">返回 <html> 元素</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.documentMode</td>
-<td align="left">返回浏览器使用的模式</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.documentURI</td>
-<td align="left">返回文档的 URI</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.domain</td>
-<td align="left">返回文档服务器的域名</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">document.domConfig</td>
-<td align="left">废弃. 返回 DOM 配置</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.embeds</td>
-<td align="left">返回所有 <embed> 元素</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.forms</td>
-<td align="left">返回所有 <form> 元素</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">document.head</td>
-<td align="left">返回 <head> 元素</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.images</td>
-<td align="left">返回所有 <img> 元素</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">document.implementation</td>
-<td align="left">返回 DOM 实现</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.inputEncoding</td>
-<td align="left">返回文档的编码(字符集)</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.lastModified</td>
-<td align="left">返回文档更新的日期和时间</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.links</td>
-<td align="left">返回拥有 href 属性的所有 <area> 和 <a> 元素</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">document.readyState</td>
-<td align="left">返回文档的(加载)状态</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.referrer</td>
-<td align="left">返回引用的 URI(链接文档)</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">document.scripts</td>
-<td align="left">返回所有 <script> 元素</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.strictErrorChecking</td>
-<td align="left">返回是否强制执行错误检查</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td align="left">document.title</td>
-<td align="left">返回 <title> 元素</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">document.URL</td>
-<td align="left">返回文档的完整 URL</td>
-<td align="left">1</td>
-</tr>
-</tbody></table>
-<h1 id="改变-HTML-元素"><a href="#改变-HTML-元素" class="headerlink" title="改变 HTML 元素"></a>改变 HTML 元素</h1><table>
-<thead>
-<tr>
-<th align="left">方法</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">element.innerHTML = <em>new html content</em></td>
-<td align="left">改变元素的 HTML 内容</td>
-</tr>
-<tr>
-<td align="left">element.innerTEXT = new text</td>
-<td align="left">改变元素的文本内容</td>
-</tr>
-<tr>
-<td align="left">element.attribute = <em>new value</em></td>
-<td align="left">改变 HTML 元素的属性值</td>
-</tr>
-<tr>
-<td align="left">element.setAttribute(<em>attribute</em>, <em>value</em>)</td>
-<td align="left">改变 HTML 元素的属性值</td>
-</tr>
-<tr>
-<td align="left">element.hasAttribute(attribute)</td>
-<td align="left">判断元素是否有该属性</td>
-</tr>
-<tr>
-<td align="left">element.removeAttribute(attribute)</td>
-<td align="left">删除元素属性</td>
-</tr>
-<tr>
-<td align="left">element.style.property = <em>new style</em></td>
-<td align="left">改变 HTML 元素的样式</td>
-</tr>
-</tbody></table>
+<h2 id="6-查找-HTML-对象"><a href="#6-查找-HTML-对象" class="headerlink" title="6. 查找 HTML 对象"></a>6. 查找 HTML 对象</h2><ul>
+<li>document.anchors             : 返回拥有 name 属性的所有 <code>&lt;a&gt;</code> 元素.          </li>
+<li>document.applets             : 返回所有 <code>&lt;applet&gt;</code> 元素(HTML5 不建议使用) </li>
+<li>document.baseURI             : 返回文档的绝对基准 URI                      </li>
+<li>document.body                : 返回 <code>&lt;body&gt;</code> 元素                            </li>
+<li>document.cookie              : 返回文档的 cookie                           </li>
+<li>document.doctype             : 返回文档的 doctype                          </li>
+<li>document.documentElement     : 返回 <code>&lt;html&gt;</code> 元素                            </li>
+<li>document.documentMode        : 返回浏览器使用的模式                        </li>
+<li>document.documentURI         : 返回文档的 URI                              </li>
+<li>document.domain              : 返回文档服务器的域名                        </li>
+<li>document.domConfig           : 废弃. 返回 DOM 配置                         </li>
+<li>document.embeds              : 返回所有 <code>&lt;embed&gt;</code> 元素                       </li>
+<li>document.forms               : 返回所有 <code>&lt;form&gt;</code> 元素                        </li>
+<li>document.head                : 返回 &#96;<head> 元素                            </li>
+<li>document.images              : 返回所有 <code>&lt;img&gt;</code> 元素                         </li>
+<li>document.implementation      : 返回 DOM 实现                               </li>
+<li>document.inputEncoding       : 返回文档的编码(字符集)                    </li>
+<li>document.lastModified        : 返回文档更新的日期和时间                    </li>
+<li>document.links               : 返回拥有 href 属性的所有 <code>&lt;area&gt;</code> 和 <code>&lt;a&gt;</code> 元素 </li>
+<li>document.readyState          : 返回文档的(加载)状态                      </li>
+<li>document.referrer            : 返回引用的 URI(链接文档)                 </li>
+<li>document.scripts             : 返回所有 <code>&lt;script&gt;</code> 元素                      </li>
+<li>document.strictErrorChecking : 返回是否强制执行错误检查                    </li>
+<li>document.title               : 返回 <code>&lt;title&gt;</code> 元素                           </li>
+<li>document.URL                 : 返回文档的完整 URL</li>
+</ul>
+<h1 id="改变-HTML-元素"><a href="#改变-HTML-元素" class="headerlink" title="改变 HTML 元素"></a>改变 HTML 元素</h1><ul>
+<li>方法                                       : 描述                   </li>
+<li>element.innerHTML &#x3D; <em>new html content</em>     : 改变元素的 HTML 内容   </li>
+<li>element.innerTEXT &#x3D; new text               : 改变元素的文本内容     </li>
+<li>element.attribute &#x3D; <em>new value</em>            : 改变 HTML 元素的属性值 </li>
+<li>element.setAttribute(<em>attribute</em>, <em>value</em>) : 改变 HTML 元素的属性值 </li>
+<li>element.hasAttribute(attribute)            : 判断元素是否有该属性   </li>
+<li>element.removeAttribute(attribute)         : 删除元素属性           </li>
+<li>element.style.property &#x3D; <em>new style</em>       : 改变 HTML 元素的样式</li>
+</ul>
 <h2 id="1-element-innerHTML"><a href="#1-element-innerHTML" class="headerlink" title="1. element.innerHTML"></a>1. element.innerHTML</h2><p>元素属性 innerHTML 就是元素的 HTML 代码, 当查找到元素后, 可以对其 innerHTML 属性进行重新赋值修改. </p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello World<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> h1 = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;div&quot;</span>);</span><br><span class="language-javascript">    <span class="hljs-comment">// 将原本的div里边的所有HTML内容更改, 如果没有子元素, InnerHTML 就会修改该元素下的 Text 内容</span></span><br><span class="language-javascript">    h1.<span class="hljs-property">innerHTML</span> = <span class="hljs-string">&quot;&lt;h2&gt;2020-05-05&lt;/h2&gt;&quot;</span>;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br>// 输出结果<br>2020-05-05<br></code></pre></td></tr></table></figure>
 
@@ -1511,7 +1378,7 @@
 
 
 
-<h2 id="7-H5-新增属性"><a href="#7-H5-新增属性" class="headerlink" title="7. H5 新增属性"></a>7. H5 新增属性</h2><p>原生属性可以使用 element.属性的方法获取属性值, 自定义属性需要使用 element.getAttribute() 等方法获取/修改/删除属性值</p>
+<h2 id="7-H5-新增属性"><a href="#7-H5-新增属性" class="headerlink" title="7. H5 新增属性"></a>7. H5 新增属性</h2><p>原生属性可以使用 element.属性的方法获取属性值, 自定义属性需要使用 element.getAttribute() 等方法获取&#x2F;修改&#x2F;删除属性值</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- 用 data-index 命名自定义属性 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">data-index</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">data-list-name</span>=<span class="hljs-string">&quot;Andy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> div = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;div&quot;</span>);</span><br><span class="language-javascript">    <span class="hljs-comment">// 获取属性值</span></span><br><span class="language-javascript">    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(div.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&quot;data-index&quot;</span>));</span><br><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-comment">// 获取属性索引</span></span><br><span class="language-javascript">    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(div.<span class="hljs-property">dataset</span>.<span class="hljs-property">index</span>);</span><br><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-comment">// 获取属性索引</span></span><br><span class="language-javascript">    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(div.<span class="hljs-property">dataset</span>[<span class="hljs-string">&quot;index&quot;</span>]);</span><br><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-comment">// 获取属性值</span></span><br><span class="language-javascript">    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(div.<span class="hljs-property">dataset</span>.<span class="hljs-property">listName</span>);</span><br><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-comment">// 获取属性值</span></span><br><span class="language-javascript">    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(div.<span class="hljs-property">dataset</span>[<span class="hljs-string">&quot;listName&quot;</span>]);</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 
@@ -1520,7 +1387,7 @@
 
 <h2 id="案例："><a href="#案例：" class="headerlink" title="案例："></a>案例：</h2><ul>
 <li>element.属性： 获取内置属性值(元素本身自带属性)</li>
-<li>element.getAttribute('属性')：主要用于获取自定义属性</li>
+<li>element.getAttribute(‘属性’)：主要用于获取自定义属性</li>
 </ul>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;demo&quot;</span> <span class="hljs-attr">index</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;nav&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">        <span class="hljs-keyword">var</span> div = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;div&#x27;</span>);</span><br><span class="language-javascript">        <span class="hljs-comment">// 1. 获取元素的属性值</span></span><br><span class="language-javascript">        <span class="hljs-comment">// (1) element.属性</span></span><br><span class="language-javascript">        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(div.<span class="hljs-property">id</span>);</span><br><span class="language-javascript">        <span class="hljs-comment">//(2) element.getAttribute(&#x27;属性&#x27;)  get得到获取 attribute 属性的意思 我们程序员自己添加的属性我们称为自定义属性 index</span></span><br><span class="language-javascript">        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(div.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&#x27;id&#x27;</span>));</span><br><span class="language-javascript">        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(div.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&#x27;index&#x27;</span>));</span><br><span class="language-javascript">        <span class="hljs-comment">// 2. 设置元素属性值</span></span><br><span class="language-javascript">        <span class="hljs-comment">// (1) element.属性= &#x27;值&#x27;</span></span><br><span class="language-javascript">        div.<span class="hljs-property">id</span> = <span class="hljs-string">&#x27;test&#x27;</span>;</span><br><span class="language-javascript">        div.<span class="hljs-property">className</span> = <span class="hljs-string">&#x27;navs&#x27;</span>;</span><br><span class="language-javascript">        <span class="hljs-comment">// (2) element.setAttribute(&#x27;属性&#x27;, &#x27;值&#x27;);  主要针对于自定义属性</span></span><br><span class="language-javascript">        div.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&#x27;index&#x27;</span>, <span class="hljs-number">2</span>);</span><br><span class="language-javascript">        div.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&#x27;class&#x27;</span>, <span class="hljs-string">&#x27;footer&#x27;</span>); <span class="hljs-comment">// class 特殊  这里面写的就是class 不是className</span></span><br><span class="language-javascript">        <span class="hljs-comment">// 3 移除属性 removeAttribute(属性)    </span></span><br><span class="language-javascript">        div.<span class="hljs-title function_">removeAttribute</span>(<span class="hljs-string">&#x27;index&#x27;</span>);</span><br><span class="language-javascript">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
@@ -1561,7 +1428,7 @@
 <p>也可以指定查看属性如： getComputedStyle(div).width</p>
 </blockquote>
 <h1 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h1><p>事件是一种触发机制, 给 HTML 元素加上事件, 可以让元素与用户实现动态交互, 即实现在某个交互动作或时间, 该标签或其他标签会被改变. </p>
-<p>事件是由三部分组成, 事件源/事件类型/事件处理程序</p>
+<p>事件是由三部分组成, 事件源&#x2F;事件类型&#x2F;事件处理程序</p>
 <ol>
 <li><p>事件源：事件被触发的对象, 如：DOM 元素</p>
 </li>
@@ -1590,7 +1457,7 @@
 
 
 <ul>
-<li><p>keyup / keydown 不区分大小写, 返回都是大写的 ASCII 值</p>
+<li><p>keyup &#x2F; keydown 不区分大小写, 返回都是大写的 ASCII 值</p>
 </li>
 <li><p>keypress 返回区分大小写</p>
 </li>
@@ -1621,7 +1488,7 @@
 </thead>
 <tbody><tr>
 <td>change</td>
-<td>当内容改变且失去焦点时触发(表单验证：邮箱/用户名长度判断)</td>
+<td>当内容改变且失去焦点时触发(表单验证：邮箱&#x2F;用户名长度判断)</td>
 </tr>
 <tr>
 <td>input</td>
@@ -1712,7 +1579,7 @@
 
 
 
-<h3 id="3-15-TAB栏切换"><a href="#3-15-TAB栏切换" class="headerlink" title="3.15. TAB栏切换"></a>3.15. TAB栏切换</h3><h1 id="节点操作"><a href="#节点操作" class="headerlink" title="节点操作"></a>节点操作</h1><h2 id="1-节点层级关系"><a href="#1-节点层级关系" class="headerlink" title="1. 节点层级关系"></a>1. 节点层级关系</h2><p>除了使用 ID, 标签, CSS 选择器查找元素外, 我们还可以利用节点层次关系(父集/子集)来选择元素. </p>
+<h3 id="3-15-TAB栏切换"><a href="#3-15-TAB栏切换" class="headerlink" title="3.15. TAB栏切换"></a>3.15. TAB栏切换</h3><h1 id="节点操作"><a href="#节点操作" class="headerlink" title="节点操作"></a>节点操作</h1><h2 id="1-节点层级关系"><a href="#1-节点层级关系" class="headerlink" title="1. 节点层级关系"></a>1. 节点层级关系</h2><p>除了使用 ID, 标签, CSS 选择器查找元素外, 我们还可以利用节点层次关系(父集&#x2F;子集)来选择元素. </p>
 <p>一般节点至少拥有 nodeType(节点类型）、nodeName(节点名称）、nodeValue(节点值)三个属性</p>
 <p>节点类型：</p>
 <ul>
@@ -1743,21 +1610,21 @@
 
 <p>节点层级：</p>
 <ul>
-<li><p>父节点 parentNode / parentElement</p>
+<li><p>父节点 parentNode &#x2F; parentElement</p>
 </li>
 <li><p>子节点 childNodes(注意：会同时包含文本节点和元素节点)</p>
 </li>
 <li><p>子节点 children(非标准, 但是只获得元素节点)</p>
 </li>
-<li><p>第一个子节点 firstChild  / firstElementChild</p>
+<li><p>第一个子节点 firstChild  &#x2F; firstElementChild</p>
 </li>
-<li><p>最后一个子节点 lastChild  / lastElementChild</p>
+<li><p>最后一个子节点 lastChild  &#x2F; lastElementChild</p>
 </li>
-<li><p>下一个兄弟节点 nextSibling / nextElementSibling</p>
+<li><p>下一个兄弟节点 nextSibling &#x2F; nextElementSibling</p>
 </li>
-<li><p>上一个兄弟节点 previousSibling / previousElementSibling</p>
+<li><p>上一个兄弟节点 previousSibling &#x2F; previousElementSibling</p>
 </li>
-<li><p>带有 Element 的节点可以操作里边的HTML内容/文本内容/属性内容, 一般用来做节点内容操作</p>
+<li><p>带有 Element 的节点可以操作里边的HTML内容&#x2F;文本内容&#x2F;属性内容, 一般用来做节点内容操作</p>
 </li>
 <li><p>带有 Node 字样的一般是用来做布局插入使用, 它包含了文本节点和元素节点(比如换行也算做文本节点)</p>
 </li>
@@ -1782,7 +1649,7 @@
 
 
 
-<p>第一个/最后一个子节点</p>
+<p>第一个&#x2F;最后一个子节点</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 200px; height: 200px; background-color: cadetblue&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>点我<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>点我<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> div = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;div&quot;</span>);</span><br><span class="language-javascript">    div.<span class="hljs-property">onclick</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">        <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstElementChild</span>.<span class="hljs-property">innerHTML</span> = <span class="hljs-string">&#x27;&lt;a href=&quot;#&quot;&gt;别点我&lt;/a&gt;&#x27;</span>;</span><br><span class="language-javascript">        <span class="hljs-comment">// this.lastElementChild.innerHTML = &#x27;&lt;a href=&quot;#&quot;&gt;别点我&lt;/a&gt;&#x27;;</span></span><br><span class="language-javascript">    &#125;;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 
@@ -1890,7 +1757,7 @@
 
 <p>参数：</p>
 <ul>
-<li>eventNameWithOn: 事件类型字符串, 比如 onclick/onmouseover</li>
+<li>eventNameWithOn: 事件类型字符串, 比如 onclick&#x2F;onmouseover</li>
 <li>callback：事件处理函数</li>
 </ul>
 <p>注册事件兼容性封装</p>
@@ -1939,16 +1806,16 @@
 <p>addEventListener(type, listener[, useCapture]) 这第三个可选参数 Capture 如果是 true, 表示在事件捕获阶段调用事件处理程序；如果是 false(默认), 表示在事件冒泡阶段调用事件处理程序. </p>
 <ul>
 <li><del>onclick 和 attachEvent 只能得到冒泡阶段, 也就是说从内向外依次执行</del></li>
-<li><del>有些事件没有冒泡, 比如 onblur/onfocus/onmouseenter/onmouseleft</del></li>
+<li><del>有些事件没有冒泡, 比如 onblur&#x2F;onfocus&#x2F;onmouseenter&#x2F;onmouseleft</del></li>
 </ul>
 <p>事件触发顺序：（大盒子套小盒子)</p>
 <p><img src="https://hjr-note.oss-cn-shenzhen.aliyuncs.com/web/js/image-20210422105858035.png" srcset="/img/loading.gif" lazyload alt="image-20210422105858035"></p>
 <ul>
-<li>当事件监听方式为默认方式, 没有捕获阶段, 只有冒泡阶段, 比如 onclick, 点击小盒子会先触发小盒子上绑定的事件, 然后会依次触发大盒子/document/window 上边的事件</li>
+<li>当事件监听方式为默认方式, 没有捕获阶段, 只有冒泡阶段, 比如 onclick, 点击小盒子会先触发小盒子上绑定的事件, 然后会依次触发大盒子&#x2F;document&#x2F;window 上边的事件</li>
 <li>当事件监听方式设置为捕获方式, 会先触发外部盒子上边的事件, 然后再触发小盒子, 之后再按冒泡顺序触发其他事件</li>
-<li>默认事件都是冒泡顺序, 只有用事件监听方式将 Capture 参数开启后才能实现捕获阶段触发事件, 比如将 onclick 设置 Capture = true 的话, 再点击小盒子就会先触发外边的盒子上的事件</li>
+<li>默认事件都是冒泡顺序, 只有用事件监听方式将 Capture 参数开启后才能实现捕获阶段触发事件, 比如将 onclick 设置 Capture &#x3D; true 的话, 再点击小盒子就会先触发外边的盒子上的事件</li>
 </ul>
-<h2 id="6-事件对象"><a href="#6-事件对象" class="headerlink" title="6. 事件对象"></a>6. 事件对象</h2><p>event 对象代表事件的状态, 比如键盘的按键状态/鼠标的位置/鼠标按钮的状态等, 简单理解为事件发生后, 跟事件相关的一系列数据集合都存放在这个 event 对象中. 它包括很多属性和方法. </p>
+<h2 id="6-事件对象"><a href="#6-事件对象" class="headerlink" title="6. 事件对象"></a>6. 事件对象</h2><p>event 对象代表事件的状态, 比如键盘的按键状态&#x2F;鼠标的位置&#x2F;鼠标按钮的状态等, 简单理解为事件发生后, 跟事件相关的一系列数据集合都存放在这个 event 对象中. 它包括很多属性和方法. </p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>按钮<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> btn = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;button&#x27;</span>);</span><br><span class="language-javascript">    btn.<span class="hljs-property">onclick</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>)&#123;</span><br><span class="language-javascript">        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(event);            </span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript">  <span class="hljs-comment">// 事件对象e可以看做形参, 名称可以自己命名</span></span><br><span class="language-javascript">    btn.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)&#123;</span><br><span class="language-javascript">        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e);            </span><br><span class="language-javascript">    &#125;);</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 
@@ -2000,7 +1867,7 @@
 
 
 
-<p>禁止鼠标右键/禁止复制文字</p>
+<p>禁止鼠标右键&#x2F;禁止复制文字</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs html">我是一段不愿意分享的文字<br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-comment">// 1. contextmenu 我们可以禁用右键菜单</span></span><br><span class="language-javascript">    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;contextmenu&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) &#123;</span><br><span class="language-javascript">            e.<span class="hljs-title function_">preventDefault</span>();</span><br><span class="language-javascript">        &#125;)</span><br><span class="language-javascript">        <span class="hljs-comment">// 2. 禁止选中文字 selectstart</span></span><br><span class="language-javascript">    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;selectstart&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) &#123;</span><br><span class="language-javascript">        e.<span class="hljs-title function_">preventDefault</span>();</span><br><span class="language-javascript"></span><br><span class="language-javascript">    &#125;)</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 
@@ -2049,7 +1916,7 @@
 <ol>
 <li><p>它是 JS 访问浏览器窗口的一个接口</p>
 </li>
-<li><p>它是一个全局对象. 定义在全局作用域中的变量/函数都会变成 window 对象的属性和方法.</p>
+<li><p>它是一个全局对象. 定义在全局作用域中的变量&#x2F;函数都会变成 window 对象的属性和方法.</p>
 </li>
 </ol>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> num = <span class="hljs-number">10</span>;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">window</span>.<span class="hljs-property">num</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">dir</span>(<span class="hljs-variable language_">window</span>);  <span class="hljs-comment">// 查看 window 对象属性和方法</span><br></code></pre></td></tr></table></figure>
@@ -2075,7 +1942,7 @@
 <li><p>前进或后退</p>
 </li>
 </ol>
-<p>可以将 JS 代码放到 onload 中, 确保所有资源(CSS/JS/图片)已经加载完毕再对页面 DOM 进行操作</p>
+<p>可以将 JS 代码放到 onload 中, 确保所有资源(CSS&#x2F;JS&#x2F;图片)已经加载完毕再对页面 DOM 进行操作</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-variable language_">window</span>.<span class="hljs-property">onload</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">        <span class="hljs-keyword">var</span> btn = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;button&#x27;</span>);</span><br><span class="language-javascript">        btn.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">            <span class="hljs-title function_">alert</span>(<span class="hljs-string">&#x27;点击操作&#x27;</span>);</span><br><span class="language-javascript">        &#125;)</span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>按钮<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <blockquote>
@@ -2087,7 +1954,7 @@
 <blockquote>
 <p>与 load 类似, 兼容火狐浏览器, 防止 JS 缓存而不刷新执行</p>
 </blockquote>
-<h3 id="1-2-DOMContentLoaded-事件"><a href="#1-2-DOMContentLoaded-事件" class="headerlink" title="1.2. DOMContentLoaded 事件"></a>1.2. DOMContentLoaded 事件</h3><p>仅当 DOM 加载完成, 不包括样式表/图片/Flash 等(IE9+），如果页面图标较多, 此时用 DOM 事件比较合适</p>
+<h3 id="1-2-DOMContentLoaded-事件"><a href="#1-2-DOMContentLoaded-事件" class="headerlink" title="1.2. DOMContentLoaded 事件"></a>1.2. DOMContentLoaded 事件</h3><p>仅当 DOM 加载完成, 不包括样式表&#x2F;图片&#x2F;Flash 等(IE9+），如果页面图标较多, 此时用 DOM 事件比较合适</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;DOMContentLoaded &quot;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;&#125;)<br></code></pre></td></tr></table></figure>
 
 
@@ -2153,11 +2020,11 @@
 <p>异步任务：</p>
 <p>JS 异步任务是通过回调函数实现的, 一般而言, 异步任务有以下三种类型：</p>
 <ol>
-<li><p>普通事件, 如 click/resize</p>
+<li><p>普通事件, 如 click&#x2F;resize</p>
 </li>
-<li><p>资源加载, 如 load/error等</p>
+<li><p>资源加载, 如 load&#x2F;error等</p>
 </li>
-<li><p>定时器, 包括 setInterval/setTimeout 等</p>
+<li><p>定时器, 包括 setInterval&#x2F;setTimeout 等</p>
 </li>
 </ol>
 <p>执行机制：</p>
@@ -2257,7 +2124,7 @@
 </tbody></table>
 <p>拖动框悬浮效果</p>
 <p>京东放大镜效果</p>
-<h2 id="7-元素可视区-client"><a href="#7-元素可视区-client" class="headerlink" title="7.  元素可视区 client"></a>7.  元素可视区 client</h2><p>使用 client 系列的相关属性可以获取元素可视区的相关信息, 如：元素的边框大小/元素大小等. </p>
+<h2 id="7-元素可视区-client"><a href="#7-元素可视区-client" class="headerlink" title="7.  元素可视区 client"></a>7.  元素可视区 client</h2><p>使用 client 系列的相关属性可以获取元素可视区的相关信息, 如：元素的边框大小&#x2F;元素大小等. </p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">element.clientTop  <span class="hljs-regexp">//</span> 返回元素上边框的大小<br>element.clientLeft  <span class="hljs-regexp">//</span> 返回元素左边框的大小<br>element.clientWidth  <span class="hljs-regexp">//</span> 返回自身包括 padding/内容区的宽度, 不含边框, 不带单位<br>element.clientHeight  <span class="hljs-regexp">//</span> 返回自身包括 padding/内容区的高度, 不含边框, 不带单位<br></code></pre></td></tr></table></figure>
 
 <blockquote>
@@ -2289,7 +2156,7 @@
 <p>一个是页面被卷曲, 另外一个是元素被卷曲</p>
 </blockquote>
 <p>侧边工具栏固定</p>
-<p>offsetWidth/clientWidth/scrollWidth 区别</p>
+<p>offsetWidth&#x2F;clientWidth&#x2F;scrollWidth 区别</p>
 <ul>
 <li>offset 包含边框</li>
 <li>client 不包含边框</li>
@@ -2399,7 +2266,7 @@
 <p><a target="_blank" rel="noopener" href="https://www.swiper.com.cn/">https://www.swiper.com.cn/</a></p>
 <p>使用方法：</p>
 <ol>
-<li><p>引入 css/js 文件</p>
+<li><p>引入 css&#x2F;js 文件</p>
 </li>
 <li><p>引入自己 js, 需要放在 swiper js 文件下方</p>
 </li>
@@ -2413,7 +2280,7 @@
 <p>iscroll：<a target="_blank" rel="noopener" href="https://github.com/cubiq/iscroll">https://github.com/cubiq/iscroll</a></p>
 <p>视频插件：</p>
 <p>zy.media：<a target="_blank" rel="noopener" href="https://github.com/ireaderlab/zyMedia">https://github.com/ireaderlab/zyMedia</a></p>
-<h1 id="移动端框架"><a href="#移动端框架" class="headerlink" title="移动端框架"></a>移动端框架</h1><p>前端常用框架有 Bootstrap/Vue/Angular/React 等, 既能开发 PC 端, 也可以开发移动端. </p>
+<h1 id="移动端框架"><a href="#移动端框架" class="headerlink" title="移动端框架"></a>移动端框架</h1><p>前端常用框架有 Bootstrap&#x2F;Vue&#x2F;Angular&#x2F;React 等, 既能开发 PC 端, 也可以开发移动端. </p>
 <p>Bootstrap 轮播图</p>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-symbol">https:</span>//gitee.com/xiaoqiang<span class="hljs-number">001</span>/jsapis_material/tree/master/<span class="hljs-variable">%E7</span><span class="hljs-variable">%AC</span><span class="hljs-variable">%AC</span><span class="hljs-variable">%E4</span><span class="hljs-variable">%B8</span><span class="hljs-variable">%83</span><span class="hljs-variable">%E5</span><span class="hljs-variable">%A4</span><span class="hljs-variable">%A9</span>/<span class="hljs-number">06</span>-bootstrap<span class="hljs-variable">%E8</span><span class="hljs-variable">%BD</span><span class="hljs-variable">%AE</span><span class="hljs-variable">%E6</span><span class="hljs-variable">%92</span><span class="hljs-variable">%AD</span><span class="hljs-variable">%E5</span><span class="hljs-variable">%9</span>B<span class="hljs-variable">%BE</span><br></code></pre></td></tr></table></figure>
 
@@ -2422,8 +2289,8 @@
 <h1 id="本地存储"><a href="#本地存储" class="headerlink" title="本地存储"></a>本地存储</h1><p>本地存储特性</p>
 <ol>
 <li>数据存储在用户浏览器中</li>
-<li>设置/读取方便/甚至页面刷新都不丢失数据</li>
-<li>容量较大, sessionStorage 约 5M/localStorage约20M</li>
+<li>设置&#x2F;读取方便&#x2F;甚至页面刷新都不丢失数据</li>
+<li>容量较大, sessionStorage 约 5M&#x2F;localStorage约20M</li>
 <li>只能存储字符串, 可以将对象JSON.stringify() 编码后存储</li>
 </ol>
 <h2 id="1-window-sessionStorage"><a href="#1-window-sessionStorage" class="headerlink" title="1. window.sessionStorage"></a>1. window.sessionStorage</h2><ol>
@@ -2448,7 +2315,7 @@
 
 <p>localStorage 案例</p>
 <p><a target="_blank" rel="noopener" href="https://gitee.com/xiaoqiang001/jsapis_material/blob/master/%E7%AC%AC%E4%B8%83%E5%A4%A9/09-%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E4%B9%8BlocalStorage.html">https://gitee.com/xiaoqiang001/jsapis_material/blob/master/%E7%AC%AC%E4%B8%83%E5%A4%A9/09-%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E4%B9%8BlocalStorage.html</a>              </p>
-<h1 id=""><a href="#" class="headerlink" title="---------------------------------"></a>---------------------------------</h1><h1 id="JS-高级编程进阶"><a href="#JS-高级编程进阶" class="headerlink" title="JS 高级编程进阶"></a>JS 高级编程进阶</h1><h1 id="-1"><a href="#-1" class="headerlink" title="---------------------------------"></a>---------------------------------</h1><h1 id="面向对象编程概念"><a href="#面向对象编程概念" class="headerlink" title="面向对象编程概念"></a>面向对象编程概念</h1><h2 id="1-面向过程编程-POP"><a href="#1-面向过程编程-POP" class="headerlink" title="1. 面向过程编程 POP"></a>1. 面向过程编程 POP</h2><p>POP (Process-oriented programming) , 面向过程就是分析出解决问题所需要的的步骤, 然后用函数把这些步骤一步一步实现, 使用的时候在一次一次调用就可以了. </p>
+<h1 id="———————————"><a href="#———————————" class="headerlink" title="———————————"></a>———————————</h1><h1 id="JS-高级编程进阶"><a href="#JS-高级编程进阶" class="headerlink" title="JS 高级编程进阶"></a>JS 高级编程进阶</h1><h1 id="———————————-1"><a href="#———————————-1" class="headerlink" title="———————————"></a>———————————</h1><h1 id="面向对象编程概念"><a href="#面向对象编程概念" class="headerlink" title="面向对象编程概念"></a>面向对象编程概念</h1><h2 id="1-面向过程编程-POP"><a href="#1-面向过程编程-POP" class="headerlink" title="1. 面向过程编程 POP"></a>1. 面向过程编程 POP</h2><p>POP (Process-oriented programming) , 面向过程就是分析出解决问题所需要的的步骤, 然后用函数把这些步骤一步一步实现, 使用的时候在一次一次调用就可以了. </p>
 <p>举个例子：把大象装进冰箱, 面向过程的做法：</p>
 <ol>
 <li>打开冰箱门</li>
@@ -2472,7 +2339,7 @@
 <li><p>使用大象和冰箱的功能</p>
 </li>
 </ol>
-<p>面向对象想程序开发思想中, 每一个对象都是功能中心, 具有明确分工, 面向对象具有灵活/代码可重复使用, 容易维护和开发的优点, 更适合多人合作. </p>
+<p>面向对象想程序开发思想中, 每一个对象都是功能中心, 具有明确分工, 面向对象具有灵活&#x2F;代码可重复使用, 容易维护和开发的优点, 更适合多人合作. </p>
 <p>面向对象的特性：</p>
 <ul>
 <li>封装性(包装代码, 直接调用)</li>
@@ -2482,11 +2349,11 @@
 <h2 id="3-面向过程和面向对象的对比"><a href="#3-面向过程和面向对象的对比" class="headerlink" title="3. 面向过程和面向对象的对比"></a>3. 面向过程和面向对象的对比</h2><p>面向过程</p>
 <ul>
 <li>优点：性能比面向对象高, 适合根硬件联系很紧密的东西, 例如单片机就采用的面向过程编程</li>
-<li>缺点：没有面向对象易维护/易复用/易扩展</li>
+<li>缺点：没有面向对象易维护&#x2F;易复用&#x2F;易扩展</li>
 </ul>
 <p>面向对象</p>
 <ul>
-<li>优点：易维护/易复用/易扩展, 由于面向对象有封装/继承/多态的特性, 可以设计出低耦合的系统, 使系统更加灵活/更加易于维护</li>
+<li>优点：易维护&#x2F;易复用&#x2F;易扩展, 由于面向对象有封装&#x2F;继承&#x2F;多态的特性, 可以设计出低耦合的系统, 使系统更加灵活&#x2F;更加易于维护</li>
 <li>缺点：性能比面向过程低</li>
 </ul>
 <p>程序简单建议使用面向过程, 如果程序项目庞大, 建议使用面向对象来写. </p>
@@ -2502,12 +2369,12 @@
 <li>对类进行实例化, 获取类的对象</li>
 </ol>
 <p>面向对象编程我们考虑的是有哪些对象, 按照面向对象的思维特点, 不断创建对象, 使用对象, 指挥对象做事情. </p>
-<h2 id="1-对象"><a href="#1-对象" class="headerlink" title="1. 对象"></a>1. 对象</h2><p>现实生活中, 万物皆对象, 对象是一个具体的事物, 看的见摸得着的实物, 例如：一本书/一个人/一辆汽车都可以是对象. 一个数据库/一个网页/一个与服务器的连接对象也可以是对象</p>
-<p>在 Javascript 中, 对象是一组无需的相关属性和方法的集合, 所有的事物都是对象, 例如字符串/数值/数组/函数等等. </p>
+<h2 id="1-对象"><a href="#1-对象" class="headerlink" title="1. 对象"></a>1. 对象</h2><p>现实生活中, 万物皆对象, 对象是一个具体的事物, 看的见摸得着的实物, 例如：一本书&#x2F;一个人&#x2F;一辆汽车都可以是对象. 一个数据库&#x2F;一个网页&#x2F;一个与服务器的连接对象也可以是对象</p>
+<p>在 Javascript 中, 对象是一组无需的相关属性和方法的集合, 所有的事物都是对象, 例如字符串&#x2F;数值&#x2F;数组&#x2F;函数等等. </p>
 <p>对象是由属性和方法组成的：</p>
 <ul>
-<li>属性：事物的特征, 在对象中用属性来表示(常用名词), 比如手机的尺寸/重量/内存大小</li>
-<li>方法：事物的行为, 在对象中用方法来表示(常用动词), 比如打电话/发短信</li>
+<li>属性：事物的特征, 在对象中用属性来表示(常用名词), 比如手机的尺寸&#x2F;重量&#x2F;内存大小</li>
+<li>方法：事物的行为, 在对象中用方法来表示(常用动词), 比如打电话&#x2F;发短信</li>
 </ul>
 <h2 id="2-类-class"><a href="#2-类-class" class="headerlink" title="2. 类 class"></a>2. 类 class</h2><p>在 ES6 中新增加了类的概念, 可以使用 class 关键字声明一个类, 之后以这个类来实例化对象. </p>
 <ul>
@@ -2567,7 +2434,7 @@
 
 
 
-<h2 id="5-类的继承"><a href="#5-类的继承" class="headerlink" title="5. 类的继承"></a>5. 类的继承</h2><p>现实中的继承：子承父业/比如说我们都继承了父亲的姓. </p>
+<h2 id="5-类的继承"><a href="#5-类的继承" class="headerlink" title="5. 类的继承"></a>5. 类的继承</h2><p>现实中的继承：子承父业&#x2F;比如说我们都继承了父亲的姓. </p>
 <p>程序中的继承：子类可以继承父类的属性和方法</p>
 <p>在 JS 中可以使用 extends 关键字继承父类</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Father</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;&#125;<br>    <span class="hljs-title function_">money</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">100</span>);<br>    &#125;<br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Son</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Father</span> &#123;&#125;<br><span class="hljs-keyword">var</span> son = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Son</span>();<br>son.<span class="hljs-title function_">money</span>();<br></code></pre></td></tr></table></figure>
@@ -2621,7 +2488,7 @@
 
 
 <h2 id="案例：面向对象-TAB-栏切换"><a href="#案例：面向对象-TAB-栏切换" class="headerlink" title="案例：面向对象 TAB 栏切换"></a>案例：面向对象 TAB 栏切换</h2><p><a target="_blank" rel="noopener" href="https://gitee.com/xiaoqiang001/js_advanced_material/tree/master">https://gitee.com/xiaoqiang001/js_advanced_material/tree/master</a></p>
-<h3 id="1-ES6-插入元素"><a href="#1-ES6-插入元素" class="headerlink" title="1. ES6 插入元素"></a>1. ES6 插入元素</h3><p>之前用过 node.appendChild 和 node.inserBefore 两个方法, 在插入之前先要使用 document.createElement('tagName') 创建元素, 然后再用 inner.HTML 创建内容, 之后再进行插入. </p>
+<h3 id="1-ES6-插入元素"><a href="#1-ES6-插入元素" class="headerlink" title="1. ES6 插入元素"></a>1. ES6 插入元素</h3><p>之前用过 node.appendChild 和 node.inserBefore 两个方法, 在插入之前先要使用 document.createElement(‘tagName’) 创建元素, 然后再用 inner.HTML 创建内容, 之后再进行插入. </p>
 <p>在 ES6 中有个新方法, insertAdjacentHTML 可以直接以字符串形式插入元素, 而不用进行创建 node 节点. </p>
 <p>语法：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">element.<span class="hljs-title function_">insertAdjacentHTML</span>(position, text)<br></code></pre></td></tr></table></figure>
@@ -2656,8 +2523,8 @@
 
 
 
-<h3 id="4-符号的应用"><a href="#4-符号的应用" class="headerlink" title="4. && 符号的应用"></a>4. && 符号的应用</h3><p>判断元素是否存在, 存在就执行对应方法</p>
-<p>之前是用 if else 进行判断, 其实可以用到逻辑运算符，&&。因为在&&运算时, 先判断左侧表达式是否为真, 如果为假则短路停止继续判断, 返回 false, 如果为真则继续判断右侧, 返回右侧表达式值, 利用这一特性, 可以简单的写出判断代码. </p>
+<h3 id="4-amp-amp-符号的应用"><a href="#4-amp-amp-符号的应用" class="headerlink" title="4. &amp;&amp; 符号的应用"></a>4. &amp;&amp; 符号的应用</h3><p>判断元素是否存在, 存在就执行对应方法</p>
+<p>之前是用 if else 进行判断, 其实可以用到逻辑运算符，&amp;&amp;。因为在&amp;&amp;运算时, 先判断左侧表达式是否为真, 如果为假则短路停止继续判断, 返回 false, 如果为真则继续判断右侧, 返回右侧表达式值, 利用这一特性, 可以简单的写出判断代码. </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 当li存在索引时(即li元素标签存在), 执行 click() </span><br>li[index] &amp;&amp; li[index].<span class="hljs-title function_">click</span>();<br></code></pre></td></tr></table></figure>
 
 
@@ -2681,8 +2548,8 @@
 
 <p>Js 构造函数创建对象过程：</p>
 <ol>
-<li>执行 new 创建对象时, 首先创建一个空对象 var obj = {}</li>
-<li>将创建的对象, 赋给 this 关键字,  this  = obj</li>
+<li>执行 new 创建对象时, 首先创建一个空对象 var obj &#x3D; {}</li>
+<li>将创建的对象, 赋给 this 关键字,  this  &#x3D; obj</li>
 <li>将一些属性方法设置在 obj 上</li>
 <li>自动将新对象返回 return this</li>
 <li>将 return 的对象赋值给 var 变量</li>
@@ -2695,7 +2562,7 @@
 
 
 
-<h3 id="8-2-静态成员"><a href="#8-2-静态成员" class="headerlink" title="8.2. 静态成员"></a>8.2. 静态成员</h3><p>静态成员在构造函数本身上添加的成员, 如： Star.sex = 'male' </p>
+<h3 id="8-2-静态成员"><a href="#8-2-静态成员" class="headerlink" title="8.2. 静态成员"></a>8.2. 静态成员</h3><p>静态成员在构造函数本身上添加的成员, 如： Star.sex &#x3D; ‘male’ </p>
 <ul>
 <li>静态成员只能通过构造函数来访问</li>
 </ul>
@@ -2767,7 +2634,7 @@
 
 
 
-<h3 id="8-3-构造函数-实例-原型对象三者之间的关系"><a href="#8-3-构造函数-实例-原型对象三者之间的关系" class="headerlink" title="8.3. 构造函数/实例/原型对象三者之间的关系"></a>8.3. 构造函数/实例/原型对象三者之间的关系</h3><p><img src="https://hjr-note.oss-cn-shenzhen.aliyuncs.com/web/js/image-20210423195627650.png" srcset="/img/loading.gif" lazyload alt="image-20210423195627650"></p>
+<h3 id="8-3-构造函数-x2F-实例-x2F-原型对象三者之间的关系"><a href="#8-3-构造函数-x2F-实例-x2F-原型对象三者之间的关系" class="headerlink" title="8.3. 构造函数&#x2F;实例&#x2F;原型对象三者之间的关系"></a>8.3. 构造函数&#x2F;实例&#x2F;原型对象三者之间的关系</h3><p><img src="https://hjr-note.oss-cn-shenzhen.aliyuncs.com/web/js/image-20210423195627650.png" srcset="/img/loading.gif" lazyload alt="image-20210423195627650"></p>
 <h3 id="8-4-原型链"><a href="#8-4-原型链" class="headerlink" title="8.4. 原型链"></a>8.4. 原型链</h3><p>因为 Star 是我们从 Object 顶级对象中构造出来的类, 也就是说 Star 算是 Object 的子类, 因此也继承了 Object 的属性和方法, 因此 Star 也拥有 <code>__proto__</code> 属性. 因此构成了一个原型链</p>
 <p><img src="https://hjr-note.oss-cn-shenzhen.aliyuncs.com/web/js/image-20210423200251515.png" srcset="/img/loading.gif" lazyload alt="image-20210423200251515"></p>
 <h3 id="8-5-Javascript-成员的查找机制"><a href="#8-5-Javascript-成员的查找机制" class="headerlink" title="8.5. Javascript 成员的查找机制"></a>8.5. Javascript 成员的查找机制</h3><ul>
@@ -2882,7 +2749,7 @@
 <li>arr：数组对象本身</li>
 </ul>
 <p>返回值：</p>
-<p>一个新的/由通过测试的元素组成的数组, 如果没有任何数组元素通过测试, 则返回空数组. </p>
+<p>一个新的&#x2F;由通过测试的元素组成的数组, 如果没有任何数组元素通过测试, 则返回空数组. </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> arr = [<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">10</span>, <span class="hljs-number">88</span>, <span class="hljs-number">39</span>, <span class="hljs-number">22</span>, <span class="hljs-number">45</span>];<br><span class="hljs-comment">// 用不到的参数可以不用写, 可选的</span><br><span class="hljs-keyword">var</span> newArr = arr.<span class="hljs-title function_">filter</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) &#123;<br>    <span class="hljs-keyword">return</span> value &gt;= <span class="hljs-number">20</span>;<br>&#125;);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(newArr);<br><br><span class="hljs-comment">// 输出结果</span><br>[<span class="hljs-number">88</span>, <span class="hljs-number">39</span>, <span class="hljs-number">22</span>, <span class="hljs-number">45</span>]<br></code></pre></td></tr></table></figure>
 
 
@@ -2962,8 +2829,8 @@
 
 
 
-<h2 id="3-对象方法"><a href="#3-对象方法" class="headerlink" title="3. 对象方法"></a>3. 对象方法</h2><h3 id="1-Object-keys"><a href="#1-Object-keys" class="headerlink" title="1. Object.keys()"></a>1. Object.keys()</h3><p>Object.key() 方法用于获取对象自身所有的属性名(键名）。效果类似于 for...in , 返回一个由属性名组成的数组. </p>
-<p>for...in 遍历对象</p>
+<h2 id="3-对象方法"><a href="#3-对象方法" class="headerlink" title="3. 对象方法"></a>3. 对象方法</h2><h3 id="1-Object-keys"><a href="#1-Object-keys" class="headerlink" title="1. Object.keys()"></a>1. Object.keys()</h3><p>Object.key() 方法用于获取对象自身所有的属性名(键名）。效果类似于 for…in , 返回一个由属性名组成的数组. </p>
+<p>for…in 遍历对象</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> obj = &#123;<br>    <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>,<br>    <span class="hljs-attr">pname</span>: <span class="hljs-string">&#x27;小米&#x27;</span>,<br>    <span class="hljs-attr">price</span>: <span class="hljs-number">1999</span>,<br>    <span class="hljs-attr">num</span>: <span class="hljs-number">2000</span><br>&#125;;<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i <span class="hljs-keyword">in</span> obj) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
@@ -3177,7 +3044,7 @@
 <p>严格模式在 IE10 以上的版本浏览器才会被支持, 旧版本浏览器中会被忽略</p>
 <p>严格模式对正常的 JS 语义做了一些更改：</p>
 <ul>
-<li>消除了 JS 语法的一些不合理/不严谨之处, 减少了一些怪异行为</li>
+<li>消除了 JS 语法的一些不合理&#x2F;不严谨之处, 减少了一些怪异行为</li>
 <li>消除代码运行的一些不安全之处</li>
 <li>提高编译器效率, 增加运行速度</li>
 <li>禁用了在 ECMAScript 的未来版本中可能会定义的一些语法, 为未来新版本的 JS 做好铺垫, 比如一些保留字： class, enum, export, extends, import, super 不能做变量名.</li>
@@ -3210,7 +3077,7 @@
 <li>全局作用域中定义的函数里,  this 的指向不再是 window 对象, 而是 undefined</li>
 <li>构造函数必须使用 new 创建实例 new Star()，不能使用全局模式创建, 如 Star()</li>
 <li>定时器指向还是 window</li>
-<li>事件/对象还是指向调用者</li>
+<li>事件&#x2F;对象还是指向调用者</li>
 </ul>
 </li>
 <li><p>函数中不能有重名的参数</p>
@@ -3264,7 +3131,7 @@
 <li>当调用 fn 函数, function(data) 这个函数以参数的形式传入 fn(callback)</li>
 <li>延迟1秒后执行 fn(callback) 内部函数</li>
 <li>内部函数定义了一个变量 data</li>
-<li>在函数内部调用参数 callback(data)，实际上就是执行 function('hello')</li>
+<li>在函数内部调用参数 callback(data)，实际上就是执行 function(‘hello’)</li>
 <li>显示 hello</li>
 </ol>
 <p>闭包应用：参数+回调函数</p>
@@ -3334,7 +3201,7 @@
 <li>浅拷贝只是拷贝一层数据, 更深层次对象级别的只拷贝引用</li>
 <li>深拷贝拷贝多层, 每一级别的数据都会拷贝</li>
 </ul>
-<h3 id="8-1-浅拷贝"><a href="#8-1-浅拷贝" class="headerlink" title="8.1. 浅拷贝"></a>8.1. 浅拷贝</h3><p>for...in 循环做浅拷贝</p>
+<h3 id="8-1-浅拷贝"><a href="#8-1-浅拷贝" class="headerlink" title="8.1. 浅拷贝"></a>8.1. 浅拷贝</h3><p>for…in 循环做浅拷贝</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> obj = &#123;<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Andy&quot;</span>,<br>    <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,<br>    <span class="hljs-attr">score</span>: &#123;<br>        <span class="hljs-attr">math</span>: <span class="hljs-number">20</span>,<br>        <span class="hljs-attr">english</span>: <span class="hljs-number">60</span>,<br>    &#125;,<br>&#125;;<br><span class="hljs-keyword">var</span> o = &#123;&#125;;<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> k <span class="hljs-keyword">in</span> obj) &#123;<br>    o[k] = obj[k];<br>&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(o);<br></code></pre></td></tr></table></figure>
 
 
@@ -3359,10 +3226,10 @@
 
 
 <h2 id="9-正则表达式"><a href="#9-正则表达式" class="headerlink" title="9. 正则表达式"></a>9. 正则表达式</h2><p>正则表达式 (Regular Expression)是用于匹配字符串中字符组合的模式, 在 Javascript 中, 正则表达式也是对象. </p>
-<p>正则表达式通常被用来检索/替换哪些复合某个模式(规则)的文本, 例如表单验证：用户名表单只能输入英文字母/数字/下划线. 此外, 正则表达式还常用语过滤掉页面内容中的一些敏感词(替换), 或从字符串中获取我们想要的特定部分(提取)等. </p>
+<p>正则表达式通常被用来检索&#x2F;替换哪些复合某个模式(规则)的文本, 例如表单验证：用户名表单只能输入英文字母&#x2F;数字&#x2F;下划线. 此外, 正则表达式还常用语过滤掉页面内容中的一些敏感词(替换), 或从字符串中获取我们想要的特定部分(提取)等. </p>
 <p>正则表达式特点：</p>
 <ul>
-<li>灵活性/逻辑性和功能性非常强</li>
+<li>灵活性&#x2F;逻辑性和功能性非常强</li>
 <li>可以迅速地用极简单的方式达到字符串的复杂控制. </li>
 <li>对于刚接触的人来说, 比较晦涩难懂. 比如：<code>^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</code></li>
 <li>实际开发, 一般都是直接复制写好的正则表达式, 但是要求会使用正则表达式并且根据实际情况修改正则表达式, 比如用户名： <code>/^[a-z0-9_-][3,16] $/</code></li>
@@ -3385,9 +3252,9 @@
 
 
 <ul>
-<li>将表达式用 // 包括起来, 即被认定该表达式是正则对象</li>
+<li>将表达式用 &#x2F;&#x2F; 包括起来, 即被认定该表达式是正则对象</li>
 <li>表达式中不需要加引号, 不管是字符串还是数字类型</li>
-<li>表达式可以是任意字母/数字, 如： abc 匹配对象就是 abc</li>
+<li>表达式可以是任意字母&#x2F;数字, 如： abc 匹配对象就是 abc</li>
 </ul>
 <h3 id="9-2-test-测试正则"><a href="#9-2-test-测试正则" class="headerlink" title="9.2. test() 测试正则"></a>9.2. test() 测试正则</h3><p>test() 正则对象方法, 用于检测字符串是否符合该规则, 该对象会返回 true 或 false, 其参数是测试字符串. </p>
 <p>test 方法可以用来检测字符串是否符合正则表达式要求的规范</p>
@@ -3414,13 +3281,13 @@
 
 
 
-<p>找到第一个就返回, 如果需要匹配全局, 需要加参数 /g, 如：</p>
+<p>找到第一个就返回, 如果需要匹配全局, 需要加参数 &#x2F;g, 如：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> str = <span class="hljs-string">&#x27;php&#x27;</span>;<br><span class="hljs-keyword">var</span> ret = str.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/p/g</span>)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ret)<br><br><span class="hljs-comment">// 输出结果</span><br><span class="hljs-number">0</span>: <span class="hljs-string">&quot;p&quot;</span><br><span class="hljs-number">1</span>: <span class="hljs-string">&quot;p&quot;</span><br><span class="hljs-attr">length</span>: <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
 
 
 
 <p>如果没有匹配成功, 则返回 null</p>
-<h3 id="9-3-正则表达式的组成"><a href="#9-3-正则表达式的组成" class="headerlink" title="9.3. 正则表达式的组成"></a>9.3. 正则表达式的组成</h3><p>正则表达式可以由简单的字符构成, 比如 /abc/ , 也可以是简单和特殊字符的组合, 比如 /ab*c/。其中特殊字符也被称为<strong>元字符</strong>，在正则表达式中是具有特殊意义的专用符号。，如：^, $, + 等等. </p>
+<h3 id="9-3-正则表达式的组成"><a href="#9-3-正则表达式的组成" class="headerlink" title="9.3. 正则表达式的组成"></a>9.3. 正则表达式的组成</h3><p>正则表达式可以由简单的字符构成, 比如 &#x2F;abc&#x2F; , 也可以是简单和特殊字符的组合, 比如 &#x2F;ab*c&#x2F;。其中特殊字符也被称为<strong>元字符</strong>，在正则表达式中是具有特殊意义的专用符号。，如：^, $, + 等等. </p>
 <p>特殊符号很多, 可以参考：</p>
 <ul>
 <li><p>MDN: <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp</a></p>
@@ -3432,7 +3299,7 @@
 </ul>
 <p>正则表达式的组成：</p>
 <ul>
-<li>找什么   匹配符(等价符/字符簇/修饰符/转义符)</li>
+<li>找什么   匹配符(等价符&#x2F;字符簇&#x2F;修饰符&#x2F;转义符)</li>
 <li>找多少 (限定符)</li>
 <li>在哪找 (定位符)</li>
 </ul>
@@ -3445,7 +3312,7 @@
 </thead>
 <tbody><tr>
 <td>\</td>
-<td>将下一个字符标记为一个特殊字符/或一个原义字符/或一个向后引用/或一个八进制转义符. 例如，“<code>n</code>”匹配字符“<code>n</code>”。“<code>\n</code>”匹配一个换行符. 串行“<code>\\</code>”匹配“<code>\</code>”而“<code>\(</code>”则匹配“<code>(</code>”。</td>
+<td>将下一个字符标记为一个特殊字符&#x2F;或一个原义字符&#x2F;或一个向后引用&#x2F;或一个八进制转义符. 例如，“<code>n</code>”匹配字符“<code>n</code>”。“<code>\n</code>”匹配一个换行符. 串行“<code>\\</code>”匹配“<code>\</code>”而“<code>\(</code>”则匹配“<code>(</code>”。</td>
 </tr>
 <tr>
 <td>^</td>
@@ -3477,7 +3344,7 @@
 </tr>
 <tr>
 <td>{<em>n</em>,<em>m</em>}</td>
-<td><em>m</em>和<em>n</em>均为非负整数, 其中<em>n</em><=<em>m</em>。最少匹配<em>n</em>次且最多匹配<em>m</em>次. 例如，“<code>o&#123;1,3&#125;</code>”将匹配“<code>fooooood</code>”中的前三个o。“<code>o&#123;0,1&#125;</code>”等价于“<code>o?</code>”。请注意在逗号和两个数之间不能有空格.</td>
+<td><em>m</em>和<em>n</em>均为非负整数, 其中<em>n</em>&lt;&#x3D;<em>m</em>。最少匹配<em>n</em>次且最多匹配<em>m</em>次. 例如，“<code>o&#123;1,3&#125;</code>”将匹配“<code>fooooood</code>”中的前三个o。“<code>o&#123;0,1&#125;</code>”等价于“<code>o?</code>”。请注意在逗号和两个数之间不能有空格.</td>
 </tr>
 <tr>
 <td>?</td>
@@ -3485,7 +3352,7 @@
 </tr>
 <tr>
 <td>.</td>
-<td>匹配除“<code>\</code>*<code>n</code><em>”之外的任何单个字符. 要匹配包括“<code>\</code></em><code>n</code>*”在内的任何字符, 请使用像“`(.</td>
+<td>匹配除“<code>\</code>*<code>n</code><em>”之外的任何单个字符. 要匹配包括“<code>\</code></em><code>n</code>*”在内的任何字符, 请使用像“&#96;(.</td>
 </tr>
 <tr>
 <td>(pattern)</td>
@@ -3493,27 +3360,27 @@
 </tr>
 <tr>
 <td>(?:pattern)</td>
-<td>匹配pattern但不获取匹配结果, 也就是说这是一个非获取匹配, 不进行存储供以后使用. 这在使用或字符“`(</td>
+<td>匹配pattern但不获取匹配结果, 也就是说这是一个非获取匹配, 不进行存储供以后使用. 这在使用或字符“&#96;(</td>
 </tr>
 <tr>
-<td>(?=pattern)</td>
-<td>正向肯定预查, 在任何匹配pattern的字符串开始处匹配查找字符串. 这是一个非获取匹配, 也就是说, 该匹配不需要获取供以后使用. 例如，“`Windows(?=95</td>
+<td>(?&#x3D;pattern)</td>
+<td>正向肯定预查, 在任何匹配pattern的字符串开始处匹配查找字符串. 这是一个非获取匹配, 也就是说, 该匹配不需要获取供以后使用. 例如，“&#96;Windows(?&#x3D;95</td>
 </tr>
 <tr>
 <td>(?!pattern)</td>
-<td>正向否定预查, 在任何不匹配pattern的字符串开始处匹配查找字符串. 这是一个非获取匹配, 也就是说, 该匹配不需要获取供以后使用. 例如“`Windows(?!95</td>
+<td>正向否定预查, 在任何不匹配pattern的字符串开始处匹配查找字符串. 这是一个非获取匹配, 也就是说, 该匹配不需要获取供以后使用. 例如“&#96;Windows(?!95</td>
 </tr>
 <tr>
-<td>(?<=pattern)</td>
-<td>反向肯定预查, 与正向肯定预查类拟, 只是方向相反. 例如，“`(?<=95</td>
+<td>(?&lt;&#x3D;pattern)</td>
+<td>反向肯定预查, 与正向肯定预查类拟, 只是方向相反. 例如，“&#96;(?&lt;&#x3D;95</td>
 </tr>
 <tr>
-<td>(?<!pattern)</td>
-<td>反向否定预查, 与正向否定预查类拟, 只是方向相反. 例如“`(?<!95</td>
+<td>(?&lt;!pattern)</td>
+<td>反向否定预查, 与正向否定预查类拟, 只是方向相反. 例如“&#96;(?&lt;!95</td>
 </tr>
 <tr>
 <td>x|y</td>
-<td>匹配x或y. 例如，“`z</td>
+<td>匹配x或y. 例如，“&#96;z</td>
 </tr>
 <tr>
 <td>[xyz]</td>
@@ -3565,7 +3432,7 @@
 </tr>
 <tr>
 <td>\s</td>
-<td>匹配任何空白字符, 包括空格/制表符/换页符等等. 等价于[ \f\n\r\t\v]。</td>
+<td>匹配任何空白字符, 包括空格&#x2F;制表符&#x2F;换页符等等. 等价于[ \f\n\r\t\v]。</td>
 </tr>
 <tr>
 <td>\S</td>
@@ -3792,15 +3659,15 @@
 </tr>
 <tr>
 <td>\w</td>
-<td>匹配任意的字母/数字和下划线, 相当于 <code>[A-Za-z0-9_]</code></td>
+<td>匹配任意的字母&#x2F;数字和下划线, 相当于 <code>[A-Za-z0-9_]</code></td>
 </tr>
 <tr>
 <td>\W</td>
-<td>除字母/数字和下划线的任一字符</td>
+<td>除字母&#x2F;数字和下划线的任一字符</td>
 </tr>
 <tr>
 <td>\s</td>
-<td>匹配空格(包括换行符/制表符/空格符等), 相当于 <code>[\t\r\n\v\f]</code></td>
+<td>匹配空格(包括换行符&#x2F;制表符&#x2F;空格符等), 相当于 <code>[\t\r\n\v\f]</code></td>
 </tr>
 <tr>
 <td>\S</td>
@@ -3851,7 +3718,7 @@
 
 
 <ul>
-<li>regexp/substr： 被替换的字符串或者正则表达式</li>
+<li>regexp&#x2F;substr： 被替换的字符串或者正则表达式</li>
 <li>replacement： 被替换的字符串</li>
 </ul>
 <p>注意：replace 不会改变原字符串, 返回值是一个替换完毕的新字符串</p>
@@ -3896,7 +3763,7 @@
 
 
 
-<p>最常用的应该是将 / 和 . 转义成普通字符</p>
+<p>最常用的应该是将 &#x2F; 和 . 转义成普通字符</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> str = <span class="hljs-string">&#x27;&lt;div&gt;abc&lt;/div&gt;&#x27;</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(str.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/.*?&lt;\/div&gt;/</span>));<br><br><span class="hljs-keyword">var</span> str1 = <span class="hljs-string">&quot;123.jpg&quot;</span>;<br><span class="hljs-keyword">var</span> str2 = <span class="hljs-string">&quot;123.png&quot;</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(str1.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/.+?\.(jpg|png)/</span>));<br></code></pre></td></tr></table></figure>
 
 
@@ -3921,9 +3788,9 @@
 
 <p>lastIndex 属性</p>
 <ul>
-<li><p>当有了 /g 的时候, 会有一个 lastIndex 会记录一个下标, 下次开始的位置</p>
+<li><p>当有了 &#x2F;g 的时候, 会有一个 lastIndex 会记录一个下标, 下次开始的位置</p>
 </li>
-<li><p>如果没有 /g , 每次 lastIndex 会清零</p>
+<li><p>如果没有 &#x2F;g , 每次 lastIndex 会清零</p>
 </li>
 </ul>
 <h4 id="9-4-3-match"><a href="#9-4-3-match" class="headerlink" title="9.4.3. match()"></a>9.4.3. match()</h4><p>match() 方法其实是字符串对象的方法, 用于检索返回一个字符串匹配正则表达式的结果. 返回一个数组</p>
@@ -3948,7 +3815,7 @@
 
 
 
-<h4 id="9-4-5-search"><a href="#9-4-5-search" class="headerlink" title="9.4.5 search()"></a>9.4.5 search()</h4><p>search() 方法执行正则表达式和 String 对象之间的一个搜索匹配. 如果找到返回结果的起始位置. 停止向后检索. 没有全局 /g</p>
+<h4 id="9-4-5-search"><a href="#9-4-5-search" class="headerlink" title="9.4.5 search()"></a>9.4.5 search()</h4><p>search() 方法执行正则表达式和 String 对象之间的一个搜索匹配. 如果找到返回结果的起始位置. 停止向后检索. 没有全局 &#x2F;g</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> str = <span class="hljs-string">&quot;hey JudE&quot;</span>;<br><span class="hljs-keyword">var</span> re = <span class="hljs-regexp">/[A-Z]/g</span>;<br><span class="hljs-keyword">var</span> re2 = <span class="hljs-regexp">/[.]/g</span>;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(str.<span class="hljs-title function_">search</span>(re)); <span class="hljs-comment">// returns 4, which is the index of the first capital letter &quot;J&quot;</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(str.<span class="hljs-title function_">search</span>(re2)); <span class="hljs-comment">// returns -1 cannot find &#x27;.&#x27; dot punctuation</span><br></code></pre></td></tr></table></figure>
 
 
@@ -3964,7 +3831,7 @@
 
 
 
-<h2 id="10-分组-捕获和反向引用"><a href="#10-分组-捕获和反向引用" class="headerlink" title="10. 分组/捕获和反向引用"></a>10. 分组/捕获和反向引用</h2><p>子表达式</p>
+<h2 id="10-分组-x2F-捕获和反向引用"><a href="#10-分组-x2F-捕获和反向引用" class="headerlink" title="10. 分组&#x2F;捕获和反向引用"></a>10. 分组&#x2F;捕获和反向引用</h2><p>子表达式</p>
 <p>在正则表达式中, 通过一对圆括号括起来的内容, 我们认为他们是一个整体, 同时我们还称之为子表达式, 如：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> reg = <span class="hljs-regexp">/\d(\d)\d/gi</span><br></code></pre></td></tr></table></figure>
 
@@ -3974,7 +3841,7 @@
 <p>在正则表达式中, 子表达式匹配到相应的内容时, 系统会自动捕获这个行为, 然后将子表达式匹配到的内容放入系统的缓存中, 我们把这个过程就称之为捕获. </p>
 <p><img src="https://hjr-note.oss-cn-shenzhen.aliyuncs.com/web/js/image-20210430150645055.png" srcset="/img/loading.gif" lazyload alt="image-20210430150645055"></p>
 <p>反向引用</p>
-<p>如正则表达式中, 我们可以使用 \n (n>0, 正整数, 代表系统中的缓冲区编号)来获取缓冲区的内容, 我们把这个过程就称之为反向引用. </p>
+<p>如正则表达式中, 我们可以使用 \n (n&gt;0, 正整数, 代表系统中的缓冲区编号)来获取缓冲区的内容, 我们把这个过程就称之为反向引用. </p>
 <p><img src="https://hjr-note.oss-cn-shenzhen.aliyuncs.com/web/js/image-20210430150958470.png" srcset="/img/loading.gif" lazyload alt="image-20210430150958470"></p>
 <ul>
 <li>在正则语法中, 用 <code>\1</code> 来引用前面的捕获(使用子表达式匹配的结果）。用 <code>\2</code> 表示第二个捕获的内容</li>
@@ -3992,7 +3859,7 @@
 
 
 
-<p>不是使用 /g 标签则可以返回捕获组</p>
+<p>不是使用 &#x2F;g 标签则可以返回捕获组</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> str = <span class="hljs-string">&quot;power apple is powerful apple&quot;</span>;<br><span class="hljs-keyword">var</span> rg = <span class="hljs-regexp">/power.(apple).*\1$/</span>;<br>res = str.<span class="hljs-title function_">match</span>(rg);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(res);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(res[<span class="hljs-number">1</span>]);<br></code></pre></td></tr></table></figure>
 
 
@@ -4003,9 +3870,9 @@
 
 
 
-<h2 id="11-环视-断言-预查"><a href="#11-环视-断言-预查" class="headerlink" title="11. 环视(断言/预查)"></a>11. 环视(断言/预查)</h2><p>正则表达式中, 用于查找某些内容之前或之后的东西, 叫做环视. </p>
+<h2 id="11-环视-断言-x2F-预查"><a href="#11-环视-断言-x2F-预查" class="headerlink" title="11. 环视(断言&#x2F;预查)"></a>11. 环视(断言&#x2F;预查)</h2><p>正则表达式中, 用于查找某些内容之前或之后的东西, 叫做环视. </p>
 <h3 id="11-1-正向肯定预查"><a href="#11-1-正向肯定预查" class="headerlink" title="11.1. 正向肯定预查"></a>11.1. 正向肯定预查</h3><p>也叫作顺序肯定环视</p>
-<p>every(?=n) 匹配任何其后紧接指定字符串 n 的字符串</p>
+<p>every(?&#x3D;n) 匹配任何其后紧接指定字符串 n 的字符串</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 匹配后面字符为 10 的 win</span><br><span class="hljs-keyword">var</span> str = <span class="hljs-string">&quot;win7 win8 win10&quot;</span>;<br><span class="hljs-keyword">var</span> res = str.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/win(?=10)/g</span>)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(res); <span class="hljs-comment">//[&quot;win&quot;]</span><br></code></pre></td></tr></table></figure>
 
 
@@ -4031,7 +3898,7 @@
 
 
 
-<h1 id="-2"><a href="#-2" class="headerlink" title="-------------------"></a>-------------------</h1><h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><h1 id="-3"><a href="#-3" class="headerlink" title="-------------------"></a>-------------------</h1><p>ES 全程是 ECMAScript, 它是由 ECMA 国际标准化组织指定的一项脚本语言的标准化规范. ES已经开发到第10个版本了, 也就是 ES10 . ES6 是 2015年6月制定的一个版本. 这一版包含了大概这个规范有史以来最重要的一批增强特性. ES6 正式支持了类/模块/迭代器/生成器/箭头函数/期约/反射/代理和众多新的数据类型. </p>
+<h1 id="——————"><a href="#——————" class="headerlink" title="——————-"></a>——————-</h1><h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><h1 id="——————-1"><a href="#——————-1" class="headerlink" title="——————-"></a>——————-</h1><p>ES 全程是 ECMAScript, 它是由 ECMA 国际标准化组织指定的一项脚本语言的标准化规范. ES已经开发到第10个版本了, 也就是 ES10 . ES6 是 2015年6月制定的一个版本. 这一版包含了大概这个规范有史以来最重要的一批增强特性. ES6 正式支持了类&#x2F;模块&#x2F;迭代器&#x2F;生成器&#x2F;箭头函数&#x2F;期约&#x2F;反射&#x2F;代理和众多新的数据类型. </p>
 <h1 id="1-let-声明"><a href="#1-let-声明" class="headerlink" title="1. let 声明"></a>1. let 声明</h1><p>let 声明方式的特点：</p>
 <ul>
 <li>变量不能重复声明</li>
@@ -4049,7 +3916,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-keyword">let</span> a = <span class="hljs-number">20</span>;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a);<br></code></pre></td></tr></table></figure>
 
 <blockquote>
-<p>浏览器报错 Uncaught SyntaxError: Identifier 'a' has already been declared</p>
+<p>浏览器报错 Uncaught SyntaxError: Identifier ‘a’ has already been declared</p>
 </blockquote>
 <h2 id="1-2-只在当前作用域生效"><a href="#1-2-只在当前作用域生效" class="headerlink" title="1.2 只在当前作用域生效"></a>1.2 只在当前作用域生效</h2><p>let 声明的变量只在所处于的块级有效, 块级作用域即 {} 中的作用域. 变量只能在大括号中访问. </p>
 <p>之前在 function 中用 var 定义的变量确实无法在外部访问, 除非使用闭包的方式, 但是在 if, for 中用 var 定义的变量, 在外部是可以访问的, 如：</p>
@@ -4074,7 +3941,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a);<br><span class="hljs-keyword">let</span> a = <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
 
 <blockquote>
-<p>报错信息：Uncaught ReferenceError: Cannot access 'a' before initialization</p>
+<p>报错信息：Uncaught ReferenceError: Cannot access ‘a’ before initialization</p>
 </blockquote>
 <h2 id="1-4-let-声明不影响作用域链"><a href="#1-4-let-声明不影响作用域链" class="headerlink" title="1.4 let 声明不影响作用域链"></a>1.4 let 声明不影响作用域链</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-keyword">let</span> a = <span class="hljs-number">10</span>;<br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>)&#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a);<br>    &#125;<br>    <span class="hljs-title function_">fn</span>();<br>&#125;<br><span class="hljs-title function_">foo</span>();<br></code></pre></td></tr></table></figure>
 
@@ -4104,7 +3971,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> arr = [];<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">2</span>; i++) &#123;<br>    arr[i] = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i);<br>    &#125;;<br>&#125;<br>arr[<span class="hljs-number">0</span>]();<br>arr[<span class="hljs-number">1</span>]();<br></code></pre></td></tr></table></figure>
 
 <p>当 arr[0] 和 arr[1] 两个函数运行的时候, Js 引擎在后台会为每个迭代循环声明一个新的迭代变量, 每个arr引用的都是不同变量的实例, 这时候的 i 不是全局变量, 所以 i 还是原来的值, 0,1</p>
-<p>这种每次迭代声明一个独立变量实例的行为适用于所有风格的 for 循环, 包括 for...in 和 for...of 循环. </p>
+<p>这种每次迭代声明一个独立变量实例的行为适用于所有风格的 for 循环, 包括 for…in 和 for…of 循环. </p>
 <h2 id="1-6-windows-对象属相"><a href="#1-6-windows-对象属相" class="headerlink" title="1.6 windows 对象属相"></a>1.6 windows 对象属相</h2><p>最后在全局作用域中使用 let 声明的变量不会称为 window 对象的属性</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> age = <span class="hljs-number">18</span>;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">window</span>.<span class="hljs-property">age</span>)<br><br><span class="hljs-comment">// 报错</span><br><span class="hljs-keyword">let</span> name = <span class="hljs-string">&#x27;Andy&#x27;</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">window</span>.<span class="hljs-property">name</span>)<br></code></pre></td></tr></table></figure>
 
@@ -4135,7 +4002,7 @@
 </blockquote>
 <h1 id="3-var-let-const-区别"><a href="#3-var-let-const-区别" class="headerlink" title="3.  var, let, const 区别"></a>3.  var, let, const 区别</h1><p>有了 let 和 const 可以更好的限制变量的作用域, 尽量使用 const 和 let, 不要再使用 var</p>
 <ul>
-<li>数组/集合可以使用 const</li>
+<li>数组&#x2F;集合可以使用 const</li>
 <li>普通变量用 let</li>
 </ul>
 <table>
@@ -4295,7 +4162,7 @@
 <ul>
 <li>书写简单</li>
 <li>不绑定 this</li>
-<li>支持默认参数/剩余参数/解构</li>
+<li>支持默认参数&#x2F;剩余参数&#x2F;解构</li>
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> <span class="hljs-title function_">f1</span> = (<span class="hljs-params">x=<span class="hljs-number">1</span>, y</span>) =&gt; &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x,y);<br>&#125;<br><span class="hljs-title function_">f1</span>(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>);<br><br><span class="hljs-keyword">var</span> <span class="hljs-title function_">f2</span> = (<span class="hljs-params">...x</span>)=&gt;&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x);<br>&#125;<br><span class="hljs-title function_">f2</span>(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>);<br><br><span class="hljs-keyword">var</span> <span class="hljs-title function_">f3</span> =(<span class="hljs-params">[x,y]=[]</span>)=&gt;&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x,y);<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
 
@@ -4354,7 +4221,7 @@
 
 
 
-<h1 id="10-Array-的扩展方法"><a href="#10-Array-的扩展方法" class="headerlink" title="10. Array 的扩展方法"></a>10. Array 的扩展方法</h1><h2 id="10-1-扩展运算符"><a href="#10-1-扩展运算符" class="headerlink" title="10.1. ... 扩展运算符"></a>10.1. ... 扩展运算符</h2><p>扩展运算符可以将数组或者对象转为用逗号分割的参数序列. </p>
+<h1 id="10-Array-的扩展方法"><a href="#10-Array-的扩展方法" class="headerlink" title="10. Array 的扩展方法"></a>10. Array 的扩展方法</h1><h2 id="10-1-…-扩展运算符"><a href="#10-1-…-扩展运算符" class="headerlink" title="10.1. … 扩展运算符"></a>10.1. … 扩展运算符</h2><p>扩展运算符可以将数组或者对象转为用逗号分割的参数序列. </p>
  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> arr = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>];<br>...arr <span class="hljs-comment">// 1,2,3</span><br><br><span class="hljs-comment">// 逗号被当做 console.log 的参数, 输出多个元素用, 分割</span><br>cosnole.<span class="hljs-title function_">log</span>(...arr);  <span class="hljs-comment">// 1 2 3</span><br></code></pre></td></tr></table></figure>
 
 
@@ -4377,7 +4244,7 @@
 
 <h2 id="10-2-Array-from"><a href="#10-2-Array-from" class="headerlink" title="10.2. Array.from()"></a>10.2. Array.from()</h2><p>伪数组虽然类似于数组, 可以遍历, 但是数组对象中的一些方法无法使用, 如果想让伪数组使用数组对象中的一些方法, 那么就需要将伪数组转换为真正的数组. </p>
 <ol>
-<li>使用...将伪数组转为数组</li>
+<li>使用…将伪数组转为数组</li>
 </ol>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> divs = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&quot;div&quot;</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(divs);<br>divs = [...divs];<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(divs);<br></code></pre></td></tr></table></figure>
 
@@ -4413,14 +4280,14 @@
 
 
 
-<h2 id="10-6-for-of-遍历"><a href="#10-6-for-of-遍历" class="headerlink" title="10.6. for...of 遍历"></a>10.6. for...of 遍历</h2><p>for...of 与 for...in 类似, for...in 是以下标遍历, 而 for...of 是以值来遍历的. for...of 还可以遍历字符串, 但是不能遍历对象. </p>
+<h2 id="10-6-for…of-遍历"><a href="#10-6-for…of-遍历" class="headerlink" title="10.6. for…of 遍历"></a>10.6. for…of 遍历</h2><p>for…of 与 for…in 类似, for…in 是以下标遍历, 而 for…of 是以值来遍历的. for…of 还可以遍历字符串, 但是不能遍历对象. </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> team = [<span class="hljs-string">&#x27;zs&#x27;</span>,<span class="hljs-string">&#x27;ls&#x27;</span>,<span class="hljs-string">&#x27;ww&#x27;</span>]<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i <span class="hljs-keyword">of</span> team)&#123;  <span class="hljs-comment">// i 是值</span><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i)<br>&#125;<br><br><span class="hljs-comment">// 输出结果</span><br>zs<br>ls<br>ww<br></code></pre></td></tr></table></figure>
 
 
 
 
 
-<h1 id="9-String-的扩展方法"><a href="#9-String-的扩展方法" class="headerlink" title="9. String 的扩展方法"></a>9. String 的扩展方法</h1><h2 id="9-1-模板字符串"><a href="#9-1-模板字符串" class="headerlink" title="9.1 ` 模板字符串"></a>9.1 ` 模板字符串</h2><p>ES6 新增的创建字符串的方式, 使用反引号定义. 模板字符串有很多优点：</p>
+<h1 id="9-String-的扩展方法"><a href="#9-String-的扩展方法" class="headerlink" title="9. String 的扩展方法"></a>9. String 的扩展方法</h1><h2 id="9-1-96-模板字符串"><a href="#9-1-96-模板字符串" class="headerlink" title="9.1 &#96; 模板字符串"></a>9.1 &#96; 模板字符串</h2><p>ES6 新增的创建字符串的方式, 使用反引号定义. 模板字符串有很多优点：</p>
 <ul>
 <li>可以解析变量</li>
 <li>可以多行赋值</li>
@@ -4511,7 +4378,7 @@
 <ul>
 <li>大家都遵守同样的模块化规范写代码, 降低沟通成本, 极大方便了各个模块之间的相互调用.</li>
 </ul>
-<p>在 ES6 模块化规范诞生之前,  Javascript 社区已经尝试并提出了 AMD, CMD, CommonJS 等模块化规范. 但是这些由社区提出的模块化标准, 存在一定的差异性和局限性/并不是浏览器和服务器通用的模块化标准, 如：</p>
+<p>在 ES6 模块化规范诞生之前,  Javascript 社区已经尝试并提出了 AMD, CMD, CommonJS 等模块化规范. 但是这些由社区提出的模块化标准, 存在一定的差异性和局限性&#x2F;并不是浏览器和服务器通用的模块化标准, 如：</p>
 <ul>
 <li>AMD 和 CMD 适用于浏览器端的 Js 模块化</li>
 <li>CommonJS 适用于服务器端的 Js 模块化</li>
@@ -4755,7 +4622,7 @@
 <blockquote>
 <p>只执行最先完成的异步操作</p>
 </blockquote>
-<h2 id="9-Async-和-Await"><a href="#9-Async-和-Await" class="headerlink" title="9. Async 和 Await"></a>9. Async 和 Await</h2><p>Async 和 Await 是 ES8 引入的新语法, 用来简化 Promise 异步操作, 在 async / await 出现之前, 开发者只能通过 .then 方式链式处理 Promise 异步操作. 虽然解决了回调地狱的问题, 但是代码依旧冗余, 阅读性较差. 通过 async / await 我们可以简化代码, 使代码阅读更加流畅. </p>
+<h2 id="9-Async-和-Await"><a href="#9-Async-和-Await" class="headerlink" title="9. Async 和 Await"></a>9. Async 和 Await</h2><p>Async 和 Await 是 ES8 引入的新语法, 用来简化 Promise 异步操作, 在 async &#x2F; await 出现之前, 开发者只能通过 .then 方式链式处理 Promise 异步操作. 虽然解决了回调地狱的问题, 但是代码依旧冗余, 阅读性较差. 通过 async &#x2F; await 我们可以简化代码, 使代码阅读更加流畅. </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> thenFs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;then-fs&#x27;</span><br><br><span class="hljs-comment">// 按照顺序读取文件</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getAllFile</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> r1 = <span class="hljs-keyword">await</span> thenFs.<span class="hljs-title function_">readFile</span>(<span class="hljs-string">&#x27;./a.txt&#x27;</span>, <span class="hljs-string">&#x27;utf8&#x27;</span>)<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(r2)<br>  <span class="hljs-keyword">const</span> r2 = <span class="hljs-keyword">await</span> thenFs.<span class="hljs-title function_">readFile</span>(<span class="hljs-string">&#x27;./b.txt&#x27;</span>, <span class="hljs-string">&#x27;utf8&#x27;</span>)<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(r2)<br>  <span class="hljs-keyword">const</span> r3 = <span class="hljs-keyword">await</span> thenFs.<span class="hljs-title function_">readFile</span>(<span class="hljs-string">&#x27;./c.txt&#x27;</span>, <span class="hljs-string">&#x27;utf8&#x27;</span>)<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(r3)<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
 <blockquote>

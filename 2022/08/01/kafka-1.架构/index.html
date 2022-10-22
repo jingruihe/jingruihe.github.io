@@ -1,0 +1,845 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <link rel="icon" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JingRuiHe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="总结： 分区保证消息并行消费，细分为segment&#x3D;.index+.log 生产者offset保存在分区中，消费者offset保存在__consumer_offsets的topic中 消费者组保证并行消费 副本集保证集群高可用 ACK保证消息发送一致性 acks&#x3D;0，发了就ack acks&#x3D;1，leader自己写入了log之后就ack acks&#x3D;all，is">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.kafka架构">
+<meta property="og:url" content="http://example.com/2022/08/01/kafka-1.%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="景瑞">
+<meta property="og:description" content="总结： 分区保证消息并行消费，细分为segment&#x3D;.index+.log 生产者offset保存在分区中，消费者offset保存在__consumer_offsets的topic中 消费者组保证并行消费 副本集保证集群高可用 ACK保证消息发送一致性 acks&#x3D;0，发了就ack acks&#x3D;1，leader自己写入了log之后就ack acks&#x3D;all，is">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg">
+<meta property="article:published_time" content="2022-08-01T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-10-22T02:43:36.260Z">
+<meta property="article:author" content="JingRuiHe">
+<meta property="article:tag" content="Kafka">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg">
+  
+  
+  
+  <title>1.kafka架构 - 景瑞</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JingRuiHe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="1.kafka架构"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-01 10:00" pubdate>
+          2022年8月1日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          93 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">1.kafka架构</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><ol>
+<li>分区保证消息并行消费，细分为segment&#x3D;.index+.log</li>
+<li>生产者offset保存在分区中，消费者offset保存在__consumer_offsets的topic中</li>
+<li>消费者组保证并行消费</li>
+<li>副本集保证集群高可用</li>
+<li>ACK保证消息发送一致性<ul>
+<li>acks&#x3D;0，发了就ack</li>
+<li>acks&#x3D;1，leader自己写入了log之后就ack</li>
+<li>acks&#x3D;all，isr中所有follower都写入了log，leader才会ack</li>
+</ul>
+</li>
+<li>ISR就是消息同步到一定程度的副本集合，OSR消息滞后很多的follower集合。AR所有副本集合</li>
+<li>HW高水位保证了消费者消息一致性，但是不保证消息不丢失，ack才保证消息不丢失</li>
+<li>快：分区是顺序读写磁盘，零拷贝，分区分段，page cache</li>
+</ol>
+<h1 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h1><p><img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka%E6%9E%B6%E6%9E%84.png" srcset="/img/loading.gif" lazyload alt="kafka架构.png"></p>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><ol>
+<li>broker：kafka集群包含一个或多个服务器，每个服务器节点称为一个broker。</li>
+<li>producer: 生产者，生产者发送消息到指定的topic下，消息再根据分配规则append到某个partition的末尾。</li>
+<li>consumer: 消费者，消费者从topic中消费数据。</li>
+<li>consumer group: 消费者组，每个consumer属于一个特定的consumer group，可为每个consumer指定consumer group，若不指定则属于默认的group。一条消息只能被每个消费组中的一个消费（单播），但是会被每个消费组消费（广播）。可以理解为每一个消费组会消费消息中所有分区的信息，在消费组中的消费者会一起分担消息的消费压力。</li>
+<li>topic：每条发布到kafka集群的消息都有一个类别，这个类别称为topic，属于逻辑分类。实际是由多个分区组成</li>
+<li>partition：每个topic被物理划分为一个或多个分区，每个分区在物理上对应一个文件夹，该文件夹里面存储了这个分区的所有消息和索引文件。在创建topic时可指定parition数量，生产者将消息发送到topic时，消息会根据分区策略追加到分区文件的末尾，属于顺序写磁盘，因此效率非常高（经验证，顺序写磁盘效率比随机写内存还要高，这是Kafka高吞吐率的一个很重要的保证）。</li>
+<li>offset：partition中的每条消息都被标记了一个序号，这个序号表示消息在partition中的偏移量，称为offset，每一条消息在partition都有唯一的offset，消息者通过指定offset来指定要消费的消息。正常情况下，消费者在消费完一条消息后会递增offset，准备去消费下一条消息，但也可以将offset设成一个较小的值，重新消费一些消费过的消息，可见offset是由consumer控制的，consumer想消费哪一条消息就消费哪一条消息，所以kafka broker是无状态的，它不需要标记哪些消息被消费过。</li>
+<li>leader: 每个partition有多个副本，其中有且仅有一个作为leader，leader会负责所有的客户端读写操作。</li>
+<li>follower: follower不对外提供服务，只与leader保持数据同步，如果leader失效，则选举一个follower来充当新的leader。当follower与leader挂掉、卡住或者同步太慢，leader会把这个follower从ISR列表中删除，重新创建一个follower。</li>
+<li>rebalance: 同一个consumer group下的多个消费者互相协调消费工作，我们这样想，一个topic分为多个分区，一个consumer group里面的所有消费者合作，一起去消费所订阅的某个topic下的所有分区(每个消费者消费部分分区)，kafka会将该topic下的所有分区均匀的分配给consumer group下的每个消费者</li>
+</ol>
+<p><img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka%E6%8B%93%E6%89%91%E5%9B%BE.png" srcset="/img/loading.gif" lazyload alt="kafka拓扑图.png"></p>
+<h2 id="文件存储机制"><a href="#文件存储机制" class="headerlink" title="文件存储机制"></a>文件存储机制</h2><p>当文件到设定的保存时间时才会删除，数据的保存时间(单位:小时，默认为7天)<code>log.retention.hours=168</code>. 因为Kafka读取消息的时间复杂度为O(1)</p>
+<p>topic是逻辑上的概念，而partition是物理上的概念，每个partition对应于一个log文件，该log文件中存储的就是producer生产的数据。Producer生产的数据会被不断追加到该log文件末端，且每条数据都有自己的offset。消费者组中的每个消费者，都会实时记录自己消费到了哪个offset，以便出错恢复时，从上次的位置继续消费。</p>
+<p>Kafka采取了分片和索引机制，将每个partition分为多个segment。 每个segment对应两个文件——<code>.index</code>文件和<code>.log</code>文件。 这些文件位于一个文件夹下，该文件夹的命名规则为：topic名称+分区序号。例如，first这个topic有三个分区，则其对应的文件夹为first-0,first-1,first-2。</p>
+<p>index：保存着每条消息的偏移量对应的log的文件位置，命名为保存消息偏移量最大的数字.index</p>
+<p>log：保存每条消息的内容</p>
+<p>如果要找到offset&#x3D;3的消息，先找到index文件发现在00..这个里面，再找偏移量3对应的log文件位置</p>
+<pre><code class="hljs">00000000000000000000.index
+00000000000000000000.log
+00000000000000170410.index
+00000000000000170410.log
+00000000000000239430.index
+00000000000000239430.log
+</code></pre>
+<h2 id="offset机制"><a href="#offset机制" class="headerlink" title="offset机制"></a>offset机制</h2><p>生产者的offset：消息发送到topic，都是分别写入分区，每一个分区有一个offset，也就是这个分区的最新最大的offset<br>消费者offset：消费者自己会记录每一个自己消费端该分区的哪一个位置。消费者从0开始消费，消费到9，他的offset就记录在9.下次来消费时可以选择接着上一次位置消费。topic partition offset 这三个唯一确定一条消息。<br>可以配置auto.offset.reset，表示没有offset的时候从什么地方开始消费：</p>
+<ul>
+<li>earliest：从最早的offset开始消费</li>
+<li>latest：从最后的offset开始消费</li>
+<li>none：直接抛出exception给consumer</li>
+</ul>
+<p>使用spring-kafka时，客户端在监听topic的时候，它有2种提交offset的方式：</p>
+<ol>
+<li>自动提交，设置enable.auto.commit&#x3D;true，更新的频率根据参数【auto.commit.interval.ms】来定。这种方式也被称为【at most once】，fetch到消息后就可以更新offset，无论是否消费成功。</li>
+<li>手动提交，设置enable.auto.commit&#x3D;false，这种方式称为【at least once】。fetch到消息后，等消费完成再调用方法【consumer.commitSync()】，手动更新offset；如果消费失败，则offset也不会更新，此条消息会被重复消费一次。</li>
+</ol>
+<p>由于Zookeeper并不适合大批量的频繁写入操作，新版Kafka已推荐将consumer的位移信息保存在Kafka内部的topic中，即<code>__consumer_offsets</code>的topic，并且默认提供了<code>kafka_consumer_groups.sh</code>脚本供用户查看consumer信息。</p>
+<h2 id="消费组模式"><a href="#消费组模式" class="headerlink" title="消费组模式"></a>消费组模式</h2><p>消费端pull VS push</p>
+<ol>
+<li>push方式：由消息中间件主动地将消息推送给消费者；</li>
+</ol>
+<p>优点：优点是不需要消费者额外开启线程监控中间件，节省开销。</p>
+<p>缺点：无法适应消费速率不相同的消费者。因为消息的发送速率是broker决定的，而消费者的处理速度又不尽相同，所以容易造成部分消费者空闲，部分消费者堆积，造成缓冲区溢出。</p>
+<ol>
+<li>pull方式：由消费者主动向消息中间件拉取消息；</li>
+</ol>
+<p>优点：消费端可以按处理能力进行拉取；</p>
+<p>缺点：消费端需要另开线程监控中间件，有性能开销；</p>
+<p>对于Kafka而言，pull模式更合适。pull模式可简化broker的设计，Consumer可自主控制消费消息的速率，同时Consumer可以自己控制消费方式，既可批量消费也可逐条消费，同时还能选择不同的提交方式从而实现不同的传输语义。拉取到的数据如果为空，会等待一个时间再去拉取</p>
+<h2 id="Partition-分区"><a href="#Partition-分区" class="headerlink" title="Partition(分区)"></a>Partition(分区)</h2><p>集群个数比较少，比如6以内。分区数一般设置broker*2，怕以后扩容问题，其他一般就是broker数量。</p>
+<p>Kafka也支持动态增加一个已存在Topic的Partition个数，但不支持动态减少Partition个数。因为被减少Partition所对应的数据处理是个难题；由于Kafka的数据写模式的限制，所以如果要把这些Partition的历史数据集追加到有效的Partition的尾部，就会破坏了Kafka在Partition上消息的有序性，显然是不合理的；但如果按照时间戳重新构分区的数据文件，可操作性和难度都将是非常大的，所以目前并不支持动态减少Partition个数。</p>
+<p>Partition是用来存储数据的，但并不是最小的数据存储单元。Partition下还可以细分成Segment，每个Partition是由一个或多个Segment组成。每个Segment分别对应两个文件：一个是以.index结尾的索引文件，另一个是以.log结尾的数据文件，且两个文件的文件名完全相同。所有的Segment均存在于所属Partition的目录下。</p>
+<p>Segment的必要性：如果以partition作为数据存储的最小单元，那么partition将会是一个很大的数据文件，且数据量是持续递增的；当进行过期数据清理或消费指定offset数据时，操作如此的大文件将会是一个很严重的性能问题。<br>每个Partition全局的第一个Segment文件名均是从0开始，后续每个Segment的文件名为上一个Segment文件中最后一条消息的offset值；数据的大小为64位，20位数字字符的长度，未用到的用0填充。同一个Segment的.index文件和.log文件的文件名完全相同；所以初始化每个Partition下的Segment的文件名如下所示：<br><code>0000000000000000000000.index 0000000000000000000000.log</code><br>这种命名格式的好处在于可以有效的规避单文件数据量过大导致的操作难问题，不仅如此，还可以方便、快速的定位数据。例如：要实现从指定offset处开始读取数据，只需要根据给定的offset值与对应Partition下的segment文件名所比对，就可以快速的定位目标数据所在的segment文件，然后根据目标segment的.index文件查找给定offset值所对应的实际磁盘偏移量，即可快速在.log中读取目标数据。</p>
+<p>在Kafka 0.10.1.0以后，对于每个Segment文件，在原有的.index和.log文件的基础上，新增加一个.timeindex文件，通过该索引文件 可以实现基于时间戳操作消息的功能，具体实现详见<a target="_blank" rel="noopener" href="https://yhyr.github.io/2019/01/23/Kafka-Timestamp/">Kafka Timestamp</a></p>
+<p>Kafka中所说的Offset本质上是一个逻辑值，代表的是目标数据对应在Partition上的偏移量；而数据在磁盘上的实际偏移量是存储在对应Segment的.index文件中。</p>
+<p>c1,c2是一个消费者组。消费者组里面的消费者均匀消费整个topic的所有分区<br>p1  c1<br>p2  c1<br>p3  c2<br>p4  c2</p>
+<h2 id="Replication-副本集"><a href="#Replication-副本集" class="headerlink" title="Replication(副本集)"></a>Replication(副本集)</h2><p>建议不能少于broker</p>
+<p>Replication是Kafka架构中一个比较重要的概念，是系统高可用的一种保障。Replication逻辑上是作用于Topic的，但实际上是体现在每一个Partition上。例如：有一个Topic，分区(partitions)数为3(分别为a, b, c)，副本因子(replication-factor)数也为3；其本质就是该Topic一共有3个a分区，3个b分区，3个c分区。这样的设计在某种意义上就很大程度的提高了系统的容错率。接着上述的例子想另外一个问题：一个Topic下a分区一共有三个，既然是副本集，那这三个所包含的数据都完全一样吗？作用都一样吗？说到这就不得不引出两个概念：</p>
+<p>Leader Replica</p>
+<blockquote>
+<p>概念：每一个Partition有且只有一个Replica可以作为Leader<br>职责：负责处理所有Producer、Consumer的请求；与此同时，Leader还负责监管和维护ISR(In-Sync Replicas：副本同步队列)中所有follower的滞后状态。</p>
+</blockquote>
+<p>Follower Replica</p>
+<blockquote>
+<p>概念：每个Partition中除了Leader以外的所有Replica均为follower<br>职责：不处理任何来自客户端的请求；只通过Fetch Request拉取leader replica的数据进行同步</p>
+</blockquote>
+<p>tips: leader partition(主分区) &amp; leader replica(主副本集)：其实这两个概念是一回事；因为副本集策略只是一种机制，是为了提高可用性而生的。这种策略就是作用于partition上的，通俗的说增加副本集个数其实就是增加同一个partition的备份个数；同样的对于主分区而言，就是同一个partition下所有备份中的主副本集。</p>
+<p><strong>注意：同一个topic下的不同partition之间是没有主次之分，都是同等重要且存储不同数据的。</strong></p>
+<h3 id="consumer对应分区分配策略"><a href="#consumer对应分区分配策略" class="headerlink" title="consumer对应分区分配策略"></a>consumer对应分区分配策略</h3><p>一个consumer group中有多个consumer，一个topic有多个partition，所以必然会涉及到partition的分配问题，即确定那个partition由哪个consumer来消费。其实就是上文说的rebalance。</p>
+<p>消费组变化或者订阅的分区变化会触发rebalance：</p>
+<ul>
+<li>同一个Consumer Group内新增消费者</li>
+<li>消费者离开当前所属的Consumer Group，包括shuts down或crashes</li>
+<li>订阅的主题新增分区</li>
+</ul>
+<p>Kafka有两种分配策略</p>
+<ol>
+<li>Range(默认)：Range是对每个Topic而言的（即一个Topic一个Topic分），首先对同一个Topic里面的分区按照序号进行排序，并对消费者按照字母顺序进行排序。然后用Partitions分区的个数除以消费者线程的总数来决定每个消费者线程消费几个分区。如果除不尽，那么前面几个消费者线程将会多消费一个分区。缺点如果topic很多前面分区压力会很大</li>
+</ol>
+<!---->
+
+<pre><code class="hljs">n=分区数/消费者数量，m=分区数%消费者数量，那么前m个消费者每个分配n+1个分区，后面的（消费者数量-m）个消费者每个分配n个分区。
+假如有10个分区，3个消费者线程。
+C1-0：0，1，2，3
+C2-0：4，5，6
+C2-1：7，8，9
+如果有11个分区将会是：
+C1-0：0，1，2，3
+C2-0：4，5，6，7
+C2-1：8，9，10
+假如我们有两个主题T1,T2，分别有10个分区，最后的分配结果将会是这样：
+C1-0：T1（0，1，2，3） T2（0，1，2，3）
+C2-0：T1（4，5，6） T2（4，5，6）
+C2-1：T1（7，8，9） T2（7，8，9）
+</code></pre>
+<ol>
+<li>RoundRobin：将消费组内所有消费者以及消费者所订阅的所有topic的partition按照字典序排序，然后通过轮询方式逐个将分区以此分配给每个消费者。必须满足两个条件（消费者组内消费者消费者消费线程数必须相等，每个消费组订阅主题必须相同）</li>
+</ol>
+<!---->
+
+<pre><code class="hljs">加入按照 hashCode 排序完的topic-partitions组依次为T1-5, T1-3, T1-0, T1-8, T1-2, T1-1, T1-4, T1-7, T1-6, T1-9，消费者线程排序为C1-0, C1-1, C2-0, C2-1。最后排序结果为：
+C1-0 将消费 T1-5, T1-2, T1-6 分区；
+C1-1 将消费 T1-3, T1-1, T1-9 分区；
+C2-0 将消费 T1-0, T1-4 分区；
+C2-1 将消费 T1-8, T1-7 分区；
+</code></pre>
+<ol>
+<li>StickyAssignor：有两个目的（分配给消费者者的主题分区数最多相差一个；分区的分配尽可能的与上次分配的保持相同），两者冲突的时候第一个目的优先。</li>
+</ol>
+<h2 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h2><h3 id="消息发送一致性"><a href="#消息发送一致性" class="headerlink" title="消息发送一致性"></a>消息发送一致性</h3><p>既然存在副本就需要考虑数据一致性，方案有两种：</p>
+<ol>
+<li>半数以上同步成功就发送ACK，延迟低，但是选举leader是如果是容忍n台节点故障，就需要2n+1个副本</li>
+<li>全部同步完成发送ACK，延迟高，但是选举leader是如果是容忍n台节点故障，就需要n+1个副本</li>
+</ol>
+<p>kafka选择第二种方案，并且加入ISR优化。这里需要了解几个名词AR、ISR、OSR。</p>
+<ul>
+<li>AR：Assigned Replicas，某分区的所有副本（这里所说的副本包括leader和follower）统称为 AR。</li>
+<li>ISR：In Sync Replicas，所有与leader副本保持”一定程度同步”的副本（包括leader副本在内）组成ISR。使用<code>replica.lag.time.max.ms</code>参数来配置，如果同步落后于这个时间间隔，就移除ISR。老版本还使用<code>replica.lag.max.messages</code>消息落后条数的条件来判断。</li>
+<li>OSR：Out-of-Sync Replied，相对leader滞后过多的follower将组成OSR。</li>
+</ul>
+<p>由此可见，AR &#x3D; ISR + OSR，理想情况下，所有的follower副本都应该与leader保持一定程度的同步，即AR&#x3D;ISR，OSR集合为空</p>
+<p>ISR是用于优化生产者发送消息的一致性问题，还有leader选举的时候只选举可靠的follwer。</p>
+<p>生产者将消息发送给分区的leader，leader会将该消息写入其本地log，然后每个follower都会从leader pull数据，follower pull到该消息并将其写入log后，会向leader发送ack，当leader收到了ISR集合中所有follower的ack后，就认为这条消息已经commit了，leader将增加HW并且向生产者返回ack。在整个流程中，follower也可以批量的从leader复制数据，以提升复制性能。</p>
+<p>producer在发送消息的时候，可指定参数acks，表示”在生产者认为发送请求完成之前，有多少分区副本必须接收到数据”，有三个可选值，0、1、all(或-1)，默认为1</p>
+<ul>
+<li>acks&#x3D;0，表示producer只管发，只要发出去就认为发发送请求完成了，不管leader有没有收到，更不管follower有没有备份完成。可能数据丢失。at most once</li>
+<li>acks&#x3D;1，表示只要leader收到消息，并将其写入自己log后，就会返回给producer ack，不考虑follower有没有备份完成。如果副本同步前leader故障，数据丢失。</li>
+<li>acks&#x3D;all(或-1)，表示不仅要leader收到消息写入本地log，还要等所有ISR集合中的follower都备份完成后，producer才认为发送成功。如果副本同步完成，leader发送ACK的时候故障，就会造成数据重复。at least once</li>
+</ul>
+<p>实际上，为了提高性能，follower在pull到消息将其保存到内存中而尚未写入磁盘时，就会向leader发送ack，所以也就不能完全保证异常发生后该条消息一定能被Consumer消费。</p>
+<h3 id="消息消费一致性"><a href="#消息消费一致性" class="headerlink" title="消息消费一致性"></a>消息消费一致性</h3><p>因为每个副本同步的offset不一定一致，那如果leader挂了，现在follower变成了新的leader之后消息就可能错乱，如何保证消费一致性呢？这里引入了HW+LEO</p>
+<p>HW（High Watermark）俗称高水位，它标识了一个特定的消息偏移量（offset），消费者只能消费HW之前的消息。</p>
+<p>LEO （Log End Offset），标识当前日志文件中下一条待写入的消息的offset。上图中offset为9的位置即为当前日志文件的LEO，分区ISR集合中的每个副本都会维护自身的LEO，而ISR集合中最小的LEO即为分区的HW，对消费者而言只能消费HW之前的消息。</p>
+<p>下图表示一个日志文件，这个日志文件中有9条消息，第一条消息的offset为0，最后一条消息的offset为8，虚线表示的offset为9的消息，代表下一条待写入的消息。日志文件的HW为6，表示消费者只能拉取offset在0到5之间的消息，offset为6的消息对消费者而言是不可见的。</p>
+<p><img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka-HA.png" srcset="/img/loading.gif" lazyload alt="kafka-HA.png"></p>
+<pre><code class="hljs">leader     HW-12  LEO-20
+follower1  HW-12  LEO-15
+follower2  HW-12  LEO-18
+</code></pre>
+<p>假设现在leader挂了，follower2选为了leader。</p>
+<ol>
+<li>除了新leader HW之后数据，其他的leader、follower1的HW之后数据全部截取掉</li>
+<li>把新leader HW之后数据同步到所有follower</li>
+</ol>
+<p>HW为了保证了消费者消费数据的一致性，并且保证leader切换数据一致性。</p>
+<p><strong>这里只保证数据一致性，但是不保证数据不丢失</strong>，ACK保证数据一致性</p>
+<h3 id="幂等性"><a href="#幂等性" class="headerlink" title="幂等性"></a>幂等性</h3><pre><code class="hljs">at least once + 幂等性 = exactly once
+</code></pre>
+<p>要启用幂等性，只需要将Producer的参数中<code>enable.idompotence</code>设置为true即可。Kafka的幂等性实现其实就是将原来下游需要做的去重放在了数据上游。开启幂等性的Producer在初始化的时候会被分配一个PID，发往同一Partition的消息会附带Sequence Number。而Broker端会对<code>&lt;PID, Partition, SeqNumber&gt;</code>做缓存，当具有相同主键的消息提交时，Broker只会持久化一条。</p>
+<p>但是PID重启就会变化，同时不同的Partition也具有不同主键，所以幂等性无法保证跨分区跨会话的Exactly Once。只能保证同一会话+同意分区</p>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>主要是Producer事务： 为了实现跨分区跨会话的事务，需要引入一个全局唯一的Transaction ID，并将Producer获得的PID 和Transaction ID 绑定。这样当Producer重启后就可以通过正在进行的Transaction</p>
+<p>ID获得原来的PID。为了管理Transaction，Kafka引入了一个新的组件Transaction Coordinator。Producer就是通过和Transaction Coordinator交互获得Transaction ID对应的任务状态。Transaction</p>
+<p>Coordinator还负责将事务所有写入Kafka的一个内部Topic，这样即使整个服务重启，由于事务状态得到保存，进行中的事务状态可以得到恢复，从而继续进行。</p>
+<p>Consumer事务（处理不了）：对于Consumer而言，事务的保证就会相对较弱，尤其时无法保证Commit的信息被精确消费。这是由于Consumer可以通过offset访</p>
+<p>问任意信息，而且不同的Segment File生命周期不同，同一事务的消息可能会出现重启后被删除的情况。比如事务跨越了两个Segment File，出现异常之后重新读取消息，发现一个Segment File因为到了过期时间被删除了，就读取不到了。</p>
+<h1 id="kafka中的Leader选举"><a href="#kafka中的Leader选举" class="headerlink" title="kafka中的Leader选举"></a>kafka中的Leader选举</h1><h2 id="cotroller选举"><a href="#cotroller选举" class="headerlink" title="cotroller选举"></a>cotroller选举</h2><p>kafka集群中多个broker，有一个会被选举为controller，注意区分两者，一个是broker的leader，我们称为controller，一个是分区副本的leader，我们称为leader。</p>
+<p>controller的选举是通过broker在zookeeper的<code>/controller</code>节点下创建临时节点来实现的，并在该节点中写入当前broker的信息<code>&#123;“version”:1,”brokerid”:1,”timestamp”:”1512018424988”&#125;</code>，利用zookeeper的强一致性特性，一个节点只能被一个客户端创建成功，创建成功的broker即为controller，即”先到先得”。</p>
+<p>当controller宕机或者和zookeeper失去连接时，zookeeper检测不到心跳，zookeeper上的临时节点会被删除，而其它broker会监听临时节点的变化，当节点被删除时，其它broker会收到通知，重新发起controller选举。</p>
+<h2 id="分区leader选举"><a href="#分区leader选举" class="headerlink" title="分区leader选举"></a>分区leader选举</h2><p>分区leader的选举由 controller 负责管理和实施，当leader发生故障时，controller会将leader的改变直接通过RPC的方式通知需要为此作出响应的broker，需要为此作出响应的broker即该分区的ISR集合中follower所在的broker，kafka在zookeeper中动态维护了一个ISR，只有ISR里的follower才有被选为Leader的可能。</p>
+<p>**具体过程是这样的：按照AR集合中副本的顺序 查找到 第一个 存活的、并且属于ISR集合的 副本作为新的leader。**一个分区的AR集合在创建分区副本的时候就被指定，只要不发生重分配的情况，AR集合内部副本的顺序是保持不变的，而分区的ISR集合上面说过因为同步滞后等原因可能会改变，所以注意这里是根据AR的顺序而不是ISR的顺序找。</p>
+<p>对于上面描述的过程我们假设一种极端的情况，如果partition的所有副本都不可用时，怎么办？这种情况下kafka提供了两种可行的方案：</p>
+<ol>
+<li>选择 ISR中 第一个活过来的副本作为Leader；</li>
+<li>选择第一个活过来的副本（不一定是ISR中的）作为Leader；</li>
+</ol>
+<p>这就需要在可用性和数据一致性当中做出选择，如果一定要等待ISR中的副本活过来，那不可用的时间可能会相对较长。选择第一个活过来的副本作为Leader，如果这个副本不在ISR中，那数据的一致性则难以保证。kafka支持用户通过配置选择，以根据业务场景在可用性和数据一致性之间做出权衡。</p>
+<h2 id="consumer-group-leader的选举"><a href="#consumer-group-leader的选举" class="headerlink" title="consumer group leader的选举"></a>consumer group leader的选举</h2><p>组协调器会为消费组（consumer group）内的所有消费者选举出一个leader，这个选举的算法也很简单，第一个加入consumer group的consumer即为leader，如果某一时刻leader消费者退出了消费组，那么会重新 随机 选举一个新的leader。</p>
+<h1 id="kafka架构中zookeeper的结构"><a href="#kafka架构中zookeeper的结构" class="headerlink" title="kafka架构中zookeeper的结构"></a>kafka架构中zookeeper的结构</h1><h1 id="为什么快"><a href="#为什么快" class="headerlink" title="为什么快"></a>为什么快</h1><ol>
+<li>顺序读写磁盘</li>
+<li>page cache</li>
+<li>零拷贝</li>
+<li>分区分段</li>
+</ol>
+<p>Kafka采用顺序读写、Page Cache、零拷贝以及分区分段等这些设计，再加上在索引方面做的优化，另外Kafka数据读写也是批量的而不是单条的，使得Kafka具有了高性能、高吞吐、低延时的特点。</p>
+<p>感谢：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU1NDA0MDQ3MA==&mid=2247483958&idx=1&sn=dffaad318b50f875eea615bc3bdcc80c&chksm=fbe8efcfcc9f66d9ff096fbae1c2a3671f60ca4dc3e7412ebb511252e7193a46dcd4eb11aadc&scene=21#wechat_redirect">大白话 kafka 架构原理 </a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU1NDA0MDQ3MA==&mid=2247483965&idx=1&sn=20dd02c4bf3a11ff177906f0527a5053&chksm=fbe8efc4cc9f66d258c239fefe73125111a351d3a4e857fd8cd3c98a5de2c18ad33aacdad947&scene=21#wechat_redirect">秒懂 kafka HA（高可用）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cyfonly/p/5954614.html">kafka学习笔记：知识点整理</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/huxi2b/p/5903354.html">为何去掉replica.lag.max.messages参数</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenxiaoge/p/13335416.html">Kafka消费者组三种分区分配策略</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/a2267378/category_8755563.html?spm=1001.2014.3001.5482">https://blog.csdn.net/a2267378/category_8755563.html?spm=1001.2014.3001.5482</a></li>
+<li><a target="_blank" rel="noopener" href="https://my.oschina.net/jallenkwong/blog/4449224">感兴趣可以看看课代表</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1a4411B7V9?t=724&p=39">bilibili视频</a></li>
+<li><a target="_blank" rel="noopener" href="https://jishuin.proginn.com/p/763bfbd5e0b7">两年 kafka 使用经验，遇到过哪些坑？</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1436988">Kafka Consumer重置Offset</a></li>
+<li><a target="_blank" rel="noopener" href="https://yhyr.github.io/2018/12/15/Kafka%E7%90%86%E8%AE%BA%E4%B9%8BPartition-Replication/">kafka理论</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_15127589/2679155">kafka面试</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Kafka/">#Kafka</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>1.kafka架构</div>
+      <div>http://example.com/2022/08/01/kafka-1.架构/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JingRuiHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月1日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/02/kafka-2.%E6%90%AD%E5%BB%BA/" title="2.kafka搭建">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">2.kafka搭建</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/06/mongo-5.%E8%BF%90%E7%BB%B4/" title="5.Mongo运维相关">
+                        <span class="hidden-mobile">5.Mongo运维相关</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"474398dbe7c152716f6e","clientSecret":"72b83431cf83b93e0e4ddfe1a37a31493ae65314","repo":"blog-gitalk","owner":"jingruihe","admin":["jingruihe"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '29b1bb2b955d672d7f4aa5081e58649f'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <link rel="icon" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JingRuiHe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="注意：异步执行的时候最好在执行任务里面try catch一下，不然就算报异常也捕获不到  线程池 Executors弊端   FixedThreadPool和SingleThreadExecutor: 允许请求的队列长度为Integer.MAX_VALUE, 可能堆积大量的请求, 从而导致OOM CachedThreadPool和ScheduledThreadPool: 允许创建的线程数量为In">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程使用相关">
+<meta property="og:url" content="http://example.com/2020/05/03/thread-3.%E7%BA%BF%E7%A8%8B%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%85%B3/index.html">
+<meta property="og:site_name" content="景瑞">
+<meta property="og:description" content="注意：异步执行的时候最好在执行任务里面try catch一下，不然就算报异常也捕获不到  线程池 Executors弊端   FixedThreadPool和SingleThreadExecutor: 允许请求的队列长度为Integer.MAX_VALUE, 可能堆积大量的请求, 从而导致OOM CachedThreadPool和ScheduledThreadPool: 允许创建的线程数量为In">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%BD%BF%E7%94%A8.png">
+<meta property="article:published_time" content="2020-05-03T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-10-22T02:44:56.283Z">
+<meta property="article:author" content="JingRuiHe">
+<meta property="article:tag" content="线程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%BD%BF%E7%94%A8.png">
+  
+  
+  
+  <title>线程使用相关 - 景瑞</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JingRuiHe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%BD%BF%E7%94%A8.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="线程使用相关"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-05-03 10:00" pubdate>
+          2020年5月3日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          82 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">线程使用相关</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>注意：异步执行的时候最好在执行任务里面try catch一下，不然就算报异常也捕获不到</p>
+</blockquote>
+<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><blockquote>
+<p>Executors弊端</p>
+</blockquote>
+<ul>
+<li>FixedThreadPool和SingleThreadExecutor: 允许请求的队列长度为Integer.MAX_VALUE, 可能堆积大量的请求, 从而导致OOM</li>
+<li>CachedThreadPool和ScheduledThreadPool: 允许创建的线程数量为Integer.MAX_VALUE, 可能会创建大量线程, 从而导致OOM</li>
+<li>FixedThreadPool: 固定线程池, 队列长度Integer.MAX_VALUE</li>
+<li>SingleThreadExecutor: 只有一个线程的线程池, 队列长度Integer.MAX_VALUE</li>
+<li>CachedThreadPool: 线程数量为Integer.MAX_VALUE, 可变</li>
+</ul>
+<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><p>推荐使用<strong>ThreadPoolExecutor</strong>创建, 更加明确线程池的运行规则, 规避资源耗尽的风险</p>
+<p>ThreadPoolExecutor构造参数解释:</p>
+<ul>
+<li>corePoolSize: 最小可以同时运行的线程数量</li>
+<li>maximumPoolSize: 当队列中存放的任务达到队列容量的时候, 当前可以同时运行的线程数量变为最大线程数</li>
+<li>workQueue: 当新任务来的时候会先判断当前运行的线程数量是否达到核心线程数, 如果达到的话, 新任务就会被存放在队列中</li>
+<li>keepAliveTime: 当线程池中的线程数量大于corePoolSize的时候, 如果这时没有新的任务提交, 核心线程外的线程不会立即销毁, 而是会等待, 直到等待的时间超过了keepAliveTime才会被回收销毁</li>
+<li>unit: keepAliveTime参数的时间单位</li>
+<li>threadFactory: executor创建新线程的时候会用到</li>
+<li>handler: 饱和策略</li>
+</ul>
+<p>如果当前同时运行的线程数量达到最大线程数量并且队列也已经被放满了任时, ThreadPoolTaskExecutor定义一些饱和策略:</p>
+<ul>
+<li>ThreadPoolExecutor.AbortPolicy(默认): 抛出RejectedExecutionException来拒绝新任务的处理.</li>
+<li>ThreadPoolExecutor.CallerRunsPolicy: 调用执行自己的线程运行任务, 也就是直接在调用execute方法的线程中运行(run)被拒绝的任务, 如果执行程序已关闭, 则会丢弃该任务. 因此这种策略会降低对于新任务提交速度, 影响程序的整体性能. 如果您的应用程序可以承受此延迟并且你要求任何一个任务请求都要被执行的话, 你可以选择这个策略.</li>
+<li>ThreadPoolExecutor.DiscardPolicy: 不处理新任务, 直接丢弃掉.</li>
+<li>ThreadPoolExecutor.DiscardOldestPolicy: 此策略将丢弃最早的未处理的任务请求.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EvaluationTheadPool</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">Logger</span> <span class="hljs-variable">logger</span> <span class="hljs-operator">=</span> LoggerFactory.getLogger(EvaluationTheadPool.class);<br><br>    <span class="hljs-comment">//加上volatile,防止指令重排序</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">volatile</span> EvaluationTheadPool theadPool;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">availableProcessor</span> <span class="hljs-operator">=</span> Runtime.getRuntime().availableProcessors();<br><br>    <span class="hljs-keyword">private</span> ThreadPoolExecutor executor;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">EvaluationTheadPool</span><span class="hljs-params">(ThreadPoolExecutor executor)</span> &#123;<br>        <span class="hljs-built_in">this</span>.executor = executor;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取实例，dcl</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> EvaluationTheadPool <span class="hljs-title function_">me</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">if</span>(theadPool == <span class="hljs-literal">null</span>)&#123;<br>            <span class="hljs-keyword">synchronized</span> (EvaluationTheadPool.class)&#123;<br>                <span class="hljs-keyword">if</span>(theadPool == <span class="hljs-literal">null</span>)&#123;<br>                    <span class="hljs-type">int</span> <span class="hljs-variable">coreSize</span> <span class="hljs-operator">=</span> availableProcessor / <span class="hljs-number">2</span>;<br>                    <span class="hljs-comment">// 用单例模式创建线程池，保留2个核心线程，最多线程为CPU个数的2n+1的两倍.</span><br>                    <span class="hljs-type">int</span> <span class="hljs-variable">maxSize</span> <span class="hljs-operator">=</span> (availableProcessor * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>) * <span class="hljs-number">2</span> ;<br>                    <span class="hljs-type">ThreadPoolExecutor</span> <span class="hljs-variable">poolExecutor</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThreadPoolExecutor</span>(coreSize, <span class="hljs-comment">//核心线程数</span><br>                            maxSize, <span class="hljs-comment">//最大线程数</span><br>                            <span class="hljs-number">0L</span>, <span class="hljs-comment">//闲置线程存活时间</span><br>                            TimeUnit.MILLISECONDS, <span class="hljs-comment">// 时间单位</span><br>                            <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedBlockingDeque</span>&lt;&gt;(), <span class="hljs-comment">//线程队列</span><br>                            <span class="hljs-keyword">new</span> <span class="hljs-title class_">EvaluationThreadFactory</span>(<span class="hljs-string">&quot;治理评测&quot;</span>), <span class="hljs-comment">//线程工厂</span><br>                            <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThreadPoolExecutor</span>.AbortPolicy() <span class="hljs-comment">//队列已满，而且当前线程数已经超过最大线程数时的异常处理策略</span><br>                    );<br>                    theadPool =  <span class="hljs-keyword">new</span> <span class="hljs-title class_">EvaluationTheadPool</span>(poolExecutor);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> theadPool;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">runAsync</span><span class="hljs-params">(Runnable runnable)</span>&#123;<br>        <span class="hljs-keyword">if</span>(runnable == <span class="hljs-literal">null</span>)&#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-built_in">this</span>.executor.execute(runnable);<br>    &#125;<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 带参数的异步执行</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> data</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> consumer</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &lt;T&gt;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-keyword">void</span> <span class="hljs-title function_">runAsync</span><span class="hljs-params">(T data, Consumer&lt;T&gt; consumer)</span>&#123;<br>        <span class="hljs-keyword">if</span>(consumer == <span class="hljs-literal">null</span>)&#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">//创建一个线程副本</span><br>        ThreadLocal&lt;T&gt; local = <span class="hljs-keyword">new</span> <span class="hljs-title class_">InheritableThreadLocal</span>&lt;&gt;();<br>        local.set(data);<br>        CompletableFuture.runAsync(()-&gt;&#123;<br>            <span class="hljs-keyword">try</span>&#123;<br>                <span class="hljs-type">T</span> <span class="hljs-variable">val</span> <span class="hljs-operator">=</span> local.get();<br>                consumer.accept(val);<br>            &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;<br>                logger.error(<span class="hljs-string">&quot;异步执行出错:&#123;&#125;&quot;</span>,e.getMessage(),e);<br>            &#125;<span class="hljs-keyword">finally</span> &#123;<br>                local.remove();<br>            &#125;<br>        &#125;,<span class="hljs-built_in">this</span>.executor);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *无返回值</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> tip</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nonConsumer</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt; <span class="hljs-title function_">runAsync</span><span class="hljs-params">(String tip, NonConsumer nonConsumer)</span>&#123;<br>       <span class="hljs-keyword">return</span> CompletableFuture.runAsync(()-&gt; CostUtil.ofMillis(tip,nonConsumer),<span class="hljs-built_in">this</span>.executor);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 有返回值</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> tip</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> supplier</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &lt;T&gt;</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; CompletableFuture&lt;T&gt; <span class="hljs-title function_">supplyAsync</span><span class="hljs-params">(String tip, Supplier&lt;T&gt; supplier)</span>&#123;<br>        <span class="hljs-keyword">return</span> CompletableFuture.supplyAsync(()-&gt; CostUtil.ofMillis(tip,supplier),<span class="hljs-built_in">this</span>.executor);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">allOfJoin</span><span class="hljs-params">(CompletableFuture&lt;?&gt;... cfs)</span>&#123;<br>        <span class="hljs-keyword">if</span>(cfs == <span class="hljs-literal">null</span> || cfs.length == <span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        CompletableFuture.allOf(cfs).join();<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EvaluationThreadFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ThreadFactory</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">Logger</span> <span class="hljs-variable">logger</span> <span class="hljs-operator">=</span> LoggerFactory.getLogger(EvaluationThreadFactory.class);<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 计数器(从0开始)</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">AtomicInteger</span> <span class="hljs-variable">counter</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AtomicInteger</span>(<span class="hljs-number">0</span>);<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String threadName;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">EvaluationThreadFactory</span><span class="hljs-params">(String threadName)</span> &#123;<br>        <span class="hljs-built_in">this</span>.threadName = threadName;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Thread <span class="hljs-title function_">newThread</span><span class="hljs-params">(Runnable runnable)</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">EvaluationThread</span>(runnable,String.format(<span class="hljs-string">&quot;%s-%s&quot;</span>,threadName,counter.getAndIncrement()));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="线程池建议"><a href="#线程池建议" class="headerlink" title="线程池建议"></a>线程池建议</h2><ul>
+<li>线程池配置个数<ol>
+<li>CPU密集型任务(N+1)</li>
+<li>I&#x2F;O密集型任务2N</li>
+</ol>
+</li>
+<li>不同的业务用不同的线程池</li>
+<li>检测线程池运行状态: 比如使用Actuator组件</li>
+<li>使用ThreadPoolExecutor创建线程池</li>
+<li>别忘记给线程池命名</li>
+</ul>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//利用guava的ThreadFactoryBuilder</span><br>ThreadFactory threadFactory = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ThreadFactoryBuilder()</span><br>                    .set<span class="hljs-constructor">NameFormat(<span class="hljs-params">threadNamePrefix</span> + <span class="hljs-string">&quot;-%d&quot;</span>)</span><br>                    .set<span class="hljs-constructor">Daemon(<span class="hljs-params">true</span>)</span>.build<span class="hljs-literal">()</span>;<br>ExecutorService threadPool = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ThreadPoolExecutor(<span class="hljs-params">corePoolSize</span>, <span class="hljs-params">maximumPoolSize</span>, <span class="hljs-params">keepAliveTime</span>, TimeUnit.MINUTES, <span class="hljs-params">workQueue</span>, <span class="hljs-params">threadFactory</span>)</span><br><span class="hljs-comment">//使用 class NamingThreadFactory implements ThreadFactory 自己实现</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Future使用-不建议"><a href="#Future使用-不建议" class="headerlink" title="Future使用(不建议)"></a>Future使用(不建议)</h1><p>循环去get获取结果，如果任务没有完成就会阻塞，由于不知道那个task优先执行完毕，所以效率很慢</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//耗时稳定在1000毫秒多点</span><br>long l = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>current<span class="hljs-constructor">TimeMillis()</span>;<br>ExecutorService pool = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Executors</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">FixedThreadPool(5)</span>;<br>List&lt;Future&lt;Integer&gt;&gt; futures = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;<span class="hljs-literal">()</span>;<br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;<br>    <span class="hljs-built_in">int</span> finalI = i;<br>    futures.add(pool.submit(<span class="hljs-literal">()</span> -&gt; &#123;<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Thread</span>.</span></span>sleep(finalI);<br>        return finalI;<br>    &#125;));<br>&#125;<br><br><span class="hljs-built_in">int</span> total = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span> (Future&lt;Integer&gt; future : futures) &#123;<br>    total = total + future.get<span class="hljs-literal">()</span>;<br>&#125;<br>pool.shutdown<span class="hljs-literal">()</span>;<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;time = &quot;</span> + (<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>current<span class="hljs-constructor">TimeMillis()</span> - l) + <span class="hljs-string">&quot;; total: &quot;</span> + total);<br></code></pre></td></tr></table></figure>
+
+<h1 id="CompletionService"><a href="#CompletionService" class="headerlink" title="CompletionService"></a>CompletionService</h1><p>任务先完成可优先获取到，即结果按照完成先后顺序排序</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">//稳定耗时在<span class="hljs-number">40</span>毫秒多点<br>long l = <span class="hljs-keyword">System</span>.currentTimeMillis();<br>ExecutorService pool = Executors.newFixedThreadPool(<span class="hljs-number">5</span>);<br>List&lt;Future&lt;<span class="hljs-type">Integer</span>&gt;&gt; futures = <span class="hljs-built_in">new</span> ArrayList&lt;&gt;();<br>CompletionService&lt;<span class="hljs-type">Integer</span>&gt; completionService = <span class="hljs-built_in">new</span> ExecutorCompletionService&lt;<span class="hljs-type">Integer</span>&gt;(pool);<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;<br>    <span class="hljs-type">int</span> finalI = i;<br>    completionService.submit(() -&gt; &#123;<br>        Thread.sleep(finalI);<br>        <span class="hljs-keyword">return</span> finalI;<br>    &#125;);<br>&#125;<br><span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span> (Future&lt;<span class="hljs-type">Integer</span>&gt; future : futures) &#123;<br>    total = total + future.<span class="hljs-keyword">get</span>();<br>&#125;<br>pool.shutdown();<br><span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;time = &quot; + (<span class="hljs-keyword">System</span>.currentTimeMillis() - l) + &quot;; total: &quot; + total);<br></code></pre></td></tr></table></figure>
+
+<h1 id="CompletableFuture"><a href="#CompletableFuture" class="headerlink" title="CompletableFuture"></a>CompletableFuture</h1><p>java8引入，之前future获取结果要么阻塞方法get()，要么轮询看isDone()是否为true，不是很友好。<br>CompletableFuture可以传入回调对象，当异步任务完成或者发生异常时，自动调用回调对象的回调方法。</p>
+<ul>
+<li>CompletableFuture.supplyAsync 异步创建</li>
+<li>thenAccept 如果执行成功</li>
+<li>exceptionally 如果执行异常</li>
+<li>thenApplyAsync 上一个任务异步执行之后继续执行下一个任务</li>
+<li>anyOf()和allOf()用于并行化多个CompletableFuture</li>
+</ul>
+<p>简单使用就是这样, 如果需要线程并行执行的话, 看<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1306581182447650">https://www.liaoxuefeng.com/wiki/1252599548343744/1306581182447650</a></p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">CompletableFuture&lt;<span class="hljs-type">Integer</span>&gt; supplyAsync = CompletableFuture.supplyAsync(<span class="hljs-built_in">new</span> Supplier&lt;<span class="hljs-type">Integer</span>&gt;() &#123;<br>    @Override<br>    <span class="hljs-built_in">public</span> <span class="hljs-type">Integer</span> <span class="hljs-keyword">get</span>() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br>&#125;);<br>//如果执行成功<br>supplyAsync.thenAccept(<span class="hljs-built_in">new</span> Consumer&lt;<span class="hljs-type">Integer</span>&gt;() &#123;<br>    @Override<br>    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> accept(<span class="hljs-type">Integer</span> <span class="hljs-type">integer</span>) &#123;<br>        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;执行成功，返回 = &quot; + <span class="hljs-type">integer</span>);<br>    &#125;<br>&#125;);<br>//如果执行异常<br>supplyAsync.exceptionally(<span class="hljs-built_in">new</span> <span class="hljs-keyword">Function</span>&lt;Throwable, <span class="hljs-type">Integer</span>&gt;() &#123;<br>    @Override<br>    <span class="hljs-built_in">public</span> <span class="hljs-type">Integer</span> apply(Throwable throwable) &#123;<br>        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;执行异常，异常 = &quot; + throwable.getMessage());<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h1 id="ForkJoinPool"><a href="#ForkJoinPool" class="headerlink" title="ForkJoinPool"></a>ForkJoinPool</h1><p>核心：</p>
+<ol>
+<li>分治法(point cure)：先fork拆分，之后在join合并，大任务分成多个小任务执行</li>
+<li>工作窃取(work-stealing): 工作队列采用双端队列，正常task工作的时候是LIFO，从尾部pushing消费。如果一个task空闲了，会从其他task头部窃取子任务消费。</li>
+</ol>
+<p>结论：</p>
+<ol>
+<li>计算量很大的很适合ForkJoinPool，也就是CPU密集型任务</li>
+<li>不是CPU密集型任务可以使用ExecutorService，也就是IO会阻塞线程的</li>
+<li>ForkJoinPool 有一个 Async Mode，不是拆分任务执行，而是队列FIFO处理，CompletableFuture就是用这个</li>
+<li>如果ForkJoinPool会有阻塞任务，配合ManagedBlocker使用。<a target="_blank" rel="noopener" href="https://blog.csdn.net/heng_zou/article/details/118193846">详情查看</a></li>
+</ol>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>任务主要继承不带返回值的RecursiveAction和带返回值的RecursiveTask</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ForkJoinUtil</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> final <span class="hljs-title class_">ForkJoinPool</span> forkJoinPool = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ForkJoinPool</span>();<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 根据id集合多线程查询数据</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">ids</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">splitSize</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">function</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &lt;T&gt;</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;U,T&gt; <span class="hljs-title class_">List</span>&lt;T&gt; <span class="hljs-title function_">getDataByIds</span>(<span class="hljs-params"><span class="hljs-built_in">Set</span>&lt;U&gt; ids, int splitSize, <span class="hljs-built_in">Function</span>&lt;<span class="hljs-built_in">Set</span>&lt;U&gt;,List&lt;T&gt;&gt; <span class="hljs-keyword">function</span></span>)&#123;<br>        <span class="hljs-keyword">if</span>(splitSize == <span class="hljs-number">0</span> || splitSize &gt; <span class="hljs-number">500</span>) splitSize = <span class="hljs-number">500</span>;<br>        <span class="hljs-title class_">IdsPartingTask</span>&lt;U,T&gt; task = <span class="hljs-keyword">new</span> <span class="hljs-title class_">IdsPartingTask</span>&lt;&gt;(ids, splitSize, <span class="hljs-keyword">function</span>);<br>        <span class="hljs-title class_">ForkJoinTask</span>&lt;<span class="hljs-title class_">List</span>&lt;T&gt;&gt; future = forkJoinPool.<span class="hljs-title function_">submit</span>(task);<br>        <span class="hljs-keyword">return</span> <span class="hljs-title function_">getFutureList</span>(future);<br>    &#125;<br>&#125;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">IdsPartingTask</span>&lt;U,T&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">RecursiveTask</span>&lt;<span class="hljs-title class_">List</span>&lt;T&gt;&gt; &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">IdsPartingTask</span>(<span class="hljs-title class_">Set</span>&lt;U&gt; ids, int splitSize, <span class="hljs-title class_">Function</span>&lt;<span class="hljs-title class_">Set</span>&lt;U&gt;,<span class="hljs-title class_">List</span>&lt;T&gt;&gt; <span class="hljs-keyword">function</span>) &#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">ids</span> = ids;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">splitSize</span> = splitSize;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">function</span> = <span class="hljs-keyword">function</span>;<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * id集合</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-title class_">Set</span>&lt;U&gt; ids;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 每次查询大小数</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> int splitSize;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 回调函数</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-title class_">Function</span>&lt;<span class="hljs-title class_">Set</span>&lt;U&gt;,<span class="hljs-title class_">List</span>&lt;T&gt;&gt; <span class="hljs-keyword">function</span>;<br><br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-title class_">List</span>&lt;T&gt; <span class="hljs-title function_">compute</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-title class_">List</span>&lt;T&gt; result = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-keyword">if</span>(<span class="hljs-title class_">CollectionUtil</span>.<span class="hljs-title function_">isEmpty</span>(ids)) &#123;<br>            <span class="hljs-keyword">return</span> result;<br>        &#125;<br>        int size = ids.<span class="hljs-title function_">size</span>();<br>        <span class="hljs-keyword">if</span>(size &lt;= splitSize)&#123;<br>            result = <span class="hljs-keyword">function</span>.<span class="hljs-title function_">apply</span>(ids);<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            result = <span class="hljs-title function_">partingTask</span>(ids);<br>        &#125;<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 每次查询大于splitSize，拆分任务</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">ids</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-title class_">List</span>&lt;T&gt; <span class="hljs-title function_">partingTask</span>(<span class="hljs-params"><span class="hljs-built_in">Set</span>&lt;U&gt; ids</span>)&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-title class_">CollectionUtil</span>.<span class="hljs-title function_">isEmpty</span>(ids)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        &#125;<br>        <span class="hljs-title class_">Set</span>&lt;U&gt; firstIds = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashSet</span>&lt;&gt;();<br>        <span class="hljs-title class_">Set</span>&lt;U&gt; secondIds = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashSet</span>&lt;&gt;();<br>        <span class="hljs-title class_">LongAdder</span> size = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LongAdder</span>();<br>        ids.<span class="hljs-title function_">forEach</span>(id-&gt;&#123;<br>            <span class="hljs-keyword">if</span>(size.<span class="hljs-title function_">intValue</span>() &lt; splitSize)&#123;<span class="hljs-comment">//size是从0开始，不能包含等于的情况</span><br>                firstIds.<span class="hljs-title function_">add</span>(id);<br>                size.<span class="hljs-title function_">increment</span>();<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>                secondIds.<span class="hljs-title function_">add</span>(id);<br>            &#125;<br>        &#125;);<br>        <span class="hljs-comment">//将任务加入工作队列</span><br>        <span class="hljs-title class_">IdsPartingTask</span>&lt;U,T&gt; firstTask = <span class="hljs-keyword">new</span> <span class="hljs-title class_">IdsPartingTask</span>&lt;&gt;(firstIds,<span class="hljs-variable language_">this</span>.<span class="hljs-property">splitSize</span>,<span class="hljs-keyword">function</span>);<br>        firstTask.<span class="hljs-title function_">fork</span>();<br><br>        <span class="hljs-title class_">IdsPartingTask</span>&lt;U,T&gt; secondTask = <span class="hljs-keyword">new</span> <span class="hljs-title class_">IdsPartingTask</span>&lt;&gt;(secondIds,<span class="hljs-variable language_">this</span>.<span class="hljs-property">splitSize</span>,<span class="hljs-keyword">function</span>);<br>        secondTask.<span class="hljs-title function_">fork</span>();<br><br>        <span class="hljs-title class_">List</span>&lt;T&gt; data = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-comment">//阻塞，直到任务完成</span><br>        <span class="hljs-title function_">mergeList</span>(data,firstTask.<span class="hljs-title function_">join</span>());<br>        <span class="hljs-title function_">mergeList</span>(data,secondTask.<span class="hljs-title function_">join</span>());<br>        <span class="hljs-keyword">return</span> data;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">mergeList</span>(<span class="hljs-params">List&lt;T&gt; data,List&lt;T&gt; value</span>)&#123;<br>        <span class="hljs-keyword">if</span>(data == <span class="hljs-literal">null</span> || <span class="hljs-title class_">CollectionUtils</span>.<span class="hljs-title function_">isEmpty</span>(value))&#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        data.<span class="hljs-title function_">addAll</span>(value);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>推荐：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1497564?from=article.detail.1704658">https://cloud.tencent.com/developer/article/1497564?from=article.detail.1704658</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1704658">https://cloud.tencent.com/developer/article/1704658</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BA%BF%E7%A8%8B/">#线程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>线程使用相关</div>
+      <div>http://example.com/2020/05/03/thread-3.线程使用相关/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JingRuiHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年5月3日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/21/java-oauth2/" title="oauth2">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">oauth2</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/02/thread-2.aqs/" title="AQS">
+                        <span class="hidden-mobile">AQS</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"474398dbe7c152716f6e","clientSecret":"72b83431cf83b93e0e4ddfe1a37a31493ae65314","repo":"blog-gitalk","owner":"jingruihe","admin":["jingruihe"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '12417487624bbc9133b332085b610296'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

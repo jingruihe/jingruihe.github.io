@@ -288,6 +288,207 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/08/03/kafka-3.%E4%BD%BF%E7%94%A8/" target="_self">
+          <img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg" srcset="/img/loading.gif" lazyload alt="3.kafka使用">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/08/03/kafka-3.%E4%BD%BF%E7%94%A8/" target="_self">
+          3.kafka使用
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/08/03/kafka-3.%E4%BD%BF%E7%94%A8/" target="_self">
+        <div>
+          常用命令  topic1234567891011121314151617&#x2F;&#x2F; 查看主题列表：kafka-topics.sh --list --zookeeper zookeeper1:2181&#x2F;&#x2F; 创建主题kafka-topics.sh --create --zookeeper zookeeper1:2181 --replication-factor 1 --partitions 3 --top
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-08-03 10:00" pubdate>
+              2022-08-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Kafka/">#Kafka</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/08/02/kafka-2.%E6%90%AD%E5%BB%BA/" target="_self">
+          <img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg" srcset="/img/loading.gif" lazyload alt="2.kafka搭建">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/08/02/kafka-2.%E6%90%AD%E5%BB%BA/" target="_self">
+          2.kafka搭建
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/08/02/kafka-2.%E6%90%AD%E5%BB%BA/" target="_self">
+        <div>
+          本地搭建zk集群1234567891011121314151617181920212223242526272829303132333435363738394041# The number of milliseconds of each tick#时间单元，zk中的所有时间都是以该时间单元为基础，进行整数倍配置(单位是毫秒,下面配置的是2秒)tickTime&#x3D;2000# The number of
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-08-02 10:00" pubdate>
+              2022-08-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Kafka/">#Kafka</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/08/01/kafka-1.%E6%9E%B6%E6%9E%84/" target="_self">
+          <img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg" srcset="/img/loading.gif" lazyload alt="1.kafka架构">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/08/01/kafka-1.%E6%9E%B6%E6%9E%84/" target="_self">
+          1.kafka架构
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2022/08/01/kafka-1.%E6%9E%B6%E6%9E%84/" target="_self">
+        <div>
+          总结： 分区保证消息并行消费，细分为segment&#x3D;.index+.log 生产者offset保存在分区中，消费者offset保存在__consumer_offsets的topic中 消费者组保证并行消费 副本集保证集群高可用 ACK保证消息发送一致性 acks&#x3D;0，发了就ack acks&#x3D;1，leader自己写入了log之后就ack acks&#x3D;all，is
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-08-01 10:00" pubdate>
+              2022-08-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Kafka/">#Kafka</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/07/06/mongo-5.%E8%BF%90%E7%BB%B4/" target="_self">
           <img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/mongo-banner.png" srcset="/img/loading.gif" lazyload alt="5.Mongo运维相关">
         </a>
@@ -328,7 +529,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%90%8E%E5%8F%B0/" class="category-chain-item">后台</a>
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
   
   
 
@@ -395,7 +596,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%90%8E%E5%8F%B0/" class="category-chain-item">后台</a>
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
   
   
 
@@ -462,7 +663,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%90%8E%E5%8F%B0/" class="category-chain-item">后台</a>
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
   
   
 
@@ -529,7 +730,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%90%8E%E5%8F%B0/" class="category-chain-item">后台</a>
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
   
   
 
@@ -596,7 +797,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%90%8E%E5%8F%B0/" class="category-chain-item">后台</a>
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
   
   
 
@@ -623,23 +824,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/02/15/algorithm-2%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" target="_self">
-          <img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/algorithm-sort.png" srcset="/img/loading.gif" lazyload alt="1.排序算法">
+        <a href="/2021/06/07/jvm-6.%E8%BF%90%E8%A1%8C%E6%97%B6%E5%8F%82%E6%95%B0/" target="_self">
+          <img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/jvm.png" srcset="/img/loading.gif" lazyload alt="6.运行时参数">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/02/15/algorithm-2%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" target="_self">
-          1.排序算法
+        <a href="/2021/06/07/jvm-6.%E8%BF%90%E8%A1%8C%E6%97%B6%E5%8F%82%E6%95%B0/" target="_self">
+          6.运行时参数
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/2020/02/15/algorithm-2%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" target="_self">
+      <a class="index-excerpt " href="/2021/06/07/jvm-6.%E8%BF%90%E8%A1%8C%E6%97%B6%E5%8F%82%E6%95%B0/" target="_self">
         <div>
-          交换排序冒泡排序冒泡排序是稳定的排序算法，最容易实现的排序, 最坏的情况是每次都需要交换, 共需遍历并交换将近n²&#x2F;2次, 时间复杂度为O(n²). 最佳的情况是内循环遍历一次后发现排序是对的, 因此退出循环, 时间复杂度为O(n). 平均来讲, 时间复杂度为O(n²). 由于冒泡排序中只有缓存的temp变量需要内存空间, 因此空间复杂度为常量O(1)。    平均时间复杂度 最好情况
+          JVM参数选项标准参数选项 比较稳定，后续版本基本不会变化， 以-开头。  直接在DOS窗口中运行java或者java -help可以看到所有的标准选项。 补充内容：-server与-client -X参数选项 非标准化参数  功能还是比较稳定的。但官方说后续版本可能会变更 以-X开头  -Xint ： 只使用解释器：所有字节码都被解释执行，这个模式的速度是很慢的  -Xcomp ： 只使用编译器
         </div>
       </a>
 
@@ -647,8 +848,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2020-02-15 00:00" pubdate>
-              2020-02-15
+            <time datetime="2021-06-07 12:45" pubdate>
+              2021-06-07
             </time>
           </div>
         
@@ -663,7 +864,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
   
   
 
@@ -678,208 +879,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">#排序算法</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/02/10/algorithm-1%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E6%80%BB%E8%A7%88/" target="_self">
-          <img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/algorithm-over.png" srcset="/img/loading.gif" lazyload alt="1.数据结构和算法总览">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/02/10/algorithm-1%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E6%80%BB%E8%A7%88/" target="_self">
-          1.数据结构和算法总览
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2020/02/10/algorithm-1%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E6%80%BB%E8%A7%88/" target="_self">
-        <div>
-          数据结构分为一维, 二维, 特殊.一维:    - 基础: 数组array(string), 链表 linked list    - 高级: 栈stack, 队列queue, 双端队列deque, 集合set, 映射map(hash or map), etc二维:    - 基础: 树tree, 图graph    - 高级: 二叉搜索树binary search tree(red-black t
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-02-10 00:00" pubdate>
-              2020-02-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2016/01/16/web-basic-vue/" target="_self">
-          <img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/web/vue.png" srcset="/img/loading.gif" lazyload alt="vue">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2016/01/16/web-basic-vue/" target="_self">
-          vue
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2016/01/16/web-basic-vue/" target="_self">
-        <div>
-          笔记来源:  黑马程序员刘龙斌 Vue 教程:  https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1zq4y1p7ga?p&#x3D;207&amp;spm_id_from&#x3D;pageDriver 尚硅谷天禹 Vue 教程 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Zy4y1K7SH?spm_id_from&#x3D;333.999.0.0 Vue 介绍1. Vue 概要Vu
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2016-01-16 00:00" pubdate>
-              2016-01-16
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/vue/">#vue</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2016/01/06/web-basic-es6/" target="_self">
-          <img src="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/web/es6.png" srcset="/img/loading.gif" lazyload alt="es6">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2016/01/06/web-basic-es6/" target="_self">
-          es6
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2016/01/06/web-basic-es6/" target="_self">
-        <div>
-          let和const在JavaScript中咱们以前主要用关键var来定义变量, ES6之后, 新增了定义变量的两个关键字, 分别是let和const.对于变量来说, 在ES5中var定义的变量会提升到作用域中所有的函数与语句前面, 而ES6中let定义的变量则不会, let声明的变量会在其相应的代码块中建立一个暂时性死区, 直至变量被声明.let和const都能够声明块级作用域, 用法和var是类
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2016-01-06 00:00" pubdate>
-              2016-01-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/es6/">#es6</a>
+              <a href="/tags/JVM/">#JVM</a>
             
           </div>
         
@@ -891,7 +891,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#board">5</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

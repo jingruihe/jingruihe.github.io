@@ -1,0 +1,673 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <link rel="icon" href="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/common/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JingRuiHe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本地搭建zk集群1234567891011121314151617181920212223242526272829303132333435363738394041# The number of milliseconds of each tick#时间单元，zk中的所有时间都是以该时间单元为基础，进行整数倍配置(单位是毫秒,下面配置的是2秒)tickTime&#x3D;2000# The number of">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2.kafka搭建">
+<meta property="og:url" content="http://example.com/2022/08/02/kafka-2.%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="景瑞">
+<meta property="og:description" content="本地搭建zk集群1234567891011121314151617181920212223242526272829303132333435363738394041# The number of milliseconds of each tick#时间单元，zk中的所有时间都是以该时间单元为基础，进行整数倍配置(单位是毫秒,下面配置的是2秒)tickTime&#x3D;2000# The number of">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg">
+<meta property="article:published_time" content="2022-08-02T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-10-22T02:43:44.983Z">
+<meta property="article:author" content="JingRuiHe">
+<meta property="article:tag" content="Kafka">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg">
+  
+  
+  
+  <title>2.kafka搭建 - 景瑞</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JingRuiHe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://jingruihe-com.oss-cn-shenzhen.aliyuncs.com/java/kafka1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="2.kafka搭建"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-02 10:00" pubdate>
+          2022年8月2日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          60 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">2.kafka搭建</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="本地搭建"><a href="#本地搭建" class="headerlink" title="本地搭建"></a>本地搭建</h1><h2 id="zk集群"><a href="#zk集群" class="headerlink" title="zk集群"></a>zk集群</h2><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># The number of milliseconds of each tick</span><br><span class="hljs-comment">#时间单元，zk中的所有时间都是以该时间单元为基础，进行整数倍配置(单位是毫秒,下面配置的是2秒)</span><br><span class="hljs-attribute">tickTime</span>=<span class="hljs-number">2000</span><br><span class="hljs-comment"># The number of ticks that the initial</span><br><span class="hljs-comment"># synchronization phase can take</span><br><span class="hljs-comment">#follower在启动过程中，会从leader同步最新数据需要的最大时间。如果集群规模比较大，可以调大该参数</span><br><span class="hljs-attribute">initLimit</span>=<span class="hljs-number">10</span><br><span class="hljs-comment"># The number of ticks that can pass between</span><br><span class="hljs-comment"># sending a request and getting an acknowledgement</span><br><span class="hljs-comment">#leader与集群中所有机器进行心跳检查的最大时间。如果超出该时间，某follower没有回应，则说明该follower下线</span><br><span class="hljs-attribute">syncLimit</span>=<span class="hljs-number">5</span><br><span class="hljs-comment"># the directory where the snapshot is stored.</span><br><span class="hljs-comment"># do not use /tmp for storage, /tmp here is just</span><br><span class="hljs-comment"># example sakes.</span><br><span class="hljs-comment">#事务日志输出目录</span><br><span class="hljs-attribute">dataDir</span>=/usr/local/zookeeper/zookeeper-<span class="hljs-number">3</span>.<span class="hljs-number">4</span>.<span class="hljs-number">5</span>-cdh5.<span class="hljs-number">14</span>.<span class="hljs-number">0</span>/zkdatas<br><br><span class="hljs-comment"># the port at which the clients will connect</span><br><span class="hljs-comment">#客户端连接端口</span><br><span class="hljs-attribute">clientPort</span>=<span class="hljs-number">2181</span><br><span class="hljs-comment"># the maximum number of client connections.</span><br><span class="hljs-comment"># increase this if you need to handle more clients</span><br><span class="hljs-comment">#maxClientCnxns=60</span><br><span class="hljs-comment">#</span><br><span class="hljs-comment"># Be sure to read the maintenance section of the</span><br><span class="hljs-comment"># administrator guide before turning on autopurge.</span><br><span class="hljs-comment">#</span><br><span class="hljs-comment"># http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance</span><br><span class="hljs-comment">#</span><br><span class="hljs-comment"># The number of snapshots to retain in dataDir</span><br><span class="hljs-comment">#需要保留文件数目，默认就是3个</span><br><span class="hljs-attribute">autopurge</span>.snapRetainCount=<span class="hljs-number">3</span><br><span class="hljs-comment"># Purge task interval in hours</span><br><span class="hljs-comment"># Set to &quot;0&quot; to disable auto purge feature</span><br><span class="hljs-comment">#自动清理事务日志和快照文件的频率，这里是1个小时</span><br><span class="hljs-attribute">autopurge</span>.purgeInterval=<span class="hljs-number">1</span><br><br><span class="hljs-comment">#集群服务器配置，数字1/2/3需要与myid文件一致。右边两个端口，2888表示数据同步和通信端口；3888表示选举端口</span><br><span class="hljs-attribute">server</span>.<span class="hljs-number">1</span>=<span class="hljs-number">127.0.0.128:2888</span>:<span class="hljs-number">3888</span><br><span class="hljs-attribute">server</span>.<span class="hljs-number">2</span>=<span class="hljs-number">127.0.0.129:2888</span>:<span class="hljs-number">3888</span><br><span class="hljs-attribute">server</span>.<span class="hljs-number">3</span>=<span class="hljs-number">127.0.0.130:2888</span>:<span class="hljs-number">3888</span><br></code></pre></td></tr></table></figure>
+<p>在data目录下分别设置myid文件内容为1&#x2F;2&#x2F;3</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">bin<span class="hljs-regexp">/zkServer.sh start/</span>stop/status<br></code></pre></td></tr></table></figure>
+
+<h2 id="kafka集群"><a href="#kafka集群" class="headerlink" title="kafka集群"></a>kafka集群</h2><p>修改配置</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#broker 的全局唯一编号，不能重复</span><br>broker.<span class="hljs-attribute">id</span>=0<br><span class="hljs-comment">#删除 topic 功能使能</span><br>delete.topic.<span class="hljs-attribute">enable</span>=<span class="hljs-literal">true</span><br><span class="hljs-comment">#处理网络请求的线程数量</span><br>num.network.<span class="hljs-attribute">threads</span>=3<br><span class="hljs-comment">#用来处理磁盘 IO 的现成数量</span><br>num.io.<span class="hljs-attribute">threads</span>=8<br><span class="hljs-comment">#发送套接字的缓冲区大小</span><br>socket.send.buffer.<span class="hljs-attribute">bytes</span>=102400<br><span class="hljs-comment">#接收套接字的缓冲区大小</span><br>socket.receive.buffer.<span class="hljs-attribute">bytes</span>=102400<br><span class="hljs-comment">#请求套接字的缓冲区大小</span><br>socket.request.max.<span class="hljs-attribute">bytes</span>=104857600<br><span class="hljs-comment">#kafka 运行日志存放的路径</span><br>log.<span class="hljs-attribute">dirs</span>=/opt/module/kafka/logs<br><span class="hljs-comment">#topic 在当前 broker 上的分区个数</span><br>num.<span class="hljs-attribute">partitions</span>=1<br><span class="hljs-comment">#用来恢复和清理 data 下数据的线程数量</span><br>num.recovery.threads.per.data.<span class="hljs-attribute">dir</span>=1<br><span class="hljs-comment">#segment 文件保留的最长时间，超时将被删除</span><br>log.retention.<span class="hljs-attribute">hours</span>=168<br><span class="hljs-comment">#配置连接 Zookeeper 集群地址</span><br>zookeeper.<span class="hljs-attribute">connect</span>=hadoop102:2181,hadoop103:2181,hadoop104:2181<br><br><span class="hljs-comment">#默认副本数</span><br><span class="hljs-comment">#offsets.topic.replication.factor=1</span><br><span class="hljs-comment">#transaction.state.log.replication.factor=1</span><br><span class="hljs-comment">#transaction.state.log.min.isr=1</span><br><span class="hljs-comment">#每个日志段文件大小，这里是1g</span><br><span class="hljs-comment">#log.segment.bytes=1073741824</span><br><span class="hljs-comment">#消息日志文件大小检查间隔时间</span><br><span class="hljs-comment">#log.retention.check.interval.ms=300000</span><br><span class="hljs-comment">#zookeeper连接超时时间</span><br><span class="hljs-comment">#zookeeper.connection.timeout.ms=6000</span><br><span class="hljs-comment">#创建数据存储目录： data</span><br><br>bin/kafka-server-start.sh -daemon config/server.properties<br><br>bin/kafka-server-stop.sh<br></code></pre></td></tr></table></figure>
+
+<h1 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h1><p>注意：KAFKA_ADVERTISED_LISTENERS一定要有配置全局可见ip</p>
+<h2 id="单机"><a href="#单机" class="headerlink" title="单机"></a>单机</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker pull wurstmeister/zookeeper<br>docker run -d --name zookeeper -p 2181:2181 -v /etc/localtime:/etc/localtime wurstmeister/zookeeper<br><br>docker pull wurstmeister/kafka<br>docker run -d --name kafka --publish 9092:9092 --<span class="hljs-built_in">link</span> zookeeper --<span class="hljs-built_in">env</span> KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 --<span class="hljs-built_in">env</span> KAFKA_ADVERTISED_HOST_NAME=127.0.0.1 --<span class="hljs-built_in">env</span> KAFKA_ADVERTISED_PORT=9092 --volume /etc/localtime:/etc/localtime wurstmeister/kafka<br></code></pre></td></tr></table></figure>
+
+<h2 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h2><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker network create my_net</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="zk"><a href="#zk" class="headerlink" title="zk"></a>zk</h3><p>创建docker-compose.yaml</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">version</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&#x27;3&#x27;</span><br><span class="hljs-attribute">networks</span><span class="hljs-punctuation">:</span><br>  <span class="hljs-attribute">my_net</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-attribute">external</span><span class="hljs-punctuation">:</span> <span class="hljs-string">true</span><br><br><span class="hljs-attribute">services</span><span class="hljs-punctuation">:</span><br>  <span class="hljs-attribute">zookeeper1</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-attribute">image</span><span class="hljs-punctuation">:</span> <span class="hljs-string">zookeeper</span><br>    <span class="hljs-attribute">container_name</span><span class="hljs-punctuation">:</span> <span class="hljs-string">zookeeper1</span><br>    <span class="hljs-attribute">restart</span><span class="hljs-punctuation">:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attribute">ports</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">2181:2181</span><br>    <span class="hljs-attribute">volumes</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper1/data:/data&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper1/datalog:/datalog&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper1/logs:/logs&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper1/conf:/conf&quot;</span><br>    <span class="hljs-attribute">environment</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-attribute">ZOO_MY_ID</span><span class="hljs-punctuation">:</span> <span class="hljs-string">1</span><br>      <span class="hljs-attribute">ZOO_SERVERS</span><span class="hljs-punctuation">:</span> <span class="hljs-string">server.1=zookeeper1:2888:3888 server.2=zookeeper2:2888:3888 server.3=zookeeper3:2888:3888</span><br>    <span class="hljs-attribute">networks</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">my_net</span><br><br>  <span class="hljs-attribute">zookeeper2</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-attribute">image</span><span class="hljs-punctuation">:</span> <span class="hljs-string">zookeeper</span><br>    <span class="hljs-attribute">container_name</span><span class="hljs-punctuation">:</span> <span class="hljs-string">zookeeper2</span><br>    <span class="hljs-attribute">restart</span><span class="hljs-punctuation">:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attribute">ports</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">2182:2181</span><br>    <span class="hljs-attribute">volumes</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper2/data:/data&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper2/datalog:/datalog&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper2/logs:/logs&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper2/conf:/conf&quot;</span><br>    <span class="hljs-attribute">environment</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-attribute">ZOO_MY_ID</span><span class="hljs-punctuation">:</span> <span class="hljs-string">2</span><br>      <span class="hljs-attribute">ZOO_SERVERS</span><span class="hljs-punctuation">:</span> <span class="hljs-string">server.1=zookeeper1:2888:3888 server.2=zookeeper2:2888:3888 server.3=zookeeper3:2888:3888</span><br>    <span class="hljs-attribute">networks</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">my_net</span><br><br>  <span class="hljs-attribute">zookeeper3</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-attribute">image</span><span class="hljs-punctuation">:</span> <span class="hljs-string">zookeeper</span><br>    <span class="hljs-attribute">container_name</span><span class="hljs-punctuation">:</span> <span class="hljs-string">zookeeper3</span><br>    <span class="hljs-attribute">restart</span><span class="hljs-punctuation">:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attribute">ports</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">2183:2181</span><br>    <span class="hljs-attribute">volumes</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper3/data:/data&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper3/datalog:/datalog&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper3/logs:/logs&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;./zookeeper3/conf:/conf&quot;</span><br>    <span class="hljs-attribute">environment</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-attribute">ZOO_MY_ID</span><span class="hljs-punctuation">:</span> <span class="hljs-string">3</span><br>      <span class="hljs-attribute">ZOO_SERVERS</span><span class="hljs-punctuation">:</span> <span class="hljs-string">server.1=zookeeper1:2888:3888 server.2=zookeeper2:2888:3888 server.3=zookeeper3:2888:3888</span><br>    <span class="hljs-attribute">networks</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">my_net</span><br></code></pre></td></tr></table></figure>
+
+<p>创建配置文件zoo.cfg</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">tickTime</span>=<span class="hljs-number">2000</span><br><span class="hljs-attr">initLimit</span>=<span class="hljs-number">10</span><br><span class="hljs-attr">syncLimit</span>=<span class="hljs-number">5</span><br><span class="hljs-attr">dataDir</span>=/data<br><span class="hljs-attr">dataLogDir</span>=/datalog<br><span class="hljs-attr">clientPort</span>=<span class="hljs-number">2181</span><br><span class="hljs-comment"># 扩展类型启用，设置为true才能创建TTL类型的节点</span><br><span class="hljs-attr">extendedTypesEnabled</span>=<span class="hljs-literal">true</span><br><span class="hljs-comment"># 集群配置</span><br><span class="hljs-attr">server.1</span>=zookeeper1:<span class="hljs-number">2888</span>:<span class="hljs-number">3888</span><br><span class="hljs-attr">server.2</span>=zookeeper2:<span class="hljs-number">2888</span>:<span class="hljs-number">3888</span><br><span class="hljs-attr">server.3</span>=zookeeper3:<span class="hljs-number">2888</span>:<span class="hljs-number">3888</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h3><p>创建docker-compose.yaml</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">version:</span> <span class="hljs-string">&#x27;3&#x27;</span><br><span class="hljs-symbol">networks:</span><br><span class="hljs-symbol">  my_net:</span><br><span class="hljs-symbol">    external:</span> true<br><span class="hljs-symbol">    </span><br><span class="hljs-symbol">services:</span><br><span class="hljs-symbol">  kafka1:</span><br><span class="hljs-symbol">    image:</span> wurstmeister/kafka<br><span class="hljs-symbol">    container_name:</span> kafka1<br><span class="hljs-symbol">    ports:</span><br>      - <span class="hljs-string">&quot;9092:9092&quot;</span><br><span class="hljs-symbol">    environment:</span><br><span class="hljs-symbol">      KAFKA_ADVERTISED_HOST_NAME:</span> kafka1<br><span class="hljs-symbol">      KAFKA_ADVERTISED_LISTENERS:</span> PLAINTEXT:<span class="hljs-comment">//192.168.2.98:9092</span><br><span class="hljs-symbol">      KAFKA_ZOOKEEPER_CONNECT:</span> <span class="hljs-string">&quot;zookeeper1:2181,zookeeper2:2181,zookeeper3:2183&quot;</span><br><span class="hljs-symbol">      KAFKA_ADVERTISED_PORT:</span> <span class="hljs-number">9092</span><br><span class="hljs-symbol">      KAFKA_BROKER_ID:</span> <span class="hljs-number">1</span><br><span class="hljs-symbol">      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR:</span> <span class="hljs-number">1</span><br><span class="hljs-symbol">    volumes:</span><br>      - <span class="hljs-string">&quot;./kafka1/docker.sock:/var/run/docker.sock&quot;</span><br>      - <span class="hljs-string">&quot;./kafka1/data/:/kafka&quot;</span><br><span class="hljs-symbol">    networks:</span><br>      - my_net<br><span class="hljs-symbol">  kafka2:</span><br><span class="hljs-symbol">    image:</span> wurstmeister/kafka<br><span class="hljs-symbol">    container_name:</span> kafka2<br><span class="hljs-symbol">    ports:</span><br>      - <span class="hljs-string">&quot;9093:9092&quot;</span><br><span class="hljs-symbol">    environment:</span><br><span class="hljs-symbol">      KAFKA_ADVERTISED_HOST_NAME:</span> kafka2<br><span class="hljs-symbol">      KAFKA_ADVERTISED_LISTENERS:</span> PLAINTEXT:<span class="hljs-comment">//192.168.2.98:9093</span><br><span class="hljs-symbol">      KAFKA_ZOOKEEPER_CONNECT:</span> <span class="hljs-string">&quot;zookeeper1:2181,zookeeper2:2181,zookeeper3:2183&quot;</span><br><span class="hljs-symbol">      KAFKA_ADVERTISED_PORT:</span> <span class="hljs-number">9093</span><br><span class="hljs-symbol">      KAFKA_BROKER_ID:</span> <span class="hljs-number">2</span><br><span class="hljs-symbol">      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR:</span> <span class="hljs-number">1</span><br><span class="hljs-symbol">    volumes:</span><br>      - <span class="hljs-string">&quot;./kafka2/docker.sock:/var/run/docker.sock&quot;</span><br>      - <span class="hljs-string">&quot;./kafka2/data/:/kafka&quot;</span><br><span class="hljs-symbol">    networks:</span><br>      - my_net<br><span class="hljs-symbol">  kafka3:</span><br><span class="hljs-symbol">    image:</span> wurstmeister/kafka<br><span class="hljs-symbol">    container_name:</span> kafka3<br><span class="hljs-symbol">    ports:</span><br>      - <span class="hljs-string">&quot;9094:9092&quot;</span><br><span class="hljs-symbol">    environment:</span><br><span class="hljs-symbol">      KAFKA_ADVERTISED_HOST_NAME:</span> kafka3<br><span class="hljs-symbol">      KAFKA_ADVERTISED_LISTENERS:</span> PLAINTEXT:<span class="hljs-comment">//192.168.2.98:9094</span><br><span class="hljs-symbol">      KAFKA_ZOOKEEPER_CONNECT:</span> <span class="hljs-string">&quot;zookeeper1:2181,zookeeper2:2181,zookeeper3:2183&quot;</span><br><span class="hljs-symbol">      KAFKA_ADVERTISED_PORT:</span> <span class="hljs-number">9094</span><br><span class="hljs-symbol">      KAFKA_BROKER_ID:</span> <span class="hljs-number">3</span><br><span class="hljs-symbol">      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR:</span> <span class="hljs-number">1</span><br><span class="hljs-symbol">    volumes:</span><br>      - <span class="hljs-string">&quot;./kafka3/docker.sock:/var/run/docker.sock&quot;</span><br>      - <span class="hljs-string">&quot;./kafka3/data/:/kafka&quot;</span><br><span class="hljs-symbol">    networks:</span><br>      - my_net<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：C:\Windows\System32\drivers\etc的host中添加，因为kafka tool是通过主机名来访问的</p>
+</blockquote>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1</span> zookeeper1<br><span class="hljs-number">127.0.0.1</span> zookeeper2<br><span class="hljs-number">127.0.0.1</span> zookeeper3<br><span class="hljs-number">127.0.0.1</span> kafka1<br><span class="hljs-number">127.0.0.1</span> kafka2<br><span class="hljs-number">127.0.0.1</span> kafka3<br></code></pre></td></tr></table></figure>
+
+<p>参考：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37960603/article/details/122909811?spm=1001.2014.3001.5501">zk集群</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37960603/article/details/122912779">kafka集群</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/26495e334613">解决kafka连接不上问题</a></li>
+</ol>
+<h1 id="api测试"><a href="#api测试" class="headerlink" title="api测试"></a>api测试</h1><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#查看topic 列表：</span><br><span class="hljs-attribute">bin</span>/kafka-topics.sh --list --zookeeper server1:<span class="hljs-number">2181</span>,server2:<span class="hljs-number">2181</span>,server3:<span class="hljs-number">2181</span><br>    <br><span class="hljs-comment">#查看指定topic：</span><br><span class="hljs-attribute">bin</span>/kafka-topics.sh  --describe --zookeeper server1:<span class="hljs-number">2181</span>,server2:<span class="hljs-number">2181</span>,server3:<span class="hljs-number">2181</span> --topic itcast_topic<br>    <br><span class="hljs-comment">#创建topic</span><br><span class="hljs-comment"># --create：表示创建</span><br><span class="hljs-comment"># --zookeeper 后面的参数是zk的集群节点</span><br><span class="hljs-comment"># --replication-factor 1 ：表示复本数</span><br><span class="hljs-comment"># --partitions 1：表示分区数</span><br><span class="hljs-comment"># --topic itheima_topic：表示topic的主题名称</span><br><br><span class="hljs-attribute">bin</span>/kafka-topics.sh --create --zookeeper server1:<span class="hljs-number">2181</span>,server2:<span class="hljs-number">2181</span>,server3:<span class="hljs-number">2181</span> --replication-factor <span class="hljs-number">1</span> --partitions <span class="hljs-number">1</span> --topic oc_itheima_topic<br><br><span class="hljs-comment">#删除topic</span><br><span class="hljs-attribute">bin</span>/kafka-topics.sh --delete --zookeeper server1:<span class="hljs-number">2181</span>,server2:<span class="hljs-number">2181</span>,server3:<span class="hljs-number">2181</span> --topic itheima_topic<br><br><span class="hljs-comment">#创建生产者</span><br><span class="hljs-attribute">bin</span>/kafka-console-producer.sh --broker-list server1:<span class="hljs-number">9092</span>,server2:<span class="hljs-number">9092</span>,server3:<span class="hljs-number">9092</span> --topic oc_itheima_topic<br><br><span class="hljs-comment">#创建消费者，消费消息：</span><br><span class="hljs-attribute">bin</span>/kafka-console-consumer.sh --bootstrap-server server1:<span class="hljs-number">9092</span>,server2:<span class="hljs-number">9092</span>,server3:<span class="hljs-number">9092</span> --topic oc_itheima_topic --consumer-property group.id=my-consumer-g  --partition <span class="hljs-number">0</span> --offset <span class="hljs-number">0</span><br><br><span class="hljs-comment"># --from-beginning： 会把主题中以往所有的数据都读取出来</span><br><span class="hljs-attribute">bin</span>/kafka-console-consumer.sh --bootstrap-server hadoop102:<span class="hljs-number">9092</span> --from-beginning --topic first<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Kafka/">#Kafka</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>2.kafka搭建</div>
+      <div>http://example.com/2022/08/02/kafka-2.搭建/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JingRuiHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月2日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/03/kafka-3.%E4%BD%BF%E7%94%A8/" title="3.kafka使用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">3.kafka使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/01/kafka-1.%E6%9E%B6%E6%9E%84/" title="1.kafka架构">
+                        <span class="hidden-mobile">1.kafka架构</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"474398dbe7c152716f6e","clientSecret":"72b83431cf83b93e0e4ddfe1a37a31493ae65314","repo":"blog-gitalk","owner":"jingruihe","admin":["jingruihe"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '3a677d68e8e1bc029ba0dc9ad5c9caf1'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
