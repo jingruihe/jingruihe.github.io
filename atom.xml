@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>资源宝藏库</title>
+  
+  <subtitle>发现与分享一切优质资源</subtitle>
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2025-09-23T07:46:21.113Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>Jerry</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>「经典不朽」《七龙珠》：一切热血的起点，跨越时代的终极冒险史诗</title>
+    <link href="http://example.com/2023/11/01/qi-long-zhu/"/>
+    <id>http://example.com/2023/11/01/qi-long-zhu/</id>
+    <published>2023-10-31T16:00:00.000Z</published>
+    <updated>2025-09-23T07:46:21.113Z</updated>
+    
+    
+    <summary type="html">本期「资源宝藏库」致敬动漫界的活化石、无数人的启蒙之作——《七龙珠》。从搞笑冒险到宇宙级战斗，它定义了何为“热血”，并影响了整整一代人。了解为何孙悟空的名字能响彻世界。</summary>
+    
+    
+    
+    <category term="动漫推荐" scheme="http://example.com/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
+    
+    
+    <category term="经典" scheme="http://example.com/tags/%E7%BB%8F%E5%85%B8/"/>
+    
+    <category term="热血" scheme="http://example.com/tags/%E7%83%AD%E8%A1%80/"/>
+    
+    <category term="冒险" scheme="http://example.com/tags/%E5%86%92%E9%99%A9/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>「硬核推荐」《斩·赤红之瞳！》：在黑暗绝望中绽放的血色之花，你敢挑战吗？</title>
+    <link href="http://example.com/2023/10/29/zhan-chi-hong-zhi-tong/"/>
+    <id>http://example.com/2023/10/29/zhan-chi-hong-zhi-tong/</id>
+    <published>2023-10-28T16:00:00.000Z</published>
+    <updated>2025-09-23T07:38:47.682Z</updated>
+    
+    
+    <summary type="html">本期「资源宝藏库」带来一部与众不同的硬核动漫《斩·赤红之瞳！》。这是一部以「角色死亡率极高」而闻名的黑暗幻想作品，探讨在腐朽世界中，革命与牺牲的残酷代价。</summary>
+    
+    
+    
+    <category term="动漫推荐" scheme="http://example.com/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
+    
+    
+    <category term="黑暗奇幻" scheme="http://example.com/tags/%E9%BB%91%E6%9A%97%E5%A5%87%E5%B9%BB/"/>
+    
+    <category term="致郁" scheme="http://example.com/tags/%E8%87%B4%E9%83%81/"/>
+    
+    <category term="战斗" scheme="http://example.com/tags/%E6%88%98%E6%96%97/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>「神作推荐」《死亡笔记》：一场天才间的头脑核战争，颠覆你对正义的认知</title>
+    <link href="http://example.com/2023/10/28/si-wang-bi-ji/"/>
+    <id>http://example.com/2023/10/28/si-wang-bi-ji/</id>
+    <published>2023-10-27T16:00:00.000Z</published>
+    <updated>2025-09-23T07:39:11.807Z</updated>
+    
+    
+    <summary type="html">本期「资源宝藏库」深度推荐动漫神作《死亡笔记》。这不仅是一部悬疑智斗动漫，更是一场关于正义、人性与权力的哲学思辨。了解为何这部作品至今仍被无数人奉为经典。</summary>
+    
+    
+    
+    <category term="动漫推荐" scheme="http://example.com/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
+    
+    
+    <category term="神作" scheme="http://example.com/tags/%E7%A5%9E%E4%BD%9C/"/>
+    
+    <category term="悬疑" scheme="http://example.com/tags/%E6%82%AC%E7%96%91/"/>
+    
+    <category term="智斗" scheme="http://example.com/tags/%E6%99%BA%E6%96%97/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>欢迎来到资源宝藏库</title>
+    <link href="http://example.com/2023/10/27/huan-ying-lai-dao-zi-yuan-bao-cang-ku/"/>
+    <id>http://example.com/2023/10/27/huan-ying-lai-dao-zi-yuan-bao-cang-ku/</id>
+    <published>2023-10-26T16:00:00.000Z</published>
+    <updated>2025-09-23T07:39:17.297Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;欢迎来到资源宝藏库！🚀&quot;&gt;&lt;a href=&quot;#欢迎来到资源宝藏库！🚀&quot; class=&quot;headerlink&quot; title=&quot;欢迎来到资源宝藏库！🚀&quot;&gt;&lt;/a&gt;欢迎来到资源宝藏库！🚀&lt;/h1&gt;&lt;p&gt;你好，新朋友！很高兴你能来到这里。&lt;/p&gt;
+&lt;p&gt;这里是</summary>
+        
+      
+    
+    
+    
+    <category term="碎碎念" scheme="http://example.com/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    
+    
+    <category term="本站介绍" scheme="http://example.com/tags/%E6%9C%AC%E7%AB%99%E4%BB%8B%E7%BB%8D/"/>
+    
+  </entry>
+  
+</feed>
