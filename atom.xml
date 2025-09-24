@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2025-09-23T07:46:21.113Z</updated>
+  <updated>2025-09-24T08:09:56.734Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>「邪典推荐」《异兽魔都》：暴力、混沌与BBQ，一场无法归类的怪诞狂欢</title>
+    <link href="http://example.com/2023/11/02/yi-shou-mo-du/"/>
+    <id>http://example.com/2023/11/02/yi-shou-mo-du/</id>
+    <published>2023-11-01T16:00:00.000Z</published>
+    <updated>2025-09-24T08:09:56.734Z</updated>
+    
+    
+    <summary type="html">本期「资源宝藏库」带来一部风格独树一帜的邪典神作《异兽魔都》。在这个魔法师与人类对立的混沌世界里，跟随失忆的蜥蜴头主角，踏入一场充满暴力、黑色幽默与烤肉香气的解谜之旅。</summary>
+    
+    
+    
+    <category term="动漫推荐" scheme="http://example.com/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
+    
+    
+    <category term="邪典" scheme="http://example.com/tags/%E9%82%AA%E5%85%B8/"/>
+    
+    <category term="黑暗奇幻" scheme="http://example.com/tags/%E9%BB%91%E6%9A%97%E5%A5%87%E5%B9%BB/"/>
+    
+    <category term="猎奇" scheme="http://example.com/tags/%E7%8C%8E%E5%A5%87/"/>
+    
+  </entry>
   
   <entry>
     <title>「经典不朽」《七龙珠》：一切热血的起点，跨越时代的终极冒险史诗</title>
