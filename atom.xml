@@ -3,11 +3,11 @@
   <title>资源宝藏库</title>
   
   <subtitle>发现与分享一切优质资源</subtitle>
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="http://share.homo.icu/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="http://share.homo.icu/"/>
   <updated>2025-09-24T08:09:56.734Z</updated>
-  <id>http://example.com/</id>
+  <id>http://share.homo.icu/</id>
   
   <author>
     <name>Jerry</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>「邪典推荐」《异兽魔都》：暴力、混沌与BBQ，一场无法归类的怪诞狂欢</title>
-    <link href="http://example.com/2023/11/02/yi-shou-mo-du/"/>
-    <id>http://example.com/2023/11/02/yi-shou-mo-du/</id>
+    <link href="http://share.homo.icu/2023/11/02/yi-shou-mo-du/"/>
+    <id>http://share.homo.icu/2023/11/02/yi-shou-mo-du/</id>
     <published>2023-11-01T16:00:00.000Z</published>
     <updated>2025-09-24T08:09:56.734Z</updated>
     
@@ -28,21 +28,21 @@
     
     
     
-    <category term="动漫推荐" scheme="http://example.com/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
+    <category term="动漫推荐" scheme="http://share.homo.icu/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
     
     
-    <category term="邪典" scheme="http://example.com/tags/%E9%82%AA%E5%85%B8/"/>
+    <category term="黑暗奇幻" scheme="http://share.homo.icu/tags/%E9%BB%91%E6%9A%97%E5%A5%87%E5%B9%BB/"/>
     
-    <category term="黑暗奇幻" scheme="http://example.com/tags/%E9%BB%91%E6%9A%97%E5%A5%87%E5%B9%BB/"/>
+    <category term="邪典" scheme="http://share.homo.icu/tags/%E9%82%AA%E5%85%B8/"/>
     
-    <category term="猎奇" scheme="http://example.com/tags/%E7%8C%8E%E5%A5%87/"/>
+    <category term="猎奇" scheme="http://share.homo.icu/tags/%E7%8C%8E%E5%A5%87/"/>
     
   </entry>
   
   <entry>
     <title>「经典不朽」《七龙珠》：一切热血的起点，跨越时代的终极冒险史诗</title>
-    <link href="http://example.com/2023/11/01/qi-long-zhu/"/>
-    <id>http://example.com/2023/11/01/qi-long-zhu/</id>
+    <link href="http://share.homo.icu/2023/11/01/qi-long-zhu/"/>
+    <id>http://share.homo.icu/2023/11/01/qi-long-zhu/</id>
     <published>2023-10-31T16:00:00.000Z</published>
     <updated>2025-09-23T07:46:21.113Z</updated>
     
@@ -51,21 +51,21 @@
     
     
     
-    <category term="动漫推荐" scheme="http://example.com/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
+    <category term="动漫推荐" scheme="http://share.homo.icu/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
     
     
-    <category term="经典" scheme="http://example.com/tags/%E7%BB%8F%E5%85%B8/"/>
+    <category term="经典" scheme="http://share.homo.icu/tags/%E7%BB%8F%E5%85%B8/"/>
     
-    <category term="热血" scheme="http://example.com/tags/%E7%83%AD%E8%A1%80/"/>
+    <category term="热血" scheme="http://share.homo.icu/tags/%E7%83%AD%E8%A1%80/"/>
     
-    <category term="冒险" scheme="http://example.com/tags/%E5%86%92%E9%99%A9/"/>
+    <category term="冒险" scheme="http://share.homo.icu/tags/%E5%86%92%E9%99%A9/"/>
     
   </entry>
   
   <entry>
     <title>「硬核推荐」《斩·赤红之瞳！》：在黑暗绝望中绽放的血色之花，你敢挑战吗？</title>
-    <link href="http://example.com/2023/10/29/zhan-chi-hong-zhi-tong/"/>
-    <id>http://example.com/2023/10/29/zhan-chi-hong-zhi-tong/</id>
+    <link href="http://share.homo.icu/2023/10/29/zhan-chi-hong-zhi-tong/"/>
+    <id>http://share.homo.icu/2023/10/29/zhan-chi-hong-zhi-tong/</id>
     <published>2023-10-28T16:00:00.000Z</published>
     <updated>2025-09-23T07:38:47.682Z</updated>
     
@@ -74,21 +74,21 @@
     
     
     
-    <category term="动漫推荐" scheme="http://example.com/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
+    <category term="动漫推荐" scheme="http://share.homo.icu/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
     
     
-    <category term="黑暗奇幻" scheme="http://example.com/tags/%E9%BB%91%E6%9A%97%E5%A5%87%E5%B9%BB/"/>
+    <category term="黑暗奇幻" scheme="http://share.homo.icu/tags/%E9%BB%91%E6%9A%97%E5%A5%87%E5%B9%BB/"/>
     
-    <category term="致郁" scheme="http://example.com/tags/%E8%87%B4%E9%83%81/"/>
+    <category term="致郁" scheme="http://share.homo.icu/tags/%E8%87%B4%E9%83%81/"/>
     
-    <category term="战斗" scheme="http://example.com/tags/%E6%88%98%E6%96%97/"/>
+    <category term="战斗" scheme="http://share.homo.icu/tags/%E6%88%98%E6%96%97/"/>
     
   </entry>
   
   <entry>
     <title>「神作推荐」《死亡笔记》：一场天才间的头脑核战争，颠覆你对正义的认知</title>
-    <link href="http://example.com/2023/10/28/si-wang-bi-ji/"/>
-    <id>http://example.com/2023/10/28/si-wang-bi-ji/</id>
+    <link href="http://share.homo.icu/2023/10/28/si-wang-bi-ji/"/>
+    <id>http://share.homo.icu/2023/10/28/si-wang-bi-ji/</id>
     <published>2023-10-27T16:00:00.000Z</published>
     <updated>2025-09-23T07:39:11.807Z</updated>
     
@@ -97,21 +97,21 @@
     
     
     
-    <category term="动漫推荐" scheme="http://example.com/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
+    <category term="动漫推荐" scheme="http://share.homo.icu/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
     
     
-    <category term="神作" scheme="http://example.com/tags/%E7%A5%9E%E4%BD%9C/"/>
+    <category term="神作" scheme="http://share.homo.icu/tags/%E7%A5%9E%E4%BD%9C/"/>
     
-    <category term="悬疑" scheme="http://example.com/tags/%E6%82%AC%E7%96%91/"/>
+    <category term="悬疑" scheme="http://share.homo.icu/tags/%E6%82%AC%E7%96%91/"/>
     
-    <category term="智斗" scheme="http://example.com/tags/%E6%99%BA%E6%96%97/"/>
+    <category term="智斗" scheme="http://share.homo.icu/tags/%E6%99%BA%E6%96%97/"/>
     
   </entry>
   
   <entry>
     <title>欢迎来到资源宝藏库</title>
-    <link href="http://example.com/2023/10/27/huan-ying-lai-dao-zi-yuan-bao-cang-ku/"/>
-    <id>http://example.com/2023/10/27/huan-ying-lai-dao-zi-yuan-bao-cang-ku/</id>
+    <link href="http://share.homo.icu/2023/10/27/huan-ying-lai-dao-zi-yuan-bao-cang-ku/"/>
+    <id>http://share.homo.icu/2023/10/27/huan-ying-lai-dao-zi-yuan-bao-cang-ku/</id>
     <published>2023-10-26T16:00:00.000Z</published>
     <updated>2025-09-23T07:39:17.297Z</updated>
     
@@ -127,10 +127,10 @@
     
     
     
-    <category term="碎碎念" scheme="http://example.com/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    <category term="碎碎念" scheme="http://share.homo.icu/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
     
     
-    <category term="本站介绍" scheme="http://example.com/tags/%E6%9C%AC%E7%AB%99%E4%BB%8B%E7%BB%8D/"/>
+    <category term="本站介绍" scheme="http://share.homo.icu/tags/%E6%9C%AC%E7%AB%99%E4%BB%8B%E7%BB%8D/"/>
     
   </entry>
   
