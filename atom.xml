@@ -6,7 +6,7 @@
   <link href="http://share.homo.icu/atom.xml" rel="self"/>
   
   <link href="http://share.homo.icu/"/>
-  <updated>2025-09-24T08:09:56.734Z</updated>
+  <updated>2025-09-27T02:11:57.049Z</updated>
   <id>http://share.homo.icu/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>「效率利器」Navicat Premium 16 评测：一款抵多款，数据库管理的终极瑞士军刀</title>
+    <link href="http://share.homo.icu/2023/11/05/navicatpremium16-po-jie/"/>
+    <id>http://share.homo.icu/2023/11/05/navicatpremium16-po-jie/</id>
+    <published>2023-11-04T16:00:00.000Z</published>
+    <updated>2025-09-27T02:11:57.049Z</updated>
+    
+    
+    <summary type="html">本期「资源宝藏库」深度体验数据库管理神器 Navicat Premium 16。无论你是开发者、DBA还是数据分析师，了解它如何通过统一界面连接多种数据库，极大提升你的数据处理效率。</summary>
+    
+    
+    
+    <category term="优质软件" scheme="http://share.homo.icu/categories/%E4%BC%98%E8%B4%A8%E8%BD%AF%E4%BB%B6/"/>
+    
+    
+    <category term="开发工具" scheme="http://share.homo.icu/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
   
   <entry>
     <title>「邪典推荐」《异兽魔都》：暴力、混沌与BBQ，一场无法归类的怪诞狂欢</title>
@@ -31,9 +50,9 @@
     <category term="动漫推荐" scheme="http://share.homo.icu/categories/%E5%8A%A8%E6%BC%AB%E6%8E%A8%E8%8D%90/"/>
     
     
-    <category term="黑暗奇幻" scheme="http://share.homo.icu/tags/%E9%BB%91%E6%9A%97%E5%A5%87%E5%B9%BB/"/>
-    
     <category term="邪典" scheme="http://share.homo.icu/tags/%E9%82%AA%E5%85%B8/"/>
+    
+    <category term="黑暗奇幻" scheme="http://share.homo.icu/tags/%E9%BB%91%E6%9A%97%E5%A5%87%E5%B9%BB/"/>
     
     <category term="猎奇" scheme="http://share.homo.icu/tags/%E7%8C%8E%E5%A5%87/"/>
     
